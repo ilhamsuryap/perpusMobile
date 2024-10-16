@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F5F5F5"
+    tools:context=".MainActivity">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/tv_header"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#3C969F"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="Edit Data Buku"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Form Input -->
+    <EditText
+        android:id="@+id/et_judul_buku"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Judul Buku"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_header" />
+
+    <EditText
+        android:id="@+id/et_penulis"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Penulis"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_judul_buku" />
+
+    <Spinner
+        android:id="@+id/sp_kategori"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_penulis" />
+
+    <EditText
+        android:id="@+id/et_tahun_terbit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Tahun Terbit"
+        android:inputType="number"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sp_kategori" />
+
+    <EditText
+        android:id="@+id/et_deskripsi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Deskripsi"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_tahun_terbit" />
+
+    <EditText
+        android:id="@+id/et_gambar_buku"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_edit_text"
+        android:hint="Gambar Buku"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_deskripsi" />
+
+    <!-- Layout untuk tombol -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_gambar_buku"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <!-- Button Batal -->
+        <Button
+            android:id="@+id/btn_batal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Batal"
+            android:backgroundTint="#F44336"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@id/btn_simpan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.48" />
+
+        <!-- Button Simpan -->
+        <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Simpan"
+            android:backgroundTint="#3C969F"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@id/btn_batal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.48" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
