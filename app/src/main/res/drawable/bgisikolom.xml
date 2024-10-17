@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Warna latar belakang form -->
+
+    <solid android:color="#FFFFFF" />
+    <!-- Membuat sudut melengkung -->
+
+    <corners android:radius="16dp"/>
+
+    <!-- Menambahkan bayangan atau border jika diperlukan -->
+    <stroke
+        android:width="2dp"
+        android:color="#CCCCCC"/>
+</shape>
