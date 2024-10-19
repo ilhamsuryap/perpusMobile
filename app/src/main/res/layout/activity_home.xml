@@ -205,7 +205,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardlist"
         android:layout_width="0dp"
-        android:layout_height="270dp"
+        android:layout_height="300dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -240,10 +240,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewHome"
-            android:layout_width="183dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:layout_marginTop="20dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/cardhome" />
 
     </androidx.cardview.widget.CardView>

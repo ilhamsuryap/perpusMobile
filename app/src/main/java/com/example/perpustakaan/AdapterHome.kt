@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
+import com.example.perpustakaan.database.PerpustakaanDatabase
 
-class AdapterHome(private val context: Context, private val bookList: List<ItemHome>) :
+class AdapterHome(private val context: Context, private val bookList: List<Buku>, private val database: PerpustakaanDatabase) :
     RecyclerView.Adapter<AdapterHome.HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -19,9 +21,9 @@ class AdapterHome(private val context: Context, private val bookList: List<ItemH
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val book = bookList[position]
-        holder.bookTitle.text = book.title
-        holder.borrowerName.text = book.name
-        holder.bookImage.setImageResource(book.image)
+        holder.bookTitle.text = book.judul
+        holder.borrowerName.text = book.penulis
+        holder.bookImage.setImageResource(R.drawable.menara5negara)
     }
 
     override fun getItemCount(): Int {

@@ -24,4 +24,14 @@ interface DaoBuku {
 
     @Query("SELECT * FROM buku_table ORDER BY judul_buku ASC")
     fun getAllBuku(): LiveData<List<Buku>>
+
+//    @Query("SELECT * FROM user_table WHERE user_name LIKE :userSearch OR user_username LIKE :userSearch")
+//    suspend fun userSearch(userSearch: String): List<User>
+//    @Query("SELECT * FROM buku_table WHERE judul_buku LIKE :namaBuku ")
+//    suspend fun cariBuku(namaBuku: String): List<Buku>
+
+    @Query("SELECT * FROM buku_table WHERE judul_buku LIKE '%' || :namaBuku || '%'")
+    suspend fun cariBuku(namaBuku: String): List<Buku>
+
+
 }
