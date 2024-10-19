@@ -10,4 +10,8 @@ class BukuRepository(private val bukuDao: DaoBuku) {
     suspend fun insert(buku: Buku) {
         bukuDao.insert_buku(buku)
     }
+
+    suspend fun cariBuku(namaBuku : String) : List<Buku> {
+        return bukuDao.cariBuku(namaBuku)
+    }
 }
