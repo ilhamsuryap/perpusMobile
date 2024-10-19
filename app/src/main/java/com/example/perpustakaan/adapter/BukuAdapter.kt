@@ -9,7 +9,7 @@ import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 
 
-class BukuAdapter : RecyclerView.Adapter<BukuAdapter.BukuViewHolder>() {
+class BukuAdapter(private val onItemClickListener: (Buku) -> Unit) : RecyclerView.Adapter<BukuAdapter.BukuViewHolder>() {
 
     private var bukuList = emptyList<Buku>()
 
@@ -17,6 +17,16 @@ class BukuAdapter : RecyclerView.Adapter<BukuAdapter.BukuViewHolder>() {
         val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)
         val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulis)
         val tvStok: TextView = itemView.findViewById(R.id.tvStok)
+
+        fun bind(buku: Buku) {
+            tvJudulBuku.text = buku.judul
+            tvPenulis.text = buku.penulis
+            tvStok.text = buku.stok.toString()
+
+            itemView.setOnClickListener {
+                onItemClickListener(buku)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BukuViewHolder {
@@ -26,10 +36,7 @@ class BukuAdapter : RecyclerView.Adapter<BukuAdapter.BukuViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: BukuViewHolder, position: Int) {
-        val currentItem = bukuList[position]
-        holder.tvJudulBuku.text = currentItem.judul
-        holder.tvPenulis.text = currentItem.penulis
-        holder.tvStok.text = currentItem.stok.toString()
+        holder.bind(bukuList[position])
     }
 
     override fun getItemCount(): Int = bukuList.size
@@ -39,3 +46,4 @@ class BukuAdapter : RecyclerView.Adapter<BukuAdapter.BukuViewHolder>() {
         notifyDataSetChanged()
     }
 }
+

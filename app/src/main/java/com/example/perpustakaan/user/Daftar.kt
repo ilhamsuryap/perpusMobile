@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.perpustakaan.R
+import com.example.perpustakaan.database.PerpustakaanDatabase
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
@@ -25,21 +26,18 @@ class Daftar : AppCompatActivity() {
         passwordEditText = findViewById(R.id.inputpasEdit)
         registerButton = findViewById(R.id.btnDaftar)
 
-        // Inisialisasi database dan DAO
-        val db = AppDatabase.getDatabase(applicationContext)
-        userDao = db.userDao()
+        val db = PerpustakaanDatabase.getDatabase(applicationContext)
+        userDao = db.userDAO()
 
         registerButton.setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            // Validasi input
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Username dan Password tidak boleh kosong", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Cek apakah username sudah ada
             lifecycleScope.launch {
                 val existingUser = userDao.login(username, password)
                 if (existingUser != null) {
@@ -49,7 +47,6 @@ class Daftar : AppCompatActivity() {
                     userDao.insert(newUser)
                     Toast.makeText(this@Daftar, "Pendaftaran berhasil", Toast.LENGTH_SHORT).show()
 
-                    // Pindah ke halaman login setelah pendaftaran berhasil
                     val intent = Intent(this@Daftar, Login::class.java)
                     startActivity(intent)
                     finish()
