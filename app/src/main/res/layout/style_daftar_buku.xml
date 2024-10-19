@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ListBuku.DataPinjam"
+    >
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:id="@+id/cardluarDaftarBuku">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/cardListDaftarBuku"
+        >
+
 
         <!-- TextView untuk Judul Buku -->
         <TextView
@@ -19,6 +26,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:text="Judul"
             android:fontFamily="@font/poppinssemibold"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +40,7 @@
             android:fontFamily="@font/poppinssemibold"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:text="Penulis"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +52,7 @@
             android:fontFamily="@font/poppinssemibold"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:text="12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku" />
 

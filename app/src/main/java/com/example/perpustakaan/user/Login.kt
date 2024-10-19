@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.perpustakaan.HomeActivity
 import com.example.perpustakaan.R
+import com.example.perpustakaan.database.PerpustakaanDatabase
+import com.example.perpustakaan.pinjamActivity.PinjamBukuActivity
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
@@ -16,6 +18,7 @@ class Login : AppCompatActivity() {
     private lateinit var usernameEditText: TextInputEditText
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: Button
+    private lateinit var DaftarButton: Button
     private lateinit var userDao: userDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +28,16 @@ class Login : AppCompatActivity() {
         usernameEditText = findViewById(R.id.InputusrrEdit)
         passwordEditText = findViewById(R.id.InputpsssEdit)
         loginButton = findViewById(R.id.btnLogin)
+        DaftarButton = findViewById(R.id.btnRegis)
 
-        // Inisialisasi database dan DAO
-        val db = AppDatabase.getDatabase(applicationContext)
-        userDao = db.userDao()
+        val db = PerpustakaanDatabase.getDatabase(applicationContext)
+        userDao = db.userDAO()
+
+        DaftarButton.setOnClickListener {
+            val intent = Intent(this@Login, Daftar::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
@@ -37,12 +46,10 @@ class Login : AppCompatActivity() {
             lifecycleScope.launch {
                 val user = userDao.login(username, password)
                 if (user != null) {
-                    // Jika login berhasil, pindah ke halaman home atau activity lain
-                    val intent = Intent(this@Login, HomeActivity::class.java)
+                    val intent = Intent(this@Login, PinjamBukuActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    // Jika login gagal
                     Toast.makeText(this@Login, "Invalid credentials", Toast.LENGTH_SHORT).show()
                 }
             }
