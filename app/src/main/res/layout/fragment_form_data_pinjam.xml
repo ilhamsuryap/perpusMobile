@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".pinjam.FragmentFormDataPinjam"
-    >
+    tools:context=".pinjamActivity.FragmentFormDataPinjam">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
             android:text="Form Pinjam Buku"
             android:textColor="@color/white"
             android:textSize="25sp"
-
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +28,6 @@
             android:background="@drawable/bgisikolom"
             android:layout_marginTop="150dp">
 
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -42,19 +39,22 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
                 app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
-            <EditText
-                android:id="@+id/etNamaAnggota"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvNamaAnggota"
                 android:layout_width="375dp"
-                android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bgisikolom"
-                android:ems="10"
-                android:hint="Nama"
-
-                android:padding="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNamaAnggota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nama"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bgisikolom"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView3"
@@ -66,20 +66,24 @@
                 android:text="Judul Buku"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/etNamaAnggota" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNamaAnggota" />
 
-            <EditText
-                android:id="@+id/etJudulBuku"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvJudulBuku"
                 android:layout_width="375dp"
-                android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bgisikolom"
-                android:ems="10"
-                android:hint="judul"
-                android:padding="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etJudulBuku"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Judul"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bgisikolom"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView4"
@@ -91,19 +95,24 @@
                 android:text="Tanggal Pinjam"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/etJudulBuku" />
+                app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku" />
 
-            <EditText
-                android:id="@+id/etTglPinjam"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvTanggalPinjam"
                 android:layout_width="375dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:background="@drawable/bgisikolom"
-                android:ems="10"
-                android:hint="Tanggal Pinjam"
-                android:padding="8dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTglPinjam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tanggal Pinjam"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bgisikolom"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView5"
@@ -115,19 +124,24 @@
                 android:text="Tanggal Kembali"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/etTglPinjam" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTanggalPinjam" />
 
-            <EditText
-                android:id="@+id/etTglKembali"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tvTanggalKembali"
                 android:layout_width="375dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:background="@drawable/bgisikolom"
-                android:ems="10"
-                android:hint="Tanggal Pinjam"
-                android:padding="8dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTglKembali"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tanggal Kembali"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bgisikolom"
+                    android:padding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
@@ -151,13 +165,13 @@
                 app:layout_constraintGuide_end="20dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnSimpan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#3C969F"
                 android:textColor="@color/white"
                 android:fontFamily="@font/poppinssemibold"
-                android:text="simpan"
+                android:text="Simpan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintTop_toTopOf="@+id/guideline6" />
@@ -170,6 +184,6 @@
                 app:layout_constraintGuide_end="119dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
