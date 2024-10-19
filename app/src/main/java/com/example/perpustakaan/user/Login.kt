@@ -6,8 +6,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.perpustakaan.HomeActivity
 import com.example.perpustakaan.R
-import com.example.perpustakaan.pinjam.PinjamBukuActivity
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
@@ -38,7 +38,7 @@ class Login : AppCompatActivity() {
                 val user = userDao.login(username, password)
                 if (user != null) {
                     // Jika login berhasil, pindah ke halaman home atau activity lain
-                    val intent = Intent(this@Login, PinjamBukuActivity::class.java)
+                    val intent = Intent(this@Login, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
