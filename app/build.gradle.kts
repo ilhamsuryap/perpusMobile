@@ -34,32 +34,41 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         dataBinding = true
     }
 }
 
 dependencies {
+    // Room version
+    val room_version = "2.6.1"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    // Hapus jika tidak digunakan
+    // implementation(libs.androidx.ui.desktop)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    ksp(libs.androidx.room.compiler)
-    val room_version = "2.6.1"
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.material)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
 
+    // Room dependencies
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-
-    ksp("androidx.room:room-compiler:$room_version")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
-    // optional - Test helpers
+    ksp("androidx.room:room-compiler:$room_version") // KSP support for Room
+
+    // Optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+
+    // AndroidX Test dependencies
+    androidTestImplementation(libs.androidx.espresso.core)
 }
