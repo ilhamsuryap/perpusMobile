@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Bagian ini untuk warna border -->
+    <stroke
+        android:width="2dp"
+        android:color="#2A6B71" /> <!-- Warna biru -->
+
+    <!-- Bagian ini untuk background dalam -->
+    <solid android:color="@android:color/transparent"/>
+
+    <!-- Bagian ini untuk radius sudut, jika Anda ingin border dengan sudut melengkung -->
+    <corners android:radius="8dp"/>
+
+</shape>
