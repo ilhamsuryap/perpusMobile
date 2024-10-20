@@ -1,5 +1,6 @@
 package com.example.perpustakaan.pinjamActivity
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.perpustakaan.ViewModel.PinjamViewModel
 import com.example.perpustakaan.databinding.FragmentFormDataPinjamBinding
 import com.example.perpustakaan.entity.Pinjam
+import java.util.Calendar
 
 class FragmentFormDataPinjam : Fragment() {
     private var _binding: FragmentFormDataPinjamBinding? = null
@@ -31,6 +33,20 @@ class FragmentFormDataPinjam : Fragment() {
         // Inisialisasi ViewModel
         pinjamViewModel = ViewModelProvider(this).get(PinjamViewModel::class.java)
 
+        // Setup DatePicker untuk etTglPinjam
+        binding.etTglPinjam.setOnClickListener {
+            showDatePicker { date ->
+                binding.etTglPinjam.setText(date)
+            }
+        }
+
+        // Setup DatePicker untuk etTglKembali
+        binding.etTglKembali.setOnClickListener {
+            showDatePicker { date ->
+                binding.etTglKembali.setText(date)
+            }
+        }
+
         // Setup tombol simpan
         binding.btnSimpan.setOnClickListener {
             val namaAnggota = binding.etNamaAnggota.text.toString()
@@ -47,7 +63,7 @@ class FragmentFormDataPinjam : Fragment() {
                     namaanggota = namaAnggota,
                     judulbuku_pinjam = judulBuku,
                     tanggalpinjam = tanggalPinjam,
-                    tanggalkembali = tanggalKembali,
+                    tanggalkembali = tanggalKembali
                 )
 
                 // Menyimpan data pinjaman ke database
@@ -59,6 +75,23 @@ class FragmentFormDataPinjam : Fragment() {
             }
         }
     }
+
+    private fun showDatePicker(onDateSelected: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        Toast.makeText(requireContext(), "Memunculkan DatePicker", Toast.LENGTH_SHORT).show()
+
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            val date = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+            onDateSelected(date)
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

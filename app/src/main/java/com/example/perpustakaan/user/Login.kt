@@ -46,7 +46,7 @@ class Login : AppCompatActivity() {
             lifecycleScope.launch {
                 val user = userDao.login(username, password)
                 if (user != null) {
-                    val intent = Intent(this@Login, PinjamBukuActivity::class.java)
+                    val intent = Intent(this@Login, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
