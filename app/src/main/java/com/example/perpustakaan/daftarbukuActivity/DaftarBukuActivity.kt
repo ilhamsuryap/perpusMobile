@@ -9,7 +9,6 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
-import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.detail
 
 class DaftarBukuActivity : AppCompatActivity() {
@@ -26,18 +25,22 @@ class DaftarBukuActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
+        // Observe LiveData dari ViewModel untuk update daftar buku
         bukuViewModel.allBuku.observe(this) { bukuList ->
             bukuAdapter.setData(bukuList)
         }
 
+        // Tombol untuk menambahkan buku baru
         binding.btnTambahBuku.setOnClickListener {
             loadFragment(FragmentTambahDataBuku())
         }
     }
 
+    // Inisialisasi RecyclerView dan mengatur adapter
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
             val intent = Intent(this, detail::class.java)
+            intent.putExtra("BUKU_ID", buku.id_buku)  // Pastikan id_buku dikirimkan ke detail
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
@@ -45,12 +48,14 @@ class DaftarBukuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Setup RecyclerView dengan LinearLayoutManager dan adapter
         binding.rvBuku.apply {
             layoutManager = LinearLayoutManager(this@DaftarBukuActivity)
             adapter = bukuAdapter
         }
     }
 
+    // Fungsi untuk mengganti fragment, misalnya untuk menambah buku
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.root.id, fragment)
