@@ -20,6 +20,7 @@ import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
 import com.example.perpustakaan.database.PerpustakaanDatabase
+import com.example.perpustakaan.detailbuku.detail
 import com.example.perpustakaan.pinjamActivity.PinjamBukuActivity
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterHome
-//    private lateinit var bukuAdapter: BukuAdapter
     private lateinit var database : PerpustakaanDatabase
     private var Books: MutableList<Buku> = mutableListOf() // Correct
 
@@ -46,20 +46,17 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         // Initialize views
-        notificationIcon = findViewById(R.id.notification)
         manageLibrary = findViewById(R.id.manage_library)
         addBook = findViewById(R.id.addbook)
-        listBooks = findViewById(R.id.openbook)
         borrowBook = findViewById(R.id.borrowbook)
         searchView = findViewById(R.id.searchView)
         recyclerView = findViewById(R.id.recyclerViewHome)
 
         // Handle notification click event
-        notificationIcon.setOnClickListener {
-            val notificationIntent = Intent(this@HomeActivity, NotificationActivity::class.java)
-            startActivity(notificationIntent)
-        }
-
+//        notificationIcon.setOnClickListener {
+//            val notificationIntent = Intent(this@HomeActivity, NotificationActivity::class.java)
+//            startActivity(notificationIntent)
+//        }
 
         database = PerpustakaanDatabase.getDatabase(this)
 //        adapter = AdapterHome(this, Books, database)
@@ -85,7 +82,6 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-
         val btnBorrowBook: ImageView = findViewById(R.id.icon_borrowbook)
         btnBorrowBook.setOnClickListener(){
             val intent = Intent(this, PinjamBukuActivity::class.java)
@@ -98,16 +94,18 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
     }
-
-
-
 
     // Set up the RecyclerView with the Adapter
     private fun setupRecyclerView() {
-        adapter = AdapterHome(this, Books, database) // Initialize adapter with an empty list initially
+        adapter = AdapterHome(this, Books, database) { buku ->
+            val intent = Intent(this, detail::class.java)
+            intent.putExtra("BUKU_JUDUL", buku.judul)
+            intent.putExtra("BUKU_PENULIS", buku.penulis)
+            intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
+            intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
+            startActivity(intent)
+        } // Initialize adapter with an empty list initially
         recyclerView.layoutManager = LinearLayoutManager(this, HORIZONTAL,false,)
         recyclerView.adapter = adapter
     }
@@ -121,7 +119,6 @@ class HomeActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()  // Notify adapter about the data change
             }
         }
-
     }
 
     private fun setupSearchObserver() {
@@ -133,7 +130,4 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 }
