@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#3C969F"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".user.Daftar">
@@ -15,7 +15,7 @@
         android:text="Welcome to,"
         android:textSize="20sp"
         android:fontFamily="@font/poppinssemibold"
-        android:textColor="@color/white"
+        android:textColor="#3C969F"
         android:layout_marginBottom="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppinsbold"
         android:text="Libraria."
-        android:textColor="@color/white"
+        android:textColor="#3C969F"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputuser"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/white"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/usr">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
             android:id="@+id/inputuserEdit"
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:text="Username"
         android:fontFamily="@font/poppinssemibold"
-        android:textColor="@color/white"
+        android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:textSize="15sp"
@@ -77,11 +77,12 @@
 
     <TextView
         android:id="@+id/pss"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Password"
         android:fontFamily="@font/poppinssemibold"
-        android:textColor="@color/white"
+        android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +91,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:id="@+id/inputpas"
         android:background="@color/white"
         android:layout_height="wrap_content"
@@ -109,13 +110,13 @@
 
     <Button
         android:id="@+id/btnDaftar"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Register"
         android:fontFamily="@font/poppinsblack"
         android:textSize="18sp"
-        android:textColor="#3C969F"
-        android:backgroundTint="@color/white"
+        android:textColor="@color/white"
+        android:backgroundTint="#3C969F"
         app:layout_constraintTop_toBottomOf="@id/inputpas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

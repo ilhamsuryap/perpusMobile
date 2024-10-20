@@ -24,6 +24,9 @@ interface DaoPinjam {
 //    @Query("SELECT * FROM buku_table")
 //    fun getallBuku() : LiveData<List<Buku>>
 
+    @Query("DELETE FROM pinjam_table WHERE id_pinjam = :pinjamId")
+    suspend fun deletePinjamById(pinjamId: Int)
+
     @Query("SELECT * FROM pinjam_table ORDER BY Nama_Anggota ASC")
     fun getAllPinjam(): LiveData<List<Pinjam>>
 }

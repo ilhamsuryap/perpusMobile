@@ -28,19 +28,15 @@
         <activity
             android:name=".daftarbukuActivity.EditDataBuku"
             android:exported="true" />
-        
+
+
         <activity
-            android:name=".MainActivity"
+            android:name=".user.Daftar"
             android:exported="true" />
-        
         <activity
             android:name=".HomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
+
         
         <activity
             android:name=".pinjamActivity.PinjamBukuActivity"
@@ -48,7 +44,12 @@
         
         <activity
             android:name=".user.Login"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         
         <activity
             android:name=".daftarbukuActivity.DaftarBukuActivity"

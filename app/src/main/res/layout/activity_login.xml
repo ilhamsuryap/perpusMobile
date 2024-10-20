@@ -46,7 +46,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Inputusr"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +76,7 @@
 
     <TextView
         android:id="@+id/pss"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password"
@@ -88,7 +89,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
         android:id="@+id/Inputpss"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +107,8 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
+
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:text="Login"
         android:fontFamily="@font/poppinsbold"

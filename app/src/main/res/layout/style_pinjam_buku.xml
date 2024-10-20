@@ -5,14 +5,16 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="12dp"
         android:padding="16dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
+        app:cardElevation="6dp"
+        app:cardCornerRadius="10dp"
+        android:backgroundTint="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="12dp">
 
             <!-- Nama Anggota -->
             <TextView
@@ -22,7 +24,8 @@
                 android:fontFamily="@font/poppinssemibold"
                 android:text="Nama Anggota"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                android:paddingBottom="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,13 +36,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Judul Buku"
-                android:textColor="@android:color/black"
+                android:textColor="@color/black"
                 android:textSize="20sp"
-                android:fontFamily="@font/poppinssemibold"
+                android:fontFamily="@font/poppinsbold"
                 android:textStyle="bold"
+                android:paddingTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNamaAnggota" />
+
+            <!-- Divider -->
+
 
             <!-- Tanggal Pinjam -->
             <TextView
@@ -49,7 +56,7 @@
                 android:text="Tanggal Pinjam"
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvJudulBukuPinjam"/>
@@ -62,7 +69,7 @@
                 android:text="Tanggal Kembali"
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTanggalPinjam" />
