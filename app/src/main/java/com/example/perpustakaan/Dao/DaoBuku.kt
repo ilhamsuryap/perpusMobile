@@ -19,8 +19,9 @@ interface DaoBuku {
     @Delete
     suspend fun delete_buku(buku: Buku)
 
-//    @Query("SELECT * FROM buku_table")
-//    fun getallBuku() : LiveData<List<Buku>>
+    @Query("DELETE FROM buku_table WHERE id_buku = :bukuId")
+    suspend fun deleteBukuById(bukuId: Int): Int
+
 
     @Query("SELECT * FROM buku_table ORDER BY judul_buku ASC")
     fun getAllBuku(): LiveData<List<Buku>>
