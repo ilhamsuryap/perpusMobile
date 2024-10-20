@@ -108,12 +108,12 @@
 
         <!-- Button Batal -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBatal"
+            android:id="@+id/btnHapus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="#F44336"
-            android:text="Batal"
+            android:text="Hapus"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnSimpan"
@@ -128,7 +128,7 @@
             android:backgroundTint="#3C969F"
             android:text="Simpan"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@id/btnBatal"
+            app:layout_constraintStart_toEndOf="@id/btnHapus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

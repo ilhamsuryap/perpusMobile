@@ -47,4 +47,5 @@ class PinjamBukuActivity : AppCompatActivity() {
         transaction.addToBackStack(null) // Optional, menambahkan ke back stack jika diperlukan
         transaction.commit()
     }
+
 }
