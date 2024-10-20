@@ -43,21 +43,26 @@
         app:layout_constraintStart_toEndOf="@id/guideKiri"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/notification"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="Notification Bell"
-        android:src="@drawable/icon_notif"
-        app:layout_constraintEnd_toEndOf="@id/guideKanan"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"/>
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/black"
+        app:queryHint="Search"
+        app:iconifiedByDefault="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/cardImage"
+        app:layout_constraintVertical_bias="0.034"
+        tools:ignore="HardcodedText"
+        android:background="@drawable/kotak_putih"
+        android:translationZ="20dp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImage"
         android:layout_width="0dp"
-        android:layout_height="180dp"
+        android:layout_height="200dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toStartOf="@id/guideKanan"
@@ -75,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/black"
-            android:alpha="0.6"/>
+            android:alpha="0.45"/>
 
         <TextView
             android:id="@+id/header_text"
@@ -91,24 +96,10 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginHorizontal="16dp"
-        android:textColor="@color/black"
-        app:queryHint="Search"
-        app:iconifiedByDefault="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/cardImage"
-        app:layout_constraintVertical_bias="0.034"
-        tools:ignore="HardcodedText" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLibrary"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -134,7 +125,7 @@
         android:id="@+id/icon_addbook"
         android:layout_width="38dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/addbook"
         android:translationZ="10dp"
         app:layout_constraintEnd_toStartOf="@id/guideCenter"
@@ -142,21 +133,10 @@
         app:layout_constraintTop_toBottomOf="@id/manage_library" />
 
     <ImageView
-        android:id="@+id/icon_book"
-        android:layout_width="38dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/openbook"
-        android:translationZ="10dp"
-        app:layout_constraintStart_toStartOf="@id/guideCenter"
-        app:layout_constraintEnd_toEndOf="@id/guideCenter"
-        app:layout_constraintTop_toBottomOf="@id/manage_library"/>
-
-    <ImageView
         android:id="@+id/icon_borrowbook"
         android:layout_width="38dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/borrowbook"
         android:translationZ="10dp"
         app:layout_constraintEnd_toEndOf="@id/cardLibrary"
@@ -173,20 +153,7 @@
         android:textSize="10dp"
         app:layout_constraintEnd_toStartOf="@id/guideCenter"
         app:layout_constraintStart_toStartOf="@id/cardLibrary"
-        app:layout_constraintTop_toBottomOf="@id/icon_book"
-        android:translationZ="10dp"/>
-
-    <TextView
-        android:id="@+id/openbook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="List of Book"
-        android:fontFamily="@font/poppinssemibold"
-        android:textColor="@color/black"
-        android:textSize="10dp"
-        app:layout_constraintEnd_toStartOf="@id/guideCenter"
-        app:layout_constraintStart_toStartOf="@id/guideCenter"
-        app:layout_constraintTop_toBottomOf="@id/icon_book"
+        app:layout_constraintTop_toBottomOf="@id/icon_addbook"
         android:translationZ="10dp"/>
 
     <TextView
@@ -227,23 +194,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="15dp" />
 
-        <ImageView
-            android:id="@+id/geser"
-            android:layout_width="700dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/back"
-            app:layout_constraintEnd_toEndOf="@id/cardlist"
-            app:layout_constraintStart_toStartOf="@id/guideKanan"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewHome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="50dp"
             tools:listitem="@layout/cardhome" />
 
     </androidx.cardview.widget.CardView>
