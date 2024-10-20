@@ -12,36 +12,53 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Perpustakaan"
         tools:targetApi="31">
+        
         <activity
             android:name=".editdatapinjam"
             android:exported="false" />
+        
         <activity
             android:name=".detailbuku.detail"
             android:exported="true" />
+        
         <activity
             android:name=".ListBuku.DataPinjam"
             android:exported="true" />
+        
         <activity
             android:name=".daftarbukuActivity.EditDataBuku"
             android:exported="true" />
+        
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        
         <activity
-            android:name=".user.Login"
-            android:exported="true" />
-        <activity
-            android:name=".daftarbukuActivity.DaftarBukuActivity"
-            android:exported="true" />
-        <activity
-            android:name=".pinjamActivity.PinjamBukuActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".pinjamActivity.PinjamBukuActivity"
+            android:exported="true" />
+        
+        <activity
+            android:name=".user.Login"
+            android:exported="true" />
+        
+        <activity
+            android:name=".daftarbukuActivity.DaftarBukuActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

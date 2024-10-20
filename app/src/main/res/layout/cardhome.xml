@@ -3,10 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:padding="16dp">
-
+    android:padding="7dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -17,12 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardElevation="6dp">
+        app:cardElevation="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="15dp"
+            android:background="@drawable/border">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -39,28 +39,15 @@
                 android:id="@+id/text1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Judul Buku"
-                android:textSize="15dp"
                 android:layout_marginTop="10dp"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Nama Peminjam"
+                android:text="Judul Buku"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textSize="15dp"
-                android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text1"
-                android:gravity="center"
-                android:layout_marginBottom="8dp" />
+                app:layout_constraintTop_toBottomOf="@id/imageView" />
 
             <Button
                 android:id="@+id/button"
@@ -72,7 +59,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text2" />
+                app:layout_constraintTop_toBottomOf="@id/text1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
