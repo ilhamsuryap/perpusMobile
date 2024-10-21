@@ -7,15 +7,31 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:padding="16dp"
+
         app:cardElevation="6dp"
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@drawable/border1"
             android:layout_height="wrap_content"
             android:padding="12dp">
 
+
+            <TextView
+                android:id="@+id/tvNamaAnggotaview"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinssemibold"
+                android:text="Nama Anggota   : "
+                android:textColor="#3C969F"
+                android:textSize="16sp"
+                android:paddingBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent" />
             <!-- Nama Anggota -->
             <TextView
                 android:id="@+id/tvNamaAnggota"
@@ -23,55 +39,89 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinssemibold"
                 android:text="Nama Anggota"
-                android:textColor="@color/black"
+                android:textColor="#3C969F"
                 android:textSize="16sp"
                 android:paddingBottom="4dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvNamaAnggotaview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <TextView
+                android:id="@+id/tvJudulBukuPinjamview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Judul Buku    : "
+                android:textColor="#3C969F"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppinsbold"
+                android:textStyle="bold"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNamaAnggota" />
             <!-- Judul Buku -->
             <TextView
                 android:id="@+id/tvJudulBukuPinjam"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Judul Buku"
-                android:textColor="@color/black"
+                android:textColor="#3C969F"
                 android:textSize="20sp"
                 android:fontFamily="@font/poppinsbold"
                 android:textStyle="bold"
                 android:paddingTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvJudulBukuPinjamview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNamaAnggota" />
 
             <!-- Divider -->
 
 
+            <TextView
+                android:id="@+id/tvTanggalPinjamView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Pinjam   : "
+                android:fontFamily="@font/poppinsextralight"
+                android:textColor="#3C969F"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvJudulBukuPinjam"/>
             <!-- Tanggal Pinjam -->
             <TextView
                 android:id="@+id/tvTanggalPinjam"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Tanggal Pinjam"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"
+                android:fontFamily="@font/poppinsextralight"
+                android:textColor="#3C969F"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvTanggalPinjamView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvJudulBukuPinjam"/>
 
+            <TextView
+                android:id="@+id/tvTanggalKembaliview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Kembali : "
+                android:fontFamily="@font/poppinsextralight"
+                android:textColor="#3C969F"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTanggalPinjam" />
             <!-- Tanggal Kembali -->
             <TextView
                 android:id="@+id/tvTanggalKembali"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsextralight"
                 android:text="Tanggal Kembali"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"
+                android:textColor="#3C969F"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toEndOf="@+id/tvTanggalKembaliview"
                 app:layout_constraintTop_toBottomOf="@id/tvTanggalPinjam" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

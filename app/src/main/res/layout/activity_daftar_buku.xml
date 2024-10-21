@@ -32,10 +32,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <SearchView
+        <View
             android:id="@+id/searchViewdaftarbuku"
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="20dp"
+            android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
