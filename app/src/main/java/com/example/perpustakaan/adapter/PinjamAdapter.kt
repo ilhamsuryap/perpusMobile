@@ -14,7 +14,7 @@ class PinjamAdapter : RecyclerView.Adapter<PinjamAdapter.PinjamViewHolder>() {
 
     private var pinjamList = emptyList<Pinjam>()
 
-    inner class PinjamViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PinjamViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNamaAnggota: TextView = itemView.findViewById(R.id.tvNamaAnggota)
         val tvJudulBukuPinjam: TextView = itemView.findViewById(R.id.tvJudulBukuPinjam)
         val tvTanggalPinjam: TextView = itemView.findViewById(R.id.tvTanggalPinjam)
