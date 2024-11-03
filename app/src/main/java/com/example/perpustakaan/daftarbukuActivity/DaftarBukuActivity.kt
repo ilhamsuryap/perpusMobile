@@ -9,12 +9,13 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
+import com.example.perpustakaan.adapter.BukuListAdapter
 import com.example.perpustakaan.detailbuku.detail
 
 class DaftarBukuActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDaftarBukuBinding
-    private lateinit var bukuAdapter: BukuAdapter
+    private lateinit var bukuAdapter: BukuListAdapter
 
     private val bukuViewModel: BukuViewModel by viewModels()
 
@@ -27,7 +28,7 @@ class DaftarBukuActivity : AppCompatActivity() {
 
         // Observe LiveData dari ViewModel untuk update daftar buku
         bukuViewModel.allBuku.observe(this) { bukuList ->
-            bukuAdapter.setData(bukuList)
+            bukuAdapter.submitList(bukuList) // Update daftar buku di adapter saat data berubah
         }
 
         // Tombol untuk menambahkan buku baru
@@ -38,7 +39,7 @@ class DaftarBukuActivity : AppCompatActivity() {
 
     // Inisialisasi RecyclerView dan mengatur adapter
     private fun setupRecyclerView() {
-        bukuAdapter = BukuAdapter { buku ->
+        bukuAdapter = BukuListAdapter { buku ->
             val intent = Intent(this, detail::class.java)
             intent.putExtra("BUKU_ID", buku.id_buku)  // Pastikan id_buku dikirimkan ke detail
             intent.putExtra("BUKU_JUDUL", buku.judul)
