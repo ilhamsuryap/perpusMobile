@@ -36,10 +36,14 @@ class PinjamBukuActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView() {
-        pinjamAdapter = PinjamListAdapter { pinjam ->
-            // Handling item click here, if needed
-            onItemClicked(pinjam)
+//    private fun setupRecyclerView() {
+//        pinjamAdapter = PinjamListAdapter { pinjam ->
+//            // Handling item click here, if needed
+//            onItemClicked(pinjam)
+private fun setupRecyclerView() {
+    pinjamAdapter = PinjamListAdapter { pinjam ->
+        // Handling item click here, if needed
+        onItemClicked(pinjam)
         }
         binding.rvPinjam.apply {
             layoutManager = LinearLayoutManager(this@PinjamBukuActivity)
