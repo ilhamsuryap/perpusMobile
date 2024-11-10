@@ -110,7 +110,6 @@ class HomeActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-    // Observe the LiveData from the ViewModel and update the RecyclerView when data changes
     private fun observeBooks() {
         bukuViewModel.allBuku.observe(this) { books ->
             books?.let {
