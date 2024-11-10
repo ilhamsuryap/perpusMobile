@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:padding="14dp"
             android:fontFamily="@font/poppinsregular"
-            android:text="Manage, Organize, and Empower Yourz Library with Ease on Libraria."
+            android:text="Manage, Organize, and Empower Your Library with Ease on Libraria."
             android:textColor="@color/white"
             android:textSize="22sp"
             android:translationZ="2dp"
