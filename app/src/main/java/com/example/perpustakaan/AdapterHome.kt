@@ -19,33 +19,39 @@ class AdapterHome(
     private val onItemClickListener: (Buku) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val VIEW_TYPE_BOOK = 0
-    private val VIEW_TYPE_AD = 1
+    enum class ViewType { BOOK, AD }
 
     override fun getItemViewType(position: Int): Int {
-        return if ((position + 1) % 6 == 0) VIEW_TYPE_AD else VIEW_TYPE_BOOK
+        return if ((position + 1) % 6 == 0) ViewType.AD.ordinal else ViewType.BOOK.ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_AD) {
-            val view = LayoutInflater.from(context).inflate(R.layout.cardhome_ads, parent, false)
-            AdViewHolder(view)
-        } else {
-            val view = LayoutInflater.from(context).inflate(R.layout.cardhome, parent, false)
-            HomeViewHolder(view)
+        return when (ViewType.values()[viewType]) {
+            ViewType.AD -> {
+                val view = LayoutInflater.from(context).inflate(R.layout.cardhome_ads, parent, false)
+                AdViewHolder(view)
+            }
+            ViewType.BOOK -> {
+                val view = LayoutInflater.from(context).inflate(R.layout.cardhome, parent, false)
+                HomeViewHolder(view)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == VIEW_TYPE_AD) {
-
-        } else {
-            val bookPosition = position - (position / 6)
-            val book = bookList[bookPosition]
-            (holder as HomeViewHolder).bookTitle.text = book.judul
-            holder.bookImage.setImageResource(R.drawable.menara5negara)
-            holder.butoon.setOnClickListener {
-                onItemClickListener(book)
+        when (getItemViewType(position)) {
+            ViewType.AD.ordinal -> {
+            }
+            ViewType.BOOK.ordinal -> {
+                val bookPosition = position - (position / 6)
+                val book = bookList[bookPosition]
+                (holder as HomeViewHolder).apply {
+                    bookTitle.text = book.judul
+                    bookImage.setImageResource(R.drawable.menara5negara)
+                    butoon.setOnClickListener {
+                        onItemClickListener(book)
+                    }
+                }
             }
         }
     }
@@ -63,4 +69,5 @@ class AdapterHome(
     inner class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 }
+
 
