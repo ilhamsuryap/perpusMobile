@@ -43,6 +43,19 @@
         app:layout_constraintStart_toEndOf="@id/guideKiri"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/tentangkami"
+        android:layout_width="39dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/audience"
+        android:translationZ="10dp"
+        app:layout_constraintEnd_toStartOf="@id/guideKanan"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImage"

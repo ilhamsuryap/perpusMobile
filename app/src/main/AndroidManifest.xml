@@ -37,6 +37,15 @@
             android:name=".pinjamActivity.PinjamBukuActivity"
             android:exported="true" />
         <activity
+            android:name=".ViewModel.TentangKamiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ViewModel.BantuanActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ViewModel.ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".user.Login"
             android:exported="true">
             <intent-filter>

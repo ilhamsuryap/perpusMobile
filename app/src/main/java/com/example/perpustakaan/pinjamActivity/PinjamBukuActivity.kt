@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.perpustakaan.ViewModel.PinjamViewModel
 import com.example.perpustakaan.adapter.PinjamListAdapter
@@ -46,7 +47,7 @@ private fun setupRecyclerView() {
         onItemClicked(pinjam)
         }
         binding.rvPinjam.apply {
-            layoutManager = LinearLayoutManager(this@PinjamBukuActivity)
+            layoutManager = GridLayoutManager(this@PinjamBukuActivity,2)
             adapter = pinjamAdapter
         }
     }

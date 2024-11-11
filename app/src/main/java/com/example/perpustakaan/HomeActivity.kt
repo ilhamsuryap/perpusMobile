@@ -17,6 +17,7 @@ import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.ItemHome
 import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.BukuViewModel
+import com.example.perpustakaan.ViewModel.ProfileActivity
 import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
 import com.example.perpustakaan.database.PerpustakaanDatabase
@@ -82,6 +83,12 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
+        val btnTentangKami: ImageView = findViewById(R.id.tentangkami)
+        btnTentangKami.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         val btnBorrowBook: ImageView = findViewById(R.id.icon_borrowbook)
         btnBorrowBook.setOnClickListener(){
             val intent = Intent(this, PinjamBukuActivity::class.java)
@@ -93,7 +100,6 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, DaftarBukuActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     // Set up the RecyclerView with the Adapter

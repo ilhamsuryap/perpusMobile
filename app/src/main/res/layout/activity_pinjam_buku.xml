@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/style_pinjam_buku"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="1"
+                app:spanCount="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/searchView"
