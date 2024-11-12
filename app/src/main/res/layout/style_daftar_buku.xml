@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ListBuku.DataPinjam"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="10dp"
     >
 
     <androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:padding="16dp"
-    android:id="@+id/cardluarDaftarBuku">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:background="@drawable/border1"
-        android:padding="20dp"
         android:layout_height="wrap_content"
-        android:id="@+id/cardListDaftarBuku"
-        >
+        android:elevation="8dp"
+        app:cardCornerRadius="8dp"
 
-        <TextView
-            android:id="@+id/tvJudulBukuview"
-            android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#3C969F"
-            android:textSize="25sp"
-            android:text="Judul  : "
-            android:fontFamily="@font/poppinssemibold"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPenulis" />
-        <!-- TextView untuk Judul Buku -->
-        <TextView
-            android:id="@+id/tvJudulBuku"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="#3C969F"
-            android:textSize="25sp"
-            android:text="Judul"
-            android:fontFamily="@font/poppinssemibold"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/tvJudulBukuview"
-            app:layout_constraintTop_toBottomOf="@+id/tvPenulis" />
+            android:background="@drawable/border1"
+            android:padding="15dp">
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="Image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvPenulisview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsitalic"
-            android:textColor="#3C969F"
-            android:textSize="18sp"
-            android:text="Penulis : "
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!-- TextView untuk Kategori Buku -->
-        <TextView
-            android:id="@+id/tvPenulis"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinsitalic"
-            android:textColor="#3C969F"
-            android:textSize="18sp"
-            android:text="Penulis"
-            app:layout_constraintStart_toEndOf="@id/tvPenulisview"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvPenulis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="Judul Buku"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="#3C969F"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageView" />
 
-        <!-- TextView untuk Stok Buku -->
-        <TextView
-            android:id="@+id/tvStok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppinssemibold"
-            android:text="12"
-            android:gravity="end"
-            android:textColor="#3C969F"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku" />
+            <TextView
+                android:id="@+id/tvJudulBuku"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="Judul Buku"
+                android:fontFamily="@font/poppinsitalic"
+                android:textColor="#3C969F"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPenulis" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvStok"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="#3C969F"
+                android:text="12"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvJudulBuku" />
 
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </layout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
