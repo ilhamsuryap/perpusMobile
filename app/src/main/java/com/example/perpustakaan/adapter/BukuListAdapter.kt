@@ -45,6 +45,10 @@ class BukuListAdapter (
         holder.bind(buku, onItemClick)
     }
 
+    override fun getItem(position: Int): Buku {
+        return getItem(position)
+    }
+
 //    override fun getItemCount(): Int = bukuList.size
 
 //    fun setData(buku: List<Buku>) {

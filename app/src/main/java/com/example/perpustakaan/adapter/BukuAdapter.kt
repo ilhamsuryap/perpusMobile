@@ -5,27 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 
 class BukuAdapter(
-    private var bukuList: List<Buku>,
     private val onItemClick: (Buku) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
 
     enum class ITEM_VIEW_TYPE { PRODUCT, ADS }
 
-    // Mendapatkan jenis tampilan berdasarkan stok buku
+    // Determine view type based on book stock
     override fun getItemViewType(position: Int): Int {
-        val buku = bukuList[position]
+        val buku = getItem(position)
         return if (buku.stok == 0)
             ITEM_VIEW_TYPE.ADS.ordinal
         else
             ITEM_VIEW_TYPE.PRODUCT.ordinal
     }
 
-    // ViewHolder untuk buku dengan stok
+    // ViewHolder for books with stock
     class BukuViewHolder(itemView: View, private val onItemClick: (Buku) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)
@@ -44,8 +45,7 @@ class BukuAdapter(
         }
     }
 
-    // ViewHolder untuk buku dengan stok 0 (iklan)
-    // ViewHolder untuk buku dengan stok 0 (iklan)
+    // ViewHolder for books with stock 0 (ads)
     class BukuADSViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)
         private val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulis)
@@ -55,11 +55,10 @@ class BukuAdapter(
             tvJudulBuku.text = buku.judul
             tvPenulis.text = buku.penulis
 
-            // Tampilkan gambar sold out
+            // Show "sold out" image
             ivSoldOut.visibility = View.VISIBLE
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM_VIEW_TYPE.PRODUCT.ordinal) {
@@ -74,7 +73,7 @@ class BukuAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val buku = bukuList[position]
+        val buku = getItem(position)
         if (holder is BukuViewHolder) {
             holder.bind(buku)
         } else if (holder is BukuADSViewHolder) {
@@ -82,10 +81,19 @@ class BukuAdapter(
         }
     }
 
-    override fun getItemCount(): Int = bukuList.size
+    // Set new data by submitting the list to ListAdapter
+    fun setData(bukuList: List<Buku>) {
+        submitList(bukuList)
+    }
+}
 
-    fun setData(buku: List<Buku>) {
-        this.bukuList = buku
-        notifyDataSetChanged()
+// DiffUtil Callback for Buku
+class BukuDiffCallback : DiffUtil.ItemCallback<Buku>() {
+    override fun areItemsTheSame(oldItem: Buku, newItem: Buku): Boolean {
+        return oldItem.id_buku == newItem.id_buku
+    }
+
+    override fun areContentsTheSame(oldItem: Buku, newItem: Buku): Boolean {
+        return oldItem == newItem
     }
 }
