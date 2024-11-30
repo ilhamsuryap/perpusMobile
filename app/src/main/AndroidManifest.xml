@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Perpustakaan"
         tools:targetApi="31">
         <activity
+            android:name=".homeUser"
+            android:exported="false" />
+        <activity
+            android:name=".loginadmin"
+            android:exported="false" />
+        <activity
             android:name=".ViewModel.editdatabuku"
             android:exported="true" />
         <activity
@@ -36,21 +42,23 @@
         <activity
             android:name=".pinjamActivity.PinjamBukuActivity"
             android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".ViewModel.TentangKamiActivity"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name=".ViewModel.BantuanActivity"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name=".ViewModel.ProfileActivity"-->
+<!--            android:exported="true" />-->
         <activity
-            android:name=".ViewModel.TentangKamiActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ViewModel.BantuanActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ViewModel.ProfileActivity"
-            android:exported="true" />
+            android:name=".search"
+            android:exported="true"/>
         <activity
             android:name=".user.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
