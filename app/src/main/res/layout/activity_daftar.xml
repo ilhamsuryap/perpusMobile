@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.Daftar">
+    tools:context=".user.RegisterActivity">
 
     <TextView
         android:id="@+id/welcome"
@@ -33,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome" />
 
-
     <ImageView
         android:id="@+id/logoLogin"
         android:layout_width="289dp"
@@ -43,24 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/lgg" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputuser"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usr">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
-            android:textColor="#3C969F"
-            android:id="@+id/inputuserEdit"
-            android:hint="Username" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/usr"
@@ -75,6 +56,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/libraria" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputuser"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usr">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:textColor="#3C969F"
+            android:id="@+id/inputuserEdit"
+            android:hint="Username" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/pss"
         android:layout_marginTop="20dp"
@@ -87,8 +85,7 @@
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputuser"
-        />
+        app:layout_constraintTop_toBottomOf="@id/inputuser" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="380dp"
@@ -106,8 +103,21 @@
             android:textSize="15sp"
             android:id="@+id/inputpasEdit"
             android:hint="Password" />
+
+
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <android.widget.Spinner
+        android:id="@+id/spinnerRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/border1"
+        app:layout_constraintTop_toBottomOf="@+id/inputpas"
+        android:padding="16dp"
+        android:layout_margin="16dp"/>
     <Button
         android:id="@+id/btnDaftar"
         android:layout_width="380dp"
@@ -117,11 +127,8 @@
         android:textSize="18sp"
         android:textColor="@color/white"
         android:backgroundTint="#3C969F"
-        app:layout_constraintTop_toBottomOf="@id/inputpas"
+        app:layout_constraintTop_toBottomOf="@id/spinnerRole"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="30dp"/>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

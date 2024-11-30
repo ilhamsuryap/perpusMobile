@@ -6,18 +6,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.perpustakaan.ViewModel.PinjamViewModel
+import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 import com.example.perpustakaan.adapter.PinjamListAdapter
 import com.example.perpustakaan.databinding.ActivityPinjamBukuBinding
-import com.example.perpustakaan.editdatapinjam
+import com.example.perpustakaan.EditDataPinjamActivity
 import com.example.perpustakaan.entity.Pinjam
 
 class PinjamBukuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinjamBukuBinding
     private lateinit var pinjamAdapter: PinjamListAdapter
 
-    private val pinjamViewModel: PinjamViewModel by viewModels()
+    private val pinjamViewModel: PeminjamanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,7 @@ class PinjamBukuActivity : AppCompatActivity() {
         setupRecyclerView()
 
         // Observing data changes
-        pinjamViewModel.allPinjam.observe(this) { pinjamList ->
+        pinjamViewModel.peminjamanList.observe(this) { pinjamList ->
             pinjamAdapter.submitList(pinjamList) // Gunakan submitList untuk memperbarui data di adapter
         }
 
@@ -53,12 +52,12 @@ private fun setupRecyclerView() {
     }
 
     private fun onItemClicked(pinjam: Pinjam) {
-        val intent = Intent(this, editdatapinjam::class.java).apply {
-            putExtra("id_pinjam", pinjam.id_pinjam)
-            putExtra("namaanggota", pinjam.namaanggota)
-            putExtra("judulbuku_pinjam", pinjam.judulbuku_pinjam)
-            putExtra("tanggalpinjam", pinjam.tanggalpinjam)
-            putExtra("tanggalkembali", pinjam.tanggalkembali)
+        val intent = Intent(this, EditDataPinjamActivity::class.java).apply {
+            putExtra("id", pinjam.id)
+            putExtra("namaanggota", pinjam.namaUser)
+            putExtra("judulbuku_pinjam", pinjam.judulBuku)
+            putExtra("tanggalpinjam", pinjam.tanggalPinjam)
+            putExtra("tanggalkembali", pinjam.tanggalKembali)
         }
         startActivity(intent) // Membuka aktivitas editdatapinjam dengan data yang diklik
     }

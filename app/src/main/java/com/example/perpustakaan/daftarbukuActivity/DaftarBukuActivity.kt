@@ -9,15 +9,14 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
-import com.example.perpustakaan.detailbuku.detail
-import com.example.perpustakaan.Dao.Buku
+import com.example.perpustakaan.R
+import com.example.perpustakaan.detailbuku.DetailActivity
 
 class DaftarBukuActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDaftarBukuBinding
     private lateinit var bukuAdapter: BukuAdapter
 
-    // ViewModel to get data
     private val bukuViewModel: BukuViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,41 +24,37 @@ class DaftarBukuActivity : AppCompatActivity() {
         binding = ActivityDaftarBukuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize RecyclerView
         setupRecyclerView()
 
-        // Observe LiveData from ViewModel to update book list
+        // Observe LiveData dari ViewModel
         bukuViewModel.allBuku.observe(this) { bukuList ->
-            bukuAdapter.setData(bukuList)
+            bukuAdapter.submitList(bukuList)
         }
 
-        // Button to add a new book
+        // Tombol untuk menambah buku baru
         binding.btnTambahBuku.setOnClickListener {
             loadFragment(FragmentTambahDataBuku())
         }
     }
 
-    // Initialize RecyclerView and set up adapter
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
-            // Navigate to book detail page
-            val intent = Intent(this, detail::class.java).apply {
-                putExtra("BUKU_ID", buku.id_buku)
-                putExtra("BUKU_JUDUL", buku.judul)
-                putExtra("BUKU_PENULIS", buku.penulis)
-                putExtra("BUKU_TAHUN", buku.tahunTerbit)
-                putExtra("BUKU_DESKRIPSI", buku.deskripsi)
-            }
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("BUKU_ID", buku.id)  // Pastikan id_buku dikirimkan ke detail
+            intent.putExtra("BUKU_JUDUL", buku.judul)
+            intent.putExtra("BUKU_PENULIS", buku.penulis)
+            intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
+            intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
+            intent.putExtra("BUKU_STOK", buku.stok)
+            intent.putExtra("BUKU_IMAGE_URL", buku.gambarUrl)
             startActivity(intent)
         }
-
-        // Setup RecyclerView with GridLayoutManager and adapter
         binding.rvBuku.apply {
             layoutManager = GridLayoutManager(this@DaftarBukuActivity, 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
-                        // Check book stock, if 0 then span size 2, otherwise span size 1
-                        return if (bukuAdapter.currentList[position].stok == 0) 2 else 1
+                        val item = bukuAdapter.currentList.getOrNull(position)
+                        return if (item?.stok == 0) 2 else 1
                     }
                 }
             }
@@ -67,14 +62,15 @@ class DaftarBukuActivity : AppCompatActivity() {
         }
     }
 
-    // Function to replace fragment, e.g., to add a book
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(binding.root.id, fragment)
+            .replace(R.id.daftarbuku, fragment)
             .addToBackStack(null)
             .commit()
     }
 }
+
+
 
 
 //    // Fungsi untuk mengganti fragment, misalnya untuk menambah buku

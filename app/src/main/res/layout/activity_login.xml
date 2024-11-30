@@ -8,12 +8,54 @@
     android:layout_height="match_parent"
     tools:context=".user.Login">
 
+
+    <!-- Pemilihan Role -->
+    <TextView
+        android:id="@+id/role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="Choose Role"
+        android:textColor="#3C969F"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Inputpss" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupRole"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/role">
+
+        <RadioButton
+            android:id="@+id/rbAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Admin"
+            android:textColor="#3C969F"
+            android:fontFamily="@font/poppinssemibold"/>
+
+        <RadioButton
+            android:id="@+id/rbUser"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:text="User"
+            android:textColor="#3C969F"
+            android:fontFamily="@font/poppinssemibold"/>
+    </RadioGroup>
+
+
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome to,"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:fontFamily="@font/poppinssemibold"
         android:textColor="#3C969F"
         android:layout_marginBottom="30dp"
@@ -28,7 +70,7 @@
         android:fontFamily="@font/poppinsbold"
         android:text="Libraria."
         android:textColor="#3C969F"
-        android:textSize="50sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome" />
@@ -36,7 +78,7 @@
 
     <ImageView
         android:id="@+id/logoLogin"
-        android:layout_width="289dp"
+        android:layout_width="250dp"
         android:layout_height="232dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.601"
@@ -69,14 +111,14 @@
         android:fontFamily="@font/poppinssemibold"
         android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/libraria" />
 
     <TextView
         android:id="@+id/pss"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password"
@@ -110,15 +152,14 @@
 
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:fontFamily="@font/poppinsbold"
-        android:textSize="18sp"
-        android:textColor="@color/white"
         android:backgroundTint="#3C969F"
-        app:layout_constraintTop_toBottomOf="@id/Inputpss"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupRole" />
 
     <Button
         android:id="@+id/btnRegis"
@@ -127,7 +168,7 @@
         android:backgroundTint="#00FFFFFF"
         android:text="Sign Up!"
         android:fontFamily="@font/poppinsbold"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textColor="#3C969F"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,12 +182,9 @@
         android:fontFamily="@font/poppinssemibold"
         android:textSize="15sp"
         android:textColor="#3C969F"
-        android:layout_marginVertical="25dp"
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="651dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
