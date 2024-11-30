@@ -1,38 +1,32 @@
 package com.example.perpustakaan.Dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface DaoBuku {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert_buku(buku: Buku)
+
+    @Insert
+    suspend fun insert(buku: Buku)
 
     @Update
-    suspend fun update_buku(buku: Buku)
+    suspend fun update(buku: Buku)
 
     @Delete
-    suspend fun delete_buku(buku: Buku)
+    suspend fun delete(buku: Buku)
 
-    @Query("DELETE FROM buku_table WHERE id_buku = :bukuId")
-    suspend fun deleteBukuById(bukuId: Int): Int
+    @Query("DELETE FROM buku_table")
+    suspend fun deleteAll()
 
-
-    @Query("SELECT * FROM buku_table ORDER BY judul_buku ASC")
+    @Query("SELECT * FROM buku_table")
     fun getAllBuku(): LiveData<List<Buku>>
 
-//    @Query("SELECT * FROM user_table WHERE user_name LIKE :userSearch OR user_username LIKE :userSearch")
-//    suspend fun userSearch(userSearch: String): List<User>
-//    @Query("SELECT * FROM buku_table WHERE judul_buku LIKE :namaBuku ")
-//    suspend fun cariBuku(namaBuku: String): List<Buku>
+    @Query("DELETE FROM buku_table WHERE id = :id ")
+    suspend fun deleteBukuById(id: Long)
 
-    @Query("SELECT * FROM buku_table WHERE judul_buku LIKE '%' || :namaBuku || '%'")
-    suspend fun cariBuku(namaBuku: String): List<Buku>
+    @Query("SELECT * FROM buku_table WHERE judul LIKE '%' || :query || '%'")
+    suspend fun searchBukuByJudul(query: String): List<Buku>
 
-
+    @Query("SELECT * FROM buku_table WHERE id = :id")
+    suspend fun getBukuById(id: Long): Buku?
 }

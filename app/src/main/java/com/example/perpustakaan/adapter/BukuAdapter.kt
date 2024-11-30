@@ -1,5 +1,6 @@
 package com.example.perpustakaan.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,16 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
+import com.example.perpustakaan.detailbuku.DetailActivity
 
-class BukuAdapter(
-    private val onItemClick: (Buku) -> Unit
-) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
+
+// BukuAdapter
+class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
 
     enum class ITEM_VIEW_TYPE { PRODUCT, ADS }
 
-    // Determine view type based on book stock
     override fun getItemViewType(position: Int): Int {
         val buku = getItem(position)
         return if (buku.stok == 0)
@@ -26,37 +28,61 @@ class BukuAdapter(
             ITEM_VIEW_TYPE.PRODUCT.ordinal
     }
 
-    // ViewHolder for books with stock
-    class BukuViewHolder(itemView: View, private val onItemClick: (Buku) -> Unit) :
-        RecyclerView.ViewHolder(itemView) {
+    // ViewHolder untuk buku dengan stok tersedia
+    class BukuViewHolder(itemView: View, private val onClick: (Buku) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)
         private val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulis)
         private val tvStok: TextView = itemView.findViewById(R.id.tvStok)
+        private val imageView: ImageView = itemView.findViewById(R.id.imageViewBuku)
 
         fun bind(buku: Buku) {
             tvJudulBuku.text = buku.judul
             tvPenulis.text = buku.penulis
             tvStok.text = "Stok: ${buku.stok}"
 
-            // Set onClickListener
+            // Memuat gambar menggunakan Glide
+            buku.gambarUrl?.let {
+                Glide.with(itemView.context)
+                    .load(buku.gambarUrl)
+                    .into(imageView)
+            }
+
+            // Arahkan ke DetailActivity saat diklik
             itemView.setOnClickListener {
-                onItemClick(buku)
+                // Mengirim Intent ke DetailActivity dengan ID Buku
+                val intent = Intent(itemView.context, DetailActivity::class.java).apply {
+                    putExtra("BUKU_ID", buku.id)  // Mengirimkan ID buku
+                    putExtra("BUKU_JUDUL", buku.judul)  // Mengirimkan judul buku
+                    putExtra("BUKU_PENULIS", buku.penulis)  // Mengirimkan penulis buku
+                    putExtra("BUKU_GAMBAR_URL", buku.gambarUrl)  // Mengirimkan URL gambar buku
+                    putExtra("BUKU_DESKRIPSI", buku.deskripsi)  // Mengirimkan deskripsi buku
+                    putExtra("BUKU_TAHUN_TERBIT", buku.tahunTerbit)  // Mengirimkan tahun terbit buku
+                    putExtra("BUKU_STOK", buku.stok)  // Mengirimkan stok buku
+
+                }
+                itemView.context.startActivity(intent)  // Mulai activity DetailActivity
             }
         }
     }
 
-    // ViewHolder for books with stock 0 (ads)
+    // ViewHolder untuk buku dengan stok habis
     class BukuADSViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)
-        private val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulis)
-        private val ivSoldOut: ImageView = itemView.findViewById(R.id.tvStok)
+        private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBukuAds)
+        private val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulisAds)
+        private val ivSoldOut: ImageView = itemView.findViewById(R.id.tvStokSold) // Pastikan ini adalah ImageView
+        private val imageView: ImageView = itemView.findViewById(R.id.imageViewBukuADS)
 
         fun bind(buku: Buku) {
             tvJudulBuku.text = buku.judul
             tvPenulis.text = buku.penulis
 
-            // Show "sold out" image
-            ivSoldOut.visibility = View.VISIBLE
+            ivSoldOut.visibility = View.VISIBLE // Tampilkan "sold out" jika stok habis
+
+            buku.gambarUrl?.let {
+                Glide.with(itemView.context)
+                    .load(buku.gambarUrl)
+                    .into(imageView)
+            }
         }
     }
 
@@ -64,7 +90,7 @@ class BukuAdapter(
         return if (viewType == ITEM_VIEW_TYPE.PRODUCT.ordinal) {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.style_daftar_buku, parent, false)
-            BukuViewHolder(view, onItemClick)
+            BukuViewHolder(view, onClick)
         } else {
             val viewAds = LayoutInflater.from(parent.context)
                 .inflate(R.layout.style_daftar_bukuads, parent, false)
@@ -80,20 +106,15 @@ class BukuAdapter(
             holder.bind(buku)
         }
     }
-
-    // Set new data by submitting the list to ListAdapter
-    fun setData(bukuList: List<Buku>) {
-        submitList(bukuList)
-    }
 }
 
-// DiffUtil Callback for Buku
 class BukuDiffCallback : DiffUtil.ItemCallback<Buku>() {
     override fun areItemsTheSame(oldItem: Buku, newItem: Buku): Boolean {
-        return oldItem.id_buku == newItem.id_buku
+        return oldItem.id == newItem.id // Pastikan `id` di Buku tidak null atau duplikat
     }
 
     override fun areContentsTheSame(oldItem: Buku, newItem: Buku): Boolean {
-        return oldItem == newItem
+        return oldItem == newItem // Pastikan buku memiliki implementasi `equals` yang benar
     }
+
 }
