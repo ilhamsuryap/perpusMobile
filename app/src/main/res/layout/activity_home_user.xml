@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/white"
+    android:backgroundTint="#D4E9EB"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
-    android:background="@color/white"
-    android:backgroundTint="#D4E9EB">
+    tools:context=".homeUser">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideKiri"
@@ -102,9 +102,7 @@
         app:queryHint="Search"
         app:iconifiedByDefault="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toBottomOf="@+id/cardImage"
-        app:layout_constraintVertical_bias="0.034"
         tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
@@ -216,5 +214,6 @@
             tools:listitem="@layout/cardhome" />
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
