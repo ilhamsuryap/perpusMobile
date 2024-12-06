@@ -63,7 +63,7 @@ class FragmentFormDataPinjam : Fragment() {
                     namaanggota = namaAnggota,
                     judulbuku_pinjam = judulBuku,
                     tanggalpinjam = tanggalPinjam,
-                    tanggalkembali = tanggalKembali
+                    tanggalkembali = tanggalKembali,
                 )
 
                 // Menyimpan data pinjaman ke database
