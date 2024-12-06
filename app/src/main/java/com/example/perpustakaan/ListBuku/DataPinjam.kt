@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.perpustakaan.R
-import com.example.perpustakaan.detailbuku.detail
+import com.example.perpustakaan.detailbuku.DetailActivity
 
 class DataPinjam : AppCompatActivity() {
 
@@ -21,11 +21,11 @@ class DataPinjam : AppCompatActivity() {
         cardluarBuku = findViewById(R.id.cardluarDaftarBuku)
 
         cardListBuku.setOnClickListener {
-            val intent = Intent(this, detail::class.java)
+            val intent = Intent(this, DetailActivity::class.java)
             startActivity(intent)
         }
         cardluarBuku.setOnClickListener {
-            val intent = Intent(this, detail::class.java)
+            val intent = Intent(this, DetailActivity::class.java)
             startActivity(intent)
         }
     }

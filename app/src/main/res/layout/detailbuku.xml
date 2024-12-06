@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".detailbuku.detail"
+    tools:context=".detailbuku.DetailActivity"
     android:background="#F5F5F5">
 
     <TextView

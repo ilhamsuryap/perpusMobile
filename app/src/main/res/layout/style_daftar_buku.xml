@@ -26,10 +26,12 @@
             android:background="@drawable/border1"
             android:padding="15dp">
 
+
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/imageViewBuku"
+                android:layout_width="130dp"
+                android:layout_height="140dp"
+                android:background="@drawable/border1"
                 android:contentDescription="Image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background"
@@ -51,13 +53,12 @@
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView" />
+                app:layout_constraintTop_toBottomOf="@id/imageViewBuku" />
 
             <TextView
                 android:id="@+id/tvJudulBuku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="Judul Buku"
@@ -72,8 +73,7 @@
             <TextView
                 android:id="@+id/tvStok"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:fontFamily="@font/poppinssemibold"

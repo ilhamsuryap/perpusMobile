@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
+    id("kotlin-kapt") // Untuk Glide dan penggunaan kapt
 }
 
 android {
@@ -27,16 +28,20 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         viewBinding = true
-        dataBinding = true
+        // Matikan dataBinding jika tidak digunakan
+        dataBinding = true // Hapus atau nonaktifkan jika tidak digunakan
     }
 }
 
@@ -48,10 +53,11 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    // Hapus jika tidak digunakan
-    // implementation(libs.androidx.ui.desktop)
+
+    // Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -71,4 +77,8 @@ dependencies {
 
     // AndroidX Test dependencies
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Glide dependencies (use kapt for Glide)
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    kapt("com.github.bumptech.glide:compiler:4.15.0")  // Gantilah ksp dengan kapt untuk Glide
 }

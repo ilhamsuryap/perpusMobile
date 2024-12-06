@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,51 +15,40 @@
         android:theme="@style/Theme.Perpustakaan"
         tools:targetApi="31">
         <activity
-            android:name=".pengembalian"
+            android:name=".UserACTIVITY.UserHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".homeUser"
-            android:exported="false" />
-        <activity
-            android:name=".loginadmin"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModel.editdatabuku"
+            android:name=".daftarbukuActivity.EditDataBukuActivity"
             android:exported="true" />
         <activity
-            android:name=".editdatapinjam"
+            android:name=".EditDataPinjamActivity"
             android:exported="true" />
         <activity
-            android:name=".detailbuku.detail"
+            android:name=".detailbuku.DetailActivity"
             android:exported="true" />
         <activity
             android:name=".ListBuku.DataPinjam"
             android:exported="true" />
         <activity
-            android:name=".daftarbukuActivity.EditDataBuku"
-            android:exported="true" />
-        <activity
-            android:name=".user.Daftar"
+            android:name=".user.RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".HomeActivity"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".ViewModel.TentangKamiActivity" -->
-        <!-- android:exported="true" /> -->
-        <!-- <activity -->
-        <!-- android:name=".ViewModel.BantuanActivity" -->
-        <!-- android:exported="true" /> -->
-        <!-- <activity -->
-        <!-- android:name=".ViewModel.ProfileActivity" -->
-        <!-- android:exported="true" /> -->
-        <activity
-            android:name=".search"
-            android:exported="true" />
-        <activity
-            android:name=".user.Login"
             android:exported="true" />
         <activity
             android:name=".pinjamActivity.PinjamBukuActivity"
+            android:exported="true" />
+        <!--        <activity-->
+        <!--            android:name=".ViewModel.TentangKamiActivity"-->
+        <!--            android:exported="true" />-->
+        <!--        <activity-->
+        <!--            android:name=".ViewModel.BantuanActivity"-->
+        <!--            android:exported="true" />-->
+        <!--        <activity-->
+        <!--            android:name=".ViewModel.ProfileActivity"-->
+        <!--            android:exported="true" />-->
+        <activity
+            android:name=".user.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,48 +6,53 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.perpustakaan.Dao.Buku
-import com.example.perpustakaan.database.PerpustakaanDatabase
-import com.example.perpustakaan.repository.BukuRepository
-import kotlinx.coroutines.Dispatchers
+import com.example.perpustakaan.Repository.BukuRepository
 import kotlinx.coroutines.launch
 
 class BukuViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: BukuRepository
-    val allBuku: LiveData<List<Buku>>
 
-    private val _allBuku = MutableLiveData<List<Buku>>()
-    val buku : LiveData<List<Buku>> get() = _allBuku
+    private val bukuRepository: BukuRepository = BukuRepository(application)
 
+    // LiveData untuk semua buku
+    val allBuku: LiveData<List<Buku>> = bukuRepository.allBuku
 
-    // Tambahkan LiveData baru di ViewModel untuk pencarian
+    // LiveData untuk hasil pencarian
     private val _searchResults = MutableLiveData<List<Buku>>()
     val searchResults: LiveData<List<Buku>> get() = _searchResults
 
-    init {
-        val bukuDao = PerpustakaanDatabase.getDatabase(application).daobuku()
-        repository = BukuRepository(bukuDao)
-        allBuku = repository.allBuku
-    }
-
-    fun insert(buku: Buku) {
-        // Meluncurkan coroutine di IO thread
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(buku)
-        }
-    }
-//
-//    fun cariBuku(namaBuku: String) {
-//        viewModelScope.launch {
-//            _allBuku.postValue(repository.cariBuku(namaBuku)) // Menggunakan postValue untuk mengupdate LiveData
-//        }
-//    }
-
+    // Fungsi untuk mencari buku berdasarkan judul
     fun cariBuku(query: String) {
-        viewModelScope.launch {
-            val result = repository.cariBuku(query)  // Pastikan search query berfungsi di Dao
-            _searchResults.postValue(result)
+        if (query.isNotEmpty()) {
+            viewModelScope.launch {
+                val results = bukuRepository.searchBukuByJudul(query)
+                if (results.isNullOrEmpty()) {
+                    // Jika tidak ada hasil, set LiveData dengan data kosong
+                    _searchResults.postValue(emptyList())
+                } else {
+                    // Jika ada hasil, set LiveData dengan hasil pencarian
+                    _searchResults.postValue(results)
+                }
+            }
+        } else {
+            // Jika query kosong, tampilkan semua buku
+            _searchResults.postValue(emptyList())
         }
     }
 
+    // Operasi CRUD
+    fun insert(buku: Buku) = viewModelScope.launch {
+        bukuRepository.insert(buku)
+    }
 
+    fun update(buku: Buku) = viewModelScope.launch {
+        bukuRepository.update(buku)
+    }
+
+    fun delete(buku: Buku) = viewModelScope.launch {
+        bukuRepository.delete(buku)
+    }
+
+    fun deleteAll() = viewModelScope.launch {
+        bukuRepository.deleteAll()
+    }
 }

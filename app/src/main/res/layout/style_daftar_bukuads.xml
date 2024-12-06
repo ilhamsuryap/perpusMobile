@@ -27,7 +27,7 @@
             android:padding="15dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewBukuADS"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="Image"
@@ -38,7 +38,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvPenulis"
+                android:id="@+id/tvPenulisAds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -51,10 +51,10 @@
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView" />
+                app:layout_constraintTop_toBottomOf="@id/imageViewBukuADS" />
 
             <TextView
-                android:id="@+id/tvJudulBuku"
+                android:id="@+id/tvJudulBukuAds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -67,17 +67,17 @@
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPenulis" />
+                app:layout_constraintTop_toBottomOf="@id/tvPenulisAds" />
 
             <ImageView
-                android:id="@+id/tvStok"
+                android:id="@+id/tvStokSold"
                 android:layout_marginTop="10dp"
                 android:layout_width="70dp"
                 android:layout_height="50dp"
                 android:src="@drawable/soldout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku" />
+                app:layout_constraintTop_toBottomOf="@+id/tvJudulBukuAds" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
