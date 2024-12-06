@@ -30,7 +30,7 @@ interface DaoPinjam {
     @Query("SELECT * FROM pinjam_table ORDER BY Nama_Anggota ASC")
     fun getAllPinjam(): LiveData<List<Pinjam>>
 
-    @Query("SELECT * FROM pinjam_table WHERE status = 'dipinjam'")
-    fun getBukuDipinjam(): LiveData<List<Pinjam>>
+//    @Query("SELECT * FROM pinjam_table WHERE status = 'dipinjam'")
+//    fun getBukuDipinjam(): LiveData<List<Pinjam>>
 
 }

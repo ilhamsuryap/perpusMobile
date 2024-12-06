@@ -40,8 +40,8 @@ class fragment_dikembalikan : Fragment() {
         val namaAnggota = arguments?.getString(ARG_PARAM2)
 
         // Misalkan ada TextView dengan ID `tv_id_pinjam` dan `tv_nama_anggota` di layout fragment_dikembalikan.xml
-        view.findViewById<TextView>(R.id.tv_id_pinjam)?.text = idPinjam
-        view.findViewById<TextView>(R.id.tv_nama_anggota)?.text = namaAnggota
+//        view.findViewById<TextView>(R.id.tv_id_pinjam)?.text = idPinjam
+//        view.findViewById<TextView>(R.id.tv_nama_anggota)?.text = namaAnggota
 
         return view
     }
