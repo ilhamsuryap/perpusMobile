@@ -17,10 +17,10 @@ class PinjamListAdapter(
     class PinjamViewHolder private constructor(val binding: StylePinjamBukuBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pinjam: Pinjam, onItemClick: (Pinjam) -> Unit) {
-            binding.tvNamaAnggota.text = pinjam.namaUser
-            binding.tvJudulBukuPinjam.text = pinjam.judulBuku
-            binding.tvTanggalPinjam.text = pinjam.tanggalPinjam
-            binding.tvTanggalKembali.text = pinjam.tanggalKembali
+            binding.tvNamaAnggota.text = pinjam.namaanggota
+            binding.tvJudulBukuPinjam.text = pinjam.judulbuku_pinjam
+            binding.tvTanggalPinjam.text = pinjam.tanggalpinjam
+            binding.tvTanggalKembali.text = pinjam.tanggalkembali
 
             itemView.setOnClickListener {
                 onItemClick(pinjam)
@@ -28,11 +28,11 @@ class PinjamListAdapter(
                 // Ambil context dari itemView
                 val context = itemView.context
                 val intent = Intent(context, EditDataPinjamActivity::class.java)
-                intent.putExtra("id_pinjam", pinjam.id)
-                intent.putExtra("namaanggota", pinjam.namaUser)
-                intent.putExtra("judulbuku_pinjam", pinjam.judulBuku)
-                intent.putExtra("tanggalpinjam", pinjam.tanggalPinjam)
-                intent.putExtra("tanggalkembali", pinjam.tanggalKembali)
+                intent.putExtra("id_pinjam", pinjam.id_pinjam)
+                intent.putExtra("namaanggota", pinjam.namaanggota)
+                intent.putExtra("judulbuku_pinjam", pinjam.judulbuku_pinjam)
+                intent.putExtra("tanggalpinjam", pinjam.tanggalpinjam)
+                intent.putExtra("tanggalkembali", pinjam.tanggalkembali)
                 context.startActivity(intent) // Buka aktivitas editdatapinjam
             }
         }
@@ -57,7 +57,7 @@ class PinjamListAdapter(
 
     class PinjamDiffCallback : DiffUtil.ItemCallback<Pinjam>() {
         override fun areItemsTheSame(oldItem: Pinjam, newItem: Pinjam): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.id_pinjam == newItem.id_pinjam
         }
 
         override fun areContentsTheSame(oldItem: Pinjam, newItem: Pinjam): Boolean {

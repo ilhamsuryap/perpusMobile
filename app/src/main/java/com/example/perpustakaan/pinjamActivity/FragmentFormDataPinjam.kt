@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.perpustakaan.ViewModel.PinjamViewModel
+import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 import com.example.perpustakaan.databinding.FragmentFormDataPinjamBinding
 import com.example.perpustakaan.entity.Pinjam
 import java.util.Calendar
@@ -17,7 +17,7 @@ class FragmentFormDataPinjam : Fragment() {
     private var _binding: FragmentFormDataPinjamBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var pinjamViewModel: PinjamViewModel // Deklarasi ViewModel
+    private lateinit var pinjamViewModel: PeminjamanViewModel // Deklarasi ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class FragmentFormDataPinjam : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Inisialisasi ViewModel
-        pinjamViewModel = ViewModelProvider(this).get(PinjamViewModel::class.java)
+        pinjamViewModel = ViewModelProvider(this).get(PeminjamanViewModel::class.java)
 
         // Setup DatePicker untuk etTglPinjam
         binding.etTglPinjam.setOnClickListener {
