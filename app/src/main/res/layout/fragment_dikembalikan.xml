@@ -20,6 +20,7 @@
             android:background="#3C969F"
             android:gravity="center"
             android:padding="16dp"
+            android:fontFamily="@font/poppinsmedium"
             android:text="Detail Buku"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -66,45 +67,33 @@
             app:layout_constraintTop_toBottomOf="@id/tv_judul_buku" />
 
         <TextView
-            android:id="@+id/tv_tahun_terbit"
+            android:id="@+id/tv_tanggalpinjam_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="2009"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_penulis" />
-
-        <TextView
-            android:id="@+id/tv_deskripsi_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Deskripsi :"
+            android:text="Tanggal Pinjam :"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_tahun_terbit" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_penulis" />
 
         <TextView
-            android:id="@+id/tv_deskripsi"
-            android:layout_width="0dp"
+            android:id="@+id/tv_tanggal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:justificationMode="inter_word"
-            android:text="Novel Negeri 5 Menara bercerita tentang kehidupan 6 santri yang berasal dari 6 daerah yang berbeda di Indonesia..."
+            android:text="20/12/2024"
+            android:gravity="center"
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_deskripsi_label" />
-
+            app:layout_constraintTop_toBottomOf="@id/tv_tanggalpinjam_label"
+            />
 
         <Button
             android:id="@+id/btn_kembalikan_buku"
@@ -118,8 +107,39 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_deskripsi" />
+            app:layout_constraintTop_toBottomOf="@id/tv_tanggalkembali"
+            />
 
+        <TextView
+            android:id="@+id/tv_tanggalkembali_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tanggal Kembali :"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_tanggal"
+            />
+
+        <TextView
+            android:id="@+id/tv_tanggalkembali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:justificationMode="inter_word"
+            android:text="26/12/2024"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_tanggalkembali_label"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
