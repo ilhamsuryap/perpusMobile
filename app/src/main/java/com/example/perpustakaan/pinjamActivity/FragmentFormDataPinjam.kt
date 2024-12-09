@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.perpustakaan.Dao.Buku
+import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 import com.example.perpustakaan.databinding.FragmentFormDataPinjamBinding
 import com.example.perpustakaan.entity.Pinjam
@@ -16,6 +18,7 @@ import java.util.Calendar
 class FragmentFormDataPinjam : Fragment() {
     private var _binding: FragmentFormDataPinjamBinding? = null
     private val binding get() = _binding!!
+
 
     private lateinit var pinjamViewModel: PeminjamanViewModel // Deklarasi ViewModel
 
@@ -54,27 +57,33 @@ class FragmentFormDataPinjam : Fragment() {
             val tanggalPinjam = binding.etTglPinjam.text.toString()
             val tanggalKembali = binding.etTglKembali.text.toString()
 
-            // Validasi input
+
+            // Validasi input untuk memastikan tidak ada yang kosong
             if (namaAnggota.isEmpty() || judulBuku.isEmpty() || tanggalPinjam.isEmpty() || tanggalKembali.isEmpty()) {
-                Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
-            } else {
+                Toast.makeText(requireContext(), "Harap lengkapi semua data", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+
+            }
+
+            try {
                 val pinjam = Pinjam(
-                    id_pinjam = 0, // ID otomatis, akan diatur oleh Room
                     namaanggota = namaAnggota,
                     judulbuku_pinjam = judulBuku,
                     tanggalpinjam = tanggalPinjam,
                     tanggalkembali = tanggalKembali,
                 )
 
-                // Menyimpan data pinjaman ke database
+                // Menyimpan buku menggunakan ViewModel
                 pinjamViewModel.insert(pinjam)
-                Toast.makeText(requireContext(), "Data pinjaman berhasil disimpan", Toast.LENGTH_SHORT).show()
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Terjadi kesalahan saat menyimpan data", Toast.LENGTH_SHORT).show()
 
-                // Kembali ke layar sebelumnya
-                requireActivity().supportFragmentManager.popBackStack()
             }
         }
     }
+
+
 
     private fun showDatePicker(onDateSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()

@@ -23,6 +23,7 @@ interface DaoPinjam {
     @Query("DELETE FROM pinjam_table")
     suspend fun deleteAll()
 
+
     @Query("SELECT * FROM pinjam_table")
     fun getAllPinjam(): LiveData<List<Pinjam>>
 
