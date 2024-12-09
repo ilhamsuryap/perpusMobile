@@ -28,6 +28,10 @@ class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, Recyc
             ITEM_VIEW_TYPE.PRODUCT.ordinal
     }
 
+    fun setData(newList: List<Buku>) {
+        submitList(newList)
+    }
+
     // ViewHolder untuk buku dengan stok tersedia
     class BukuViewHolder(itemView: View, private val onClick: (Buku) -> Unit) : RecyclerView.ViewHolder(itemView) {
         private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBuku)

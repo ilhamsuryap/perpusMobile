@@ -35,7 +35,7 @@ class search : AppCompatActivity() {
 
         // Observe LiveData from ViewModel to update book list
         bukuViewModel.allBuku.observe(this) { bukuList ->
-            bukuAdapter.submitList(bukuList)
+            bukuAdapter.setData(bukuList)
         }
 
         // Set up SearchView
@@ -76,7 +76,7 @@ class search : AppCompatActivity() {
                         it.judul.lowercase(Locale.getDefault()).contains(searchText) ||
                                 it.penulis.lowercase(Locale.getDefault()).contains(searchText)
                     }
-                    bukuAdapter.submitList(filteredBooks) // Gunakan submitList untuk memperbarui data
+                    bukuAdapter.setData(filteredBooks)
                 }
                 return true
             }
