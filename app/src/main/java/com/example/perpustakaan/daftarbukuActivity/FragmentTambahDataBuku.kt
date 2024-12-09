@@ -55,6 +55,7 @@ class FragmentTambahDataBuku : Fragment() {
         // Tombol simpan buku
         binding.btnSimpanBuku.setOnClickListener {
             simpanBuku() // Memanggil fungsi untuk menyimpan data buku
+            activity?.supportFragmentManager?.popBackStack() //menutup fragment
         }
 
         // Observer untuk status upload buku
