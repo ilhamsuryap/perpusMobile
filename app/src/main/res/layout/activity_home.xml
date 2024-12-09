@@ -120,7 +120,7 @@
         android:translationZ="10dp"/>
 
     <ImageView
-        android:id="@+id/icon_addbook"
+        android:id="@+id/icon_openbook"
         android:layout_width="37dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -163,7 +163,7 @@
         android:translationZ="10dp"
         app:layout_constraintEnd_toStartOf="@id/guideCenter"
         app:layout_constraintStart_toStartOf="@id/cardLibrary"
-        app:layout_constraintTop_toBottomOf="@+id/icon_addbook" />
+        app:layout_constraintTop_toBottomOf="@+id/icon_openbook" />
 
 
     <TextView
@@ -189,7 +189,7 @@
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="@id/cardLibrary"
         app:layout_constraintStart_toEndOf="@+id/guideCenter"
-        app:layout_constraintTop_toBottomOf="@id/icon_addbook"
+        app:layout_constraintTop_toBottomOf="@id/icon_openbook"
         android:translationZ="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

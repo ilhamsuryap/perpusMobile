@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.perpustakaan"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.car.ui.lib)
 
     // Room dependencies (Use KSP for Room annotation processing)
     val room_version = "2.6.1"
