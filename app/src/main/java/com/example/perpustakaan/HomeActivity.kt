@@ -23,8 +23,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var manageLibrary: TextView
     private lateinit var addBook: TextView
     private lateinit var borrowBook: TextView
-    private lateinit var searchView: SearchView
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterHome
     private lateinit var database: PerpustakaanDatabase
     private var books: MutableList<Buku> = mutableListOf()
@@ -39,19 +37,14 @@ class HomeActivity : AppCompatActivity() {
         manageLibrary = findViewById(R.id.manage_library)
         addBook = findViewById(R.id.addbook)
         borrowBook = findViewById(R.id.borrowbook)
-        searchView = findViewById(R.id.searchView)
-        recyclerView = findViewById(R.id.recyclerViewHome)
 
         database = PerpustakaanDatabase.getDatabase(this)
 
-        setupRecyclerView()
-        observeBooks()  // Mengamati data buku dari ViewModel
-        setupSearchView()
 
 //        findViewById<ImageView>(R.id.tentangkami).setOnClickListener {
 //            startActivity(Intent(this, PinjamBukuActivity::class.java))
 //        }
-        findViewById<ImageView>(R.id.bookLending).setOnClickListener {
+        findViewById<ImageView>(R.id.icon_borrowbook).setOnClickListener {
             startActivity(Intent(this, PinjamBukuActivity::class.java))
         }
 
@@ -61,51 +54,12 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView() {
-        adapter = AdapterHome(this, books, database) { buku ->
-            val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("BUKU_ID", buku.id)
-            intent.putExtra("BUKU_JUDUL", buku.judul)
-            intent.putExtra("BUKU_PENULIS", buku.penulis)
-            intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
-            intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
-            intent.putExtra("BUKU_GAMBAR", buku.gambarUrl)
-            startActivity(intent)
-        }
-
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        recyclerView.adapter = adapter
-    }
 
     private fun observeBooks() {
         // Mengamati LiveData allBuku untuk mendapatkan semua buku
         bukuViewModel.allBuku.observe(this) { allBooks ->
             books.clear()
             books.addAll(allBooks)
-            adapter.notifyDataSetChanged()
-        }
-    }
-
-    private fun setupSearchView() {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                // Jika ada perubahan pada teks pencarian, cari buku berdasarkan judul
-                if (newText.isNotEmpty()) {
-                    bukuViewModel.cariBuku(newText)
-                } else {
-                    // Jika pencarian kosong, tampilkan semua buku
-                    bukuViewModel.cariBuku("") // Cari dengan query kosong untuk menampilkan semua buku
-                }
-                return true
-            }
-        })
-
-        // Mengamati hasil pencarian dan memperbarui daftar buku
-        bukuViewModel.searchResults.observe(this) { searchResults ->
-            books.clear()
-            books.addAll(searchResults)
             adapter.notifyDataSetChanged()
         }
     }

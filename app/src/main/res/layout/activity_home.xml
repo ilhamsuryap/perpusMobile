@@ -93,19 +93,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginHorizontal="16dp"
-        android:textColor="@color/black"
-        app:queryHint="Search"
-        app:iconifiedByDefault="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/cardImage"
-        app:layout_constraintVertical_bias="0.034"
-        tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLibrary"
@@ -116,7 +103,7 @@
         app:cardElevation="10dp"
         app:layout_constraintEnd_toStartOf="@id/guideKanan"
         app:layout_constraintStart_toEndOf="@id/guideKiri"
-        app:layout_constraintTop_toBottomOf="@id/searchView"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardImage"/>
 
     <TextView
         android:id="@+id/manage_library"
@@ -144,7 +131,18 @@
         app:layout_constraintTop_toBottomOf="@id/manage_library" />
 
     <ImageView
-        android:id="@+id/bookLending"
+        android:id="@+id/icon_listbook"
+        android:layout_width="37dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/openbook"
+        android:translationZ="10dp"
+        app:layout_constraintEnd_toStartOf="@id/guideKanan"
+        app:layout_constraintStart_toStartOf="@id/cardLibrary"
+        app:layout_constraintTop_toBottomOf="@id/manage_library" />
+
+    <ImageView
+        android:id="@+id/icon_borrowbook"
         android:layout_width="37dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -167,6 +165,20 @@
         app:layout_constraintStart_toStartOf="@id/cardLibrary"
         app:layout_constraintTop_toBottomOf="@+id/icon_addbook" />
 
+
+    <TextView
+        android:id="@+id/listbook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinssemibold"
+        android:text="List of Book"
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintEnd_toStartOf="@id/guideKanan"
+        app:layout_constraintStart_toStartOf="@id/cardLibrary"
+        app:layout_constraintTop_toBottomOf="@+id/icon_listbook" />
+
     <TextView
         android:id="@+id/borrowbook"
         android:layout_width="wrap_content"
@@ -179,42 +191,5 @@
         app:layout_constraintStart_toEndOf="@+id/guideCenter"
         app:layout_constraintTop_toBottomOf="@id/icon_addbook"
         android:translationZ="10dp"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardlist"
-        android:layout_width="0dp"
-        android:layout_height="270dp"
-        android:layout_marginTop="30dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toStartOf="@id/guideKanan"
-        app:layout_constraintStart_toEndOf="@id/guideKiri"
-        app:layout_constraintTop_toBottomOf="@id/cardLibrary">
-
-        <TextView
-            android:id="@+id/Recently"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_goneMarginStart="20dp"
-            android:text="Recently Added"
-            android:fontFamily="@font/poppinssemibold"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:translationZ="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp" />
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewHome"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="41dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/cardhome" />
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
