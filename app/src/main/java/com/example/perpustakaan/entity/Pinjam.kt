@@ -3,13 +3,26 @@ package com.example.perpustakaan.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.database.PropertyName
 
 @Entity(tableName = "pinjam_table")
 data class Pinjam(
-    @PrimaryKey(autoGenerate = true) val id_pinjam: Int = 0,
-    @ColumnInfo(name = "Nama_Anggota") val namaanggota: String,
-    @ColumnInfo(name = "Judul_Buku") val judulbuku_pinjam: String,
-    @ColumnInfo(name = "Tanggal_Pinjam") val tanggalpinjam: String,
-    @ColumnInfo(name = "Tanggal_Kembali") val tanggalkembali: String,
-//    @ColumnInfo(name = "Status") val status: String
+    @PrimaryKey(autoGenerate = false)
+    @get:PropertyName("id")
+    @set:PropertyName("id")
+    var id_pinjam: Int = 0,
+
+    @get:PropertyName("namaanggota")
+    val namaanggota: String,
+
+    @get:PropertyName("judulbuku_pinjam")
+    val judulbuku_pinjam: String,
+
+    @get:PropertyName("tanggalpinjam")
+    val tanggalpinjam: String,
+
+    @get:PropertyName("tanggalkembali")
+    val tanggalkembali: String,
+    // You can uncomment this if you need a "status" column
+//     @ColumnInfo(name = "Status") val status: String
 )

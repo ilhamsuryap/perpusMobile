@@ -27,9 +27,6 @@
             android:name=".detailbuku.DetailActivity"
             android:exported="true" />
         <activity
-            android:name=".ListBuku.DataPinjam"
-            android:exported="true" />
-        <activity
             android:name=".user.RegisterActivity"
             android:exported="true" />
         <activity

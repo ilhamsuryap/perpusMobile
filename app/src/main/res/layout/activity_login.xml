@@ -14,7 +14,7 @@
         android:id="@+id/role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/poppinssemibold"
         android:text="Choose Role"
@@ -98,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
+            android:hint="Username"
             android:id="@+id/InputusrrEdit"
              />
 
@@ -111,14 +112,14 @@
         android:fontFamily="@font/poppinssemibold"
         android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
-
+        android:layout_marginTop="15dp"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/libraria" />
 
     <TextView
         android:id="@+id/pss"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password"
@@ -142,6 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
+            android:hint="Password"
             android:textSize="15sp"
             android:id="@+id/InputpsssEdit"
             />
@@ -156,6 +158,7 @@
         android:fontFamily="@font/poppinsbold"
         android:text="Login"
         android:textColor="@color/white"
+        android:layout_marginTop="25dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +182,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Or"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppinssemibold"
         android:textSize="15sp"
         android:textColor="#3C969F"

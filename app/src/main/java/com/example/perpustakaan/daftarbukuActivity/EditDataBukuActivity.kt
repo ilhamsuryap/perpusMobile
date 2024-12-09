@@ -3,15 +3,11 @@ package com.example.perpustakaan.daftarbukuActivity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
-import com.example.perpustakaan.R
 import com.example.perpustakaan.database.PerpustakaanDatabase
 import com.example.perpustakaan.databinding.ActivityEditdatabukuBinding
 import kotlinx.coroutines.Dispatchers
@@ -117,7 +113,7 @@ class EditDataBukuActivity : AppCompatActivity() {
 
             // Buat objek Buku dengan data baru
             val buku = Buku(
-                id = validBukuId,  // Menggunakan bukuId yang valid (Long)
+                id = 0,  // Menggunakan bukuId yang valid (Long)
                 judul = judul,
                 penulis = penulis,
                 tahunTerbit = tahun,

@@ -4,24 +4,17 @@ import androidx.lifecycle.LiveData
 import com.example.perpustakaan.Dao.DaoPinjam
 import com.example.perpustakaan.entity.Pinjam
 
-class PeminjamanRepository(private val peminjamanDao: DaoPinjam) {
+class PeminjamanRepository(private val pinjamDao: DaoPinjam) {
+    val allPinjam: LiveData<List<Pinjam>> = pinjamDao.getAllPinjam()
 
-    // Mengambil semua data pinjam dari database dalam bentuk LiveData
-    val allPinjam: LiveData<List<Pinjam>> = peminjamanDao.getAllPinjam()
-
-    suspend fun insertPeminjaman(pinjam: Pinjam) {
-        peminjamanDao.insert(pinjam)
+    suspend fun insert(pinjam: Pinjam) {
+        pinjamDao.insert(pinjam)
+    }
+    suspend fun update(pinjam: Pinjam) {
+        pinjamDao.update(pinjam)
+    }
+    suspend fun DeleteById(id: Int) {
+        pinjamDao.deletePinjamById(id)
     }
 
-    suspend fun getPeminjamanByUser(namaUser: String): List<Pinjam> {
-        return peminjamanDao.getPeminjamanByUser(namaUser)
-    }
-
-    suspend fun updateStatusKembali(currentDate: String) {
-        peminjamanDao.updateStatusKembali(currentDate)
-    }
-
-    suspend fun deletePinjamById(id: Int) {
-        peminjamanDao.deletePinjamById(id)
-    }
 }

@@ -1,18 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
-    id("kotlin-kapt") // Untuk Glide dan penggunaan kapt
+    id("com.google.devtools.ksp") // For KSP support
+    id("kotlin-kapt") // For Glide and KAPT-based annotation processing
+    id("com.google.gms.google-services") // For Firebase services
 }
 
 android {
     namespace = "com.example.perpustakaan"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.perpustakaan"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -40,25 +41,23 @@ android {
 
     buildFeatures {
         viewBinding = true
-        // Matikan dataBinding jika tidak digunakan
-        dataBinding = true // Hapus atau nonaktifkan jika tidak digunakan
+        dataBinding = true // Enable dataBinding if used, otherwise set it to false
     }
 }
 
 dependencies {
-    // Room version
-    val room_version = "2.6.1"
+    // Firebase dependencies (make sure versions match)
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.google.firebase:firebase-firestore:24.0.0")
+    implementation("com.google.firebase:firebase-storage:20.0.0")
 
+    // AndroidX and other essential libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
-    // Test dependencies
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-
-    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.recyclerview)
@@ -67,18 +66,24 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
 
-    // Room dependencies
+    // Room dependencies (Use KSP for Room annotation processing)
+    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-    ksp("androidx.room:room-compiler:$room_version") // KSP support for Room
+    ksp("androidx.room:room-compiler:$room_version")
 
-    // Optional - Test helpers
+    // Room testing dependencies
     testImplementation("androidx.room:room-testing:$room_version")
 
     // AndroidX Test dependencies
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
 
-    // Glide dependencies (use kapt for Glide)
+    // Glide dependencies (Use KAPT for Glide)
     implementation("com.github.bumptech.glide:glide:4.15.0")
-    kapt("com.github.bumptech.glide:compiler:4.15.0")  // Gantilah ksp dengan kapt untuk Glide
+    kapt("com.github.bumptech.glide:compiler:4.15.0")
+
+    // Test dependencies
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
 }
