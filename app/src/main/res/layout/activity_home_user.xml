@@ -7,7 +7,7 @@
     android:backgroundTint="#D4E9EB"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserACTIVITY.HomeUser">
+    tools:context=".UserACTIVITY.UserHomeActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideKiri"
@@ -45,10 +45,11 @@
 
     <ImageView
         android:id="@+id/tentangkami"
-        android:layout_width="39dp"
-        android:layout_height="45dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="20dp"
         android:contentDescription="TODO"
+        android:src="@drawable/information"
         android:translationZ="10dp"
         app:layout_constraintEnd_toStartOf="@id/guideKanan"
         app:layout_constraintHorizontal_bias="1.0"
