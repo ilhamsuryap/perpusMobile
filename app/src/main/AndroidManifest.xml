@@ -30,10 +30,23 @@
             android:name=".user.RegisterActivity"
             android:exported="true" />
         <activity
+            android:name=".UserACTIVITY.ProfilActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UserACTIVITY.TentangKamiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UserACTIVITY.BantuanActivity"
+            android:exported="true" />
+        <activity
             android:name=".HomeActivity"
             android:exported="true" />
         <activity
             android:name=".search"
+            android:exported="true" />
+
+        <activity
+            android:name=".LoginAdmin"
             android:exported="true" />
 
         <activity
