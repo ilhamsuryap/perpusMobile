@@ -23,6 +23,5 @@ data class Pinjam(
 
     @get:PropertyName("tanggalkembali")
     val tanggalkembali: String,
-    // You can uncomment this if you need a "status" column
-//     @ColumnInfo(name = "Status") val status: String
+
 )

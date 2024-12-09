@@ -5,11 +5,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.perpustakaan.FragmentDikembalikan
 
 import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 
 import com.example.perpustakaan.adapter.PinjamAdapter
 import com.example.perpustakaan.databinding.ActivityPinjamBukuBinding
+import com.example.perpustakaan.entity.Pinjam
 
 class PinjamBukuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinjamBukuBinding
@@ -36,11 +38,22 @@ class PinjamBukuActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        pinjamAdapter = PinjamAdapter()
+        pinjamAdapter = PinjamAdapter { pinjam ->
+            navigateToFragmentDikembalikan(pinjam)
+        }
         binding.rvPinjam.apply {
             layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2) // Grid dengan 2 kolom
             adapter = pinjamAdapter
         }
+    }
+
+    private fun navigateToFragmentDikembalikan(pinjam: Pinjam) {
+        val fragment = FragmentDikembalikan.newInstance(
+            pinjam.judulbuku_pinjam,
+            pinjam.tanggalpinjam,
+            pinjam.tanggalkembali
+        )
+        loadFragment(fragment)
     }
 
     private fun loadFragment(fragment: Fragment) {

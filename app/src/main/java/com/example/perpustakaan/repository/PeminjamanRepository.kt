@@ -15,7 +15,7 @@ class PeminjamanRepository(application: Application) {
     private val pinjamDao: DaoPinjam = PerpustakaanDatabase.getDatabase(application).daopinjam()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private val pinjamRef = firebaseDatabase.getReference("pinjam")
-    private val lastIdPinjamRef = firebaseDatabase.getReference("last_pinjam_id") // Referensi untuk ID terakhir
+    private val lastIdPinjamRef = firebaseDatabase.getReference("last_pinjam_id")
 
     // LiveData untuk semua data pinjam
     val allPinjam: LiveData<List<Pinjam>> = pinjamDao.getAllPinjam()
@@ -29,10 +29,10 @@ class PeminjamanRepository(application: Application) {
         return withContext(Dispatchers.IO) {
             try {
                 val snapshot = lastIdPinjamRef.get().await()
-                snapshot.getValue(Int::class.java) ?: 0 // Jika belum ada ID, mulai dari 0
+                snapshot.getValue(Int::class.java) ?: 0
             } catch (e: Exception) {
                 e.printStackTrace()
-                0 // Jika gagal, mulai dari 0
+                0
             }
         }
     }

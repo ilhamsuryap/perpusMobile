@@ -1,4 +1,4 @@
-package com.example.perpustakaan.user
+package com.example.perpustakaan
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,46 +8,35 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.perpustakaan.Dao.DaoUser
-import com.example.perpustakaan.HomeActivity
-import com.example.perpustakaan.LoginAdmin
-import com.example.perpustakaan.R
-import com.example.perpustakaan.UserACTIVITY.UserHomeActivity
 import com.example.perpustakaan.database.PerpustakaanDatabase
+import com.example.perpustakaan.user.Login
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
-class Login : AppCompatActivity() {
+class LoginAdmin : AppCompatActivity() {
 
     private lateinit var usernameEditText: TextInputEditText
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: Button
-    private lateinit var daftarButton: Button
     private lateinit var userDao: DaoUser
 
-    private lateinit var adminIcon: ImageView
+    private lateinit var userIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_loginadmin)
 
         usernameEditText = findViewById(R.id.InputusrrEdit)
         passwordEditText = findViewById(R.id.InputpsssEdit)
         loginButton = findViewById(R.id.btnLogin)
-        daftarButton = findViewById(R.id.btnRegis)
-        adminIcon = findViewById(R.id.icon_ke_admin)
+        userIcon = findViewById(R.id.icon_ke_user)
 
         val db = PerpustakaanDatabase.getDatabase(applicationContext)
         userDao = db.userDAO()
 
-        daftarButton.setOnClickListener {
-            val intent = Intent(this@Login, RegisterActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        // Atur event klik untuk ikon admin
-        adminIcon.setOnClickListener {
-            val intent = Intent(this@Login, LoginAdmin::class.java)
+        // Atur event klik untuk ikon user
+        userIcon.setOnClickListener {
+            val intent = Intent(this@LoginAdmin, Login::class.java)
             startActivity(intent)
         }
 
@@ -56,13 +45,13 @@ class Login : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             lifecycleScope.launch {
-                val user = userDao.login(username, password, "USER")
+                val user = userDao.login(username, password, "ADMIN")
                 if (user != null) {
-                    val intent = Intent(this@Login, UserHomeActivity::class.java)
+                    val intent = Intent(this@LoginAdmin, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
-                    Toast.makeText(this@Login, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginAdmin, "Invalid Admin credentials", Toast.LENGTH_SHORT).show()
                 }
             }
         }

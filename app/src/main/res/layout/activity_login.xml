@@ -9,47 +9,6 @@
     tools:context=".user.Login">
 
 
-    <!-- Pemilihan Role -->
-    <TextView
-        android:id="@+id/role"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:fontFamily="@font/poppinssemibold"
-        android:text="Choose Role"
-        android:textColor="#3C969F"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Inputpss" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupRole"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/role">
-
-        <RadioButton
-            android:id="@+id/rbAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:text="Admin"
-            android:textColor="#3C969F"
-            android:fontFamily="@font/poppinssemibold"/>
-
-        <RadioButton
-            android:id="@+id/rbUser"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:text="User"
-            android:textColor="#3C969F"
-            android:fontFamily="@font/poppinssemibold"/>
-    </RadioGroup>
-
-
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
@@ -154,15 +113,15 @@
 
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:backgroundTint="#3C969F"
         android:fontFamily="@font/poppinsbold"
         android:text="Login"
         android:textColor="@color/white"
-        android:layout_marginTop="25dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupRole" />
+        app:layout_constraintTop_toBottomOf="@+id/Inputpss" />
 
     <Button
         android:id="@+id/btnRegis"
@@ -189,6 +148,17 @@
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_ke_admin"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/baseline_account_circle_25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
