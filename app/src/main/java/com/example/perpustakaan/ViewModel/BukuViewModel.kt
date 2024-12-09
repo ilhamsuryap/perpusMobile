@@ -1,6 +1,7 @@
 package com.example.perpustakaan.ViewModel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,39 +21,40 @@ class BukuViewModel(application: Application) : AndroidViewModel(application) {
     private val _searchResults = MutableLiveData<List<Buku>>()
     val searchResults: LiveData<List<Buku>> get() = _searchResults
 
-    // Fungsi untuk mencari buku berdasarkan judul
-    fun cariBuku(query: String) {
-        if (query.isNotEmpty()) {
-            viewModelScope.launch {
-                val results = bukuRepository.searchBukuByJudul(query)
-                if (results.isNullOrEmpty()) {
-                    // Jika tidak ada hasil, set LiveData dengan data kosong
-                    _searchResults.postValue(emptyList())
-                } else {
-                    // Jika ada hasil, set LiveData dengan hasil pencarian
-                    _searchResults.postValue(results)
-                }
-            }
-        } else {
-            // Jika query kosong, tampilkan semua buku
-            _searchResults.postValue(emptyList())
-        }
+    // LiveData untuk status upload
+    val uploadStatus: LiveData<Boolean> = bukuRepository.uploadStatus
+
+    // Fungsi untuk menambahkan buku
+    fun insert(buku: Buku, imageUri: Uri? = null) = viewModelScope.launch {
+        bukuRepository.insert(buku, imageUri)
     }
 
-    // Operasi CRUD
-    fun insert(buku: Buku) = viewModelScope.launch {
-        bukuRepository.insert(buku)
-    }
-
+    // Fungsi untuk memperbarui buku
     fun update(buku: Buku) = viewModelScope.launch {
         bukuRepository.update(buku)
     }
 
+    // Fungsi untuk menghapus buku
     fun delete(buku: Buku) = viewModelScope.launch {
         bukuRepository.delete(buku)
     }
 
-    fun deleteAll() = viewModelScope.launch {
-        bukuRepository.deleteAll()
+    // Fungsi untuk mencari buku berdasarkan judul
+    fun cariBuku(query: String) {
+        viewModelScope.launch {
+            if (query.isNotEmpty()) {
+                // Jika query tidak kosong, cari buku berdasarkan judul
+                val results = bukuRepository.searchBukuByJudul(query)
+                _searchResults.postValue(results)
+            } else {
+                // Jika query kosong, tampilkan semua buku
+                _searchResults.postValue(bukuRepository.getAllBuku())
+            }
+        }
     }
+
+//    // Fungsi untuk sinkronisasi data dari Firebase ke Room
+//    fun syncBukuFromFirebase() {
+//        bukuRepository.syncBukuFromFirebase()
+//    }
 }

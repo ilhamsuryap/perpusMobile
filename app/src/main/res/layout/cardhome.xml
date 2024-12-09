@@ -26,7 +26,7 @@
             android:padding="15dp">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewbukuhome"
                 android:layout_width="83dp"
                 android:layout_height="100dp"
                 android:contentDescription="Image"
@@ -48,7 +48,7 @@
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView" />
+                app:layout_constraintTop_toBottomOf="@id/imageViewbukuhome" />
 
             <Button
                 android:id="@+id/button"

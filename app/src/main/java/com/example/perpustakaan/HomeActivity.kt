@@ -48,13 +48,13 @@ class HomeActivity : AppCompatActivity() {
         observeBooks()  // Mengamati data buku dari ViewModel
         setupSearchView()
 
-        findViewById<ImageView>(R.id.tentangkami).setOnClickListener {
+//        findViewById<ImageView>(R.id.tentangkami).setOnClickListener {
+//            startActivity(Intent(this, PinjamBukuActivity::class.java))
+//        }
+        findViewById<ImageView>(R.id.bookLending).setOnClickListener {
             startActivity(Intent(this, PinjamBukuActivity::class.java))
         }
 
-        findViewById<ImageView>(R.id.icon_borrowbook).setOnClickListener {
-            startActivity(Intent(this, PinjamBukuActivity::class.java))
-        }
 
         findViewById<ImageView>(R.id.icon_addbook).setOnClickListener {
             startActivity(Intent(this, DaftarBukuActivity::class.java))
@@ -64,10 +64,12 @@ class HomeActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         adapter = AdapterHome(this, books, database) { buku ->
             val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("BUKU_ID", buku.id)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
             intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
+            intent.putExtra("BUKU_GAMBAR", buku.gambarUrl)
             startActivity(intent)
         }
 

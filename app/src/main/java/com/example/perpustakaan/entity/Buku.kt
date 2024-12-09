@@ -1,17 +1,37 @@
 package com.example.perpustakaan.Dao
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.database.PropertyName
 
 @Entity(tableName = "buku_table")
 data class Buku(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val gambarUrl: String? = null,
-    val judul: String,
-    val penulis: String,
-    val tahunTerbit: Int,
-    val stok: Int,
-    val deskripsi: String
-)
+    @PrimaryKey(autoGenerate = false)
+    @get:PropertyName("id")
+    @set:PropertyName("id")
+    var id: Int = 0,
 
+    // Firebase field for gambarUrl (can be null)
+    @get:PropertyName("gambarUrl")
+    val gambarUrl: String? = null,
+
+    // Firebase field for judul
+    @get:PropertyName("judul")
+    val judul: String = "",
+
+    // Firebase field for penulis
+    @get:PropertyName("penulis")
+    val penulis: String = "",
+
+    // Firebase field for tahunTerbit
+    @get:PropertyName("tahunTerbit")
+    val tahunTerbit: Int = 0,
+
+    // Firebase field for stok
+    @get:PropertyName("stok")
+    val stok: Int = 0,
+
+    // Firebase field for deskripsi
+    @get:PropertyName("deskripsi")
+    val deskripsi: String = ""
+)

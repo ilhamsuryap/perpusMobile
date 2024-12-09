@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.database.PerpustakaanDatabase
@@ -41,13 +42,16 @@ class AdapterHome(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ViewType.AD.ordinal -> {
+                // Tidak ada penanganan spesifik untuk iklan dalam kasus ini
             }
             ViewType.BOOK.ordinal -> {
                 val bookPosition = position - (position / 6)
                 val book = bookList[bookPosition]
                 (holder as HomeViewHolder).apply {
                     bookTitle.text = book.judul
-                    bookImage.setImageResource(R.drawable.menara5negara)
+                    Glide.with(context)
+                        .load(book.gambarUrl) // URL gambar
+                        .into(bookImage) // ImageView target
                     butoon.setOnClickListener {
                         onItemClickListener(book)
                     }
@@ -62,7 +66,7 @@ class AdapterHome(
 
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookTitle: TextView = itemView.findViewById(R.id.text1)
-        val bookImage: ImageView = itemView.findViewById(R.id.imageView)
+        val bookImage: ImageView = itemView.findViewById(R.id.imageViewbukuhome)
         val butoon: Button = itemView.findViewById(R.id.button)
     }
 

@@ -13,6 +13,7 @@ import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.UserViewModel
 import com.example.perpustakaan.entity.User
 import com.example.perpustakaan.entity.UserRole
+import com.google.firebase.FirebaseApp
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -22,6 +23,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar)
+
+        // Inisialisasi Firebase
+        FirebaseApp.initializeApp(this)  // Menambahkan inisialisasi Firebase di sini
 
         val btnRegister = findViewById<Button>(R.id.btnDaftar)
         val roleSpinner = findViewById<Spinner>(R.id.spinnerRole)
