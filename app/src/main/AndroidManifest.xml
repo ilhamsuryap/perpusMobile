@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Perpustakaan"
         tools:targetApi="31">
         <activity
+            android:name=".UserACTIVITY.ProfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserACTIVITY.BantuanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserACTIVITY.TentangKamiActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserACTIVITY.UserHomeActivity"
             android:exported="false" />
         <activity
@@ -38,16 +47,15 @@
 
         <activity
             android:name=".pinjamActivity.PinjamBukuActivity"
-            android:exported="true" />
-        <!--        <activity-->
-        <!--            android:name=".ViewModel.TentangKamiActivity"-->
-        <!--            android:exported="true" />-->
-        <!--        <activity-->
-        <!--            android:name=".ViewModel.BantuanActivity"-->
-        <!--            android:exported="true" />-->
-        <!--        <activity-->
-        <!--            android:name=".ViewModel.ProfileActivity"-->
-        <!--            android:exported="true" />-->
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".ViewModel.TentangKamiActivity" -->
+        <!-- android:exported="true" /> -->
+        <!-- <activity -->
+        <!-- android:name=".ViewModel.BantuanActivity" -->
+        <!-- android:exported="true" /> -->
+        <!-- <activity -->
+        <!-- android:name=".ViewModel.ProfileActivity" -->
+        <!-- android:exported="true" /> -->
         <activity
             android:name=".user.Login"
             android:exported="true">

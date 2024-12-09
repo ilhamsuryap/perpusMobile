@@ -21,6 +21,7 @@ import com.example.perpustakaan.search
 class UserHomeActivity : AppCompatActivity() {
 
     private lateinit var manageLibrary: TextView
+    private lateinit var tentangkami: ImageView
     private lateinit var listBook: ImageView
     private lateinit var borrowBook: ImageView
     private lateinit var searchView: TextView
@@ -40,6 +41,7 @@ class UserHomeActivity : AppCompatActivity() {
         manageLibrary = findViewById(R.id.manage_library)
         listBook = findViewById(R.id.icon_openbook)
         borrowBook = findViewById(R.id.icon_borrowbook)
+        tentangkami = findViewById(R.id.tentangkami)
         searchView = findViewById(R.id.editTextSearch)
         searchView.isFocusable = false
         searchView.isFocusableInTouchMode = false
@@ -52,8 +54,9 @@ class UserHomeActivity : AppCompatActivity() {
         observeBooks()  // Mengamati data buku dari ViewModel
         setupSearchView()
 
-        findViewById<ImageView>(R.id.tentangkami).setOnClickListener {
-            startActivity(Intent(this, PinjamBukuActivity::class.java))
+        tentangkami.setOnClickListener{
+            val intent = Intent(this@UserHomeActivity, ProfilActivity::class.java)
+            startActivity(intent)
         }
 
         borrowBook.setOnClickListener{
