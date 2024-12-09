@@ -53,6 +53,8 @@ class BukuViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+
+
 //    // Fungsi untuk sinkronisasi data dari Firebase ke Room
 //    fun syncBukuFromFirebase() {
 //        bukuRepository.syncBukuFromFirebase()
