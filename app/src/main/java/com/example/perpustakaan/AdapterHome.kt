@@ -45,7 +45,7 @@ class AdapterHome(
                 // Tidak ada penanganan spesifik untuk iklan dalam kasus ini
             }
             ViewType.BOOK.ordinal -> {
-                val bookPosition = position - (position / 6)
+                val bookPosition = position - (position / 4)
                 val book = bookList[bookPosition]
                 (holder as HomeViewHolder).apply {
                     bookTitle.text = book.judul
@@ -61,7 +61,7 @@ class AdapterHome(
     }
 
     override fun getItemCount(): Int {
-        return bookList.size + (bookList.size / 5)
+        return bookList.size + (bookList.size / 4)
     }
 
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -6,17 +6,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
 import com.example.perpustakaan.database.PerpustakaanDatabase
-import com.example.perpustakaan.detailbuku.DetailActivity
 import com.example.perpustakaan.pinjamActivity.PinjamBukuActivity
-import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,9 +41,11 @@ class HomeActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.icon_borrowbook).setOnClickListener {
             startActivity(Intent(this, PinjamBukuActivity::class.java))
         }
+        findViewById<ImageView>(R.id.icon_listbook).setOnClickListener {
+            startActivity(Intent(this, search::class.java))
+        }
 
-
-        findViewById<ImageView>(R.id.icon_addbook).setOnClickListener {
+        findViewById<ImageView>(R.id.icon_openbook).setOnClickListener {
             startActivity(Intent(this, DaftarBukuActivity::class.java))
         }
     }

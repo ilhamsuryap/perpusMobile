@@ -32,7 +32,6 @@
         <activity
             android:name=".HomeActivity"
             android:exported="true" />
-
         <!--        <activity-->
         <!--            android:name=".ViewModel.TentangKamiActivity"-->
         <!--            android:exported="true" />-->
