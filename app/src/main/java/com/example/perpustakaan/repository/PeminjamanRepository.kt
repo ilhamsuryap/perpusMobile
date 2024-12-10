@@ -70,6 +70,7 @@ class PeminjamanRepository(application: Application) {
 
                 // Update status upload berhasil
                 _uploadStatusPinjam.postValue(true)
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 // Update status upload gagal
