@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.ViewModel.BukuViewModel
@@ -20,7 +21,7 @@ import com.example.perpustakaan.databinding.FragmentTambahdatabukuBinding
 class FragmentTambahDataBuku : Fragment() {
 
     private lateinit var binding: FragmentTambahdatabukuBinding
-    private lateinit var bukuViewModel: BukuViewModel
+    private val bukuViewModel: BukuViewModel by viewModels()
     private var imageUri: Uri? = null // Menyimpan URI gambar yang dipilih
 
     private lateinit var selectImageLauncher: ActivityResultLauncher<Intent> // Launcher untuk hasil pemilihan gambar
@@ -31,7 +32,6 @@ class FragmentTambahDataBuku : Fragment() {
     ): View {
         binding = FragmentTambahdatabukuBinding.inflate(inflater, container, false)
 
-        bukuViewModel = ViewModelProvider(this).get(BukuViewModel::class.java) // Inisialisasi ViewModel Buku
 
         // Launcher untuk memilih gambar
         selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -55,7 +55,6 @@ class FragmentTambahDataBuku : Fragment() {
         // Tombol simpan buku
         binding.btnSimpanBuku.setOnClickListener {
             simpanBuku() // Memanggil fungsi untuk menyimpan data buku
-            activity?.supportFragmentManager?.popBackStack() //menutup fragment
         }
 
         // Observer untuk status upload buku
