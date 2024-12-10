@@ -53,6 +53,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.0.0")
     implementation("com.google.firebase:firebase-storage:20.0.0")
 
+
+    implementation("androidx.fragment:fragment-ktx:1.8.5")  // Pastikan ini ada
+
     // AndroidX and other essential libraries
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -77,6 +77,7 @@ class UserHomeActivity : AppCompatActivity() {
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
             intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
+
             startActivity(intent)
         }
 
