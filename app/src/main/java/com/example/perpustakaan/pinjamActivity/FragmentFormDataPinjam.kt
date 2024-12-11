@@ -1,6 +1,7 @@
 package com.example.perpustakaan.pinjamActivity
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -73,8 +74,17 @@ class FragmentFormDataPinjam : Fragment() {
                     tanggalkembali = tanggalKembali,
                 )
 
+
                 // Menyimpan buku menggunakan ViewModel
                 pinjamViewModel.insert(pinjam)
+                Toast.makeText(requireContext(), "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(requireContext(), PinjamBukuActivity::class.java)
+                startActivity(intent)
+
+
+
+
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Terjadi kesalahan saat menyimpan data", Toast.LENGTH_SHORT).show()

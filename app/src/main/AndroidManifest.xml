@@ -50,9 +50,6 @@
             android:name=".LoginAdmin"
             android:exported="true" />
 
-        <activity
-            android:name=".pinjamActivity.PinjamBukuActivity"
-            android:exported="true" />
                 <activity
                     android:name=".UserACTIVITY.TentangKamiActivity"
                     android:exported="true" />
@@ -64,7 +61,10 @@
                     android:exported="true" />
         <activity
             android:name=".user.Login"
-            android:exported="true">
+            android:exported="true"/>
+            <activity
+                android:name=".pinjamActivity.PinjamBukuActivity"
+                android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
