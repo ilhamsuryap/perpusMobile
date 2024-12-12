@@ -9,14 +9,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.perpustakaan.AdapterHome
+import com.example.perpustakaan.adapter.AdapterHome
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.database.PerpustakaanDatabase
 import com.example.perpustakaan.detailbuku.DetailActivity
 import com.example.perpustakaan.pinjamActivity.PinjamBukuActivity
-import com.example.perpustakaan.search
 
 class UserHomeActivity : AppCompatActivity() {
 
@@ -65,7 +64,7 @@ class UserHomeActivity : AppCompatActivity() {
         }
 
         listBook.setOnClickListener{
-            val intent = Intent(this@UserHomeActivity, search::class.java)
+            val intent = Intent(this@UserHomeActivity, Search::class.java)
             startActivity(intent)
         }
     }
@@ -103,7 +102,7 @@ class UserHomeActivity : AppCompatActivity() {
 
         // Tambahkan OnClickListener ke EditText
         editTextSearch.setOnClickListener {
-            val intent = Intent(this@UserHomeActivity, search::class.java)
+            val intent = Intent(this@UserHomeActivity, Search::class.java)
             startActivity(intent)
         }
     }

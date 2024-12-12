@@ -10,6 +10,7 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
@@ -22,6 +23,8 @@ class DaftarBukuActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDaftarBukuBinding
     private lateinit var bukuAdapter: BukuAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     private val bukuViewModel: BukuViewModel by viewModels()
 
@@ -34,7 +37,6 @@ class DaftarBukuActivity : AppCompatActivity() {
         setupRecyclerView()
         syncToFirebase()
 
-
         // Observe LiveData dari ViewModel
         bukuViewModel.allBuku.observe(this) { bukuList ->
             bukuAdapter.submitList(bukuList)
@@ -43,6 +45,11 @@ class DaftarBukuActivity : AppCompatActivity() {
         // Tombol untuk menambah buku baru
         binding.btnTambahBuku.setOnClickListener {
             loadFragment(FragmentTambahDataBuku())
+        }
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
         }
     }
     private fun syncToFirebase() {
@@ -58,7 +65,6 @@ class DaftarBukuActivity : AppCompatActivity() {
                     }
                 }
 
-                // Perbarui adapter dengan daftar buku
                 bukuAdapter.submitList(bukuList)
                 bukuViewModel.syncLocalDatabase(bukuList)
                 bukuViewModel.syncUnsyncedData()
@@ -73,7 +79,7 @@ class DaftarBukuActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("BUKU_ID", buku.id)  // Pastikan id_buku dikirimkan ke detail
+            intent.putExtra("BUKU_ID", buku.id)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
@@ -100,6 +106,10 @@ class DaftarBukuActivity : AppCompatActivity() {
             .replace(R.id.daftarbuku, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun refreshData() {
+        swipeRefreshLayout.isRefreshing = false
     }
 }
 

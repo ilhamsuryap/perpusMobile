@@ -6,8 +6,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.FragmentDikembalikan
+import com.example.perpustakaan.R
 
 import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 
@@ -22,6 +24,8 @@ import com.google.firebase.database.ValueEventListener
 class PinjamBukuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinjamBukuBinding
     private lateinit var pinjamAdapter: PinjamAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     private val pinjamViewModel: PeminjamanViewModel by viewModels()
 
@@ -41,6 +45,12 @@ class PinjamBukuActivity : AppCompatActivity() {
         // Set click listener for the button
         binding.btnPinjam.setOnClickListener {
             loadFragment(FragmentFormDataPinjam())
+        }
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            // Refresh data di sini
+            refreshData()
         }
     }
 
@@ -93,5 +103,11 @@ class PinjamBukuActivity : AppCompatActivity() {
         transaction.replace(binding.root.id, fragment) // Menggunakan root sebagai container untuk fragment
         transaction.addToBackStack(null) // Optional, menambahkan ke back stack jika diperlukan
         transaction.commit()
+    }
+
+    private fun refreshData() {
+        // Refresh data di sini
+        // ...
+        swipeRefreshLayout.isRefreshing = false
     }
 }

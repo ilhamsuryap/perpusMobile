@@ -16,6 +16,8 @@
         android:text="Lets Sign Up First!!"
         android:textColor="#3C969F"
         android:textSize="50sp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package com.example.perpustakaan
+package com.example.perpustakaan.UserACTIVITY
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.perpustakaan.adapter.AdapterHome
 import com.example.perpustakaan.Dao.Buku
+import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
 import com.example.perpustakaan.database.PerpustakaanDatabase
@@ -35,14 +37,11 @@ class HomeActivity : AppCompatActivity() {
         database = PerpustakaanDatabase.getDatabase(this)
 
 
-//        findViewById<ImageView>(R.id.tentangkami).setOnClickListener {
-//            startActivity(Intent(this, PinjamBukuActivity::class.java))
-//        }
         findViewById<ImageView>(R.id.icon_borrowbook).setOnClickListener {
             startActivity(Intent(this, PinjamBukuActivity::class.java))
         }
         findViewById<ImageView>(R.id.icon_listbook).setOnClickListener {
-            startActivity(Intent(this, search::class.java))
+            startActivity(Intent(this, Search::class.java))
         }
 
         findViewById<ImageView>(R.id.icon_openbook).setOnClickListener {

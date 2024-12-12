@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.car.ui.lib)
+    implementation(libs.androidx.swiperefreshlayout)
 
     // Room dependencies (Use KSP for Room annotation processing)
     val room_version = "2.6.1"

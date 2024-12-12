@@ -121,7 +121,6 @@ class DetailActivity : AppCompatActivity() {
                         tahunBuku.text = buku.tahunTerbit.toString()
                         deskripsiBuku.text = buku.deskripsi
                         stok.text = buku.stok.toString()
-                        // Menyimpan URL gambar di tag ImageView
                         imageBuku.tag = buku.gambarUrl
 
                         // Memuat gambar dari URL menggunakan Glide
