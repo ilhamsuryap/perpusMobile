@@ -1,5 +1,6 @@
 package com.example.perpustakaan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ class FragmentDikembalikan : Fragment() {
     private var judulBuku: String? = null
     private var tanggalPinjam: String? = null
     private var tanggalKembali: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,18 @@ class FragmentDikembalikan : Fragment() {
         view.findViewById<TextView>(R.id.tv_judul_buku)?.text = judul
         view.findViewById<TextView>(R.id.tv_tanggalpinjam)?.text = pinjam
         view.findViewById<TextView>(R.id.tv_tanggalkembali)?.text = kembali
+
+        // Tombol Kembalikan Buku ditekan
+        view.findViewById<TextView>(R.id.btnKembalikan)?.setOnClickListener {
+            // Kirim data pinjam ke halaman AdminPengembalian
+            val intent = Intent(context, AdminPengembalian::class.java)
+            intent.putExtra("id_pinjam", "1")
+            intent.putExtra("namaanggota", "Nama Anggota")
+            intent.putExtra("judulbuku_pinjam", judulBuku)
+            intent.putExtra("tanggalpinjam", tanggalPinjam)
+            intent.putExtra("tanggalkembali", tanggalKembali)
+            startActivity(intent)
+        }
 
         return view
     }
