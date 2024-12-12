@@ -23,7 +23,7 @@ interface DaoBuku {
     suspend fun deleteAll()
 
     // Get all books ordered by title
-    @Query("SELECT * FROM buku_table ORDER BY judul ASC")
+    @Query("SELECT * FROM buku_table")
     fun getAllBuku(): LiveData<List<Buku>>
 
     // Delete a specific book by its ID
@@ -41,4 +41,10 @@ interface DaoBuku {
     // Get all books ordered by title (synchronous)
     @Query("SELECT * FROM buku_table ORDER BY judul ASC")
     suspend fun getAllBukuSync(): List<Buku> // Added synchronous function
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(bukuList: List<Buku>)
+
+    @Query("SELECT * FROM buku_table WHERE syncronize = 0")
+    suspend fun getUnsyncedBuku(): List<Buku>
 }

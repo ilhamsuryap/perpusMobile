@@ -3,6 +3,9 @@ package com.example.perpustakaan.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.kasircafeapp.data.network.NetworkHelper
+import com.example.perpustakaan.Dao.Buku
+import com.example.perpustakaan.Dao.DaoBuku
 import com.example.perpustakaan.Dao.DaoPinjam
 import com.example.perpustakaan.database.PerpustakaanDatabase
 import com.example.perpustakaan.entity.Pinjam
@@ -11,14 +14,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class PeminjamanRepository(application: Application) {
-    private val pinjamDao: DaoPinjam = PerpustakaanDatabase.getDatabase(application).daopinjam()
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
-    private val pinjamRef = firebaseDatabase.getReference("pinjam")
-    private val lastIdPinjamRef = firebaseDatabase.getReference("last_pinjam_id")
+//class PeminjamanRepository(
+//    private val pinjamDao: DaoPinjam,
+//    private val firebaseDatabase = FirebaseDatabase,
+////    private val pinjamRef = firebaseDatabase.getReference("pinjam")
+////            private val lastIdPinjamRef = firebaseDatabase.getReference("last_pinjam_id")
+//            private val networkHelper: NetworkHelper
+//) {
+class PeminjamanRepository(
+    // Pass application to NetworkHelper
+    private val pinjamDao: DaoPinjam,
+    private val firebaseDatabase: FirebaseDatabase,
+    private val networkHelper: NetworkHelper
 
+) {
+    // Mendapatkan semua data dari database lokal
+    fun getAllPinjam(): LiveData<List<Pinjam>> =pinjamDao.getAllPinjam()
+    private val pinjamRef = firebaseDatabase.getReference("pinjam")
     // LiveData untuk semua data pinjam
-    val allPinjam: LiveData<List<Pinjam>> = pinjamDao.getAllPinjam()
+
 
     // LiveData untuk status upload ke Firebase
     private val _uploadStatusPinjam = MutableLiveData<Boolean>()
@@ -28,7 +42,7 @@ class PeminjamanRepository(application: Application) {
     private suspend fun getLastPinjamId(): Int {
         return withContext(Dispatchers.IO) {
             try {
-                val snapshot = lastIdPinjamRef.get().await()
+                val snapshot = firebaseDatabase.getReference("last_pinjam_id").get().await()
                 snapshot.getValue(Int::class.java) ?: 0
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -40,11 +54,7 @@ class PeminjamanRepository(application: Application) {
     // Fungsi untuk memperbarui ID terakhir di Firebase
     private suspend fun updateLastPinjamId(newId: Int) {
         withContext(Dispatchers.IO) {
-            try {
-                lastIdPinjamRef.setValue(newId).await()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            firebaseDatabase.getReference("last_pinjam_id").setValue(newId).await()
         }
     }
 
@@ -63,11 +73,14 @@ class PeminjamanRepository(application: Application) {
                 pinjamDao.insert(pinjamToSave)
 
                 // Simpan ke Firebase
-                pinjamRef.child(newId.toString()).setValue(pinjamToSave).await()
+//                pinjamRef.child(newId.toString()).setValue(pinjamToSave).await()
+                if (networkHelper.isNetworkConnected()) {
+                    // Save Buku to Firebase Realtime Database
+                    pinjamRef.child(newId.toString()).setValue(pinjamToSave)
 
-                // Perbarui ID terakhir di Firebase
-                updateLastPinjamId(newId)
-
+                    // Perbarui ID terakhir di Firebase
+                    updateLastPinjamId(newId)
+                }
                 // Update status upload berhasil
                 _uploadStatusPinjam.postValue(true)
 
@@ -99,6 +112,37 @@ class PeminjamanRepository(application: Application) {
                 pinjamRef.child(id.toString()).removeValue().await()
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+    }
+    // Sync Buku data from Firebase to local database
+    suspend fun syncWithFirebase() {
+        if (networkHelper.isNetworkConnected()) {
+            withContext(Dispatchers.IO) {
+                val snapshot = pinjamRef.get().await()
+                val firebasePinjamList = mutableListOf<Pinjam>()
+                snapshot.children.forEach {
+                    val buku = it.getValue(Pinjam::class.java)
+                    buku?.let { firebasePinjamList.add(it) }
+                }
+                syncLocalDatabase(firebasePinjamList)
+            }
+        }
+    }
+    // Sync local database with Firebase data
+    suspend fun syncLocalDatabase(pinjamList: List<Pinjam>) {
+        withContext(Dispatchers.IO) {
+            pinjamDao.insertAll(pinjamList)
+        }
+    }
+    suspend fun syncUnsyncedData() {
+        if (networkHelper.isNetworkConnected()) {
+            withContext(Dispatchers.IO) {
+                val unsyncedPinjam = pinjamDao.getUnsyncedPinjam()
+                unsyncedPinjam.forEach { pinjam ->
+                    pinjamRef.child(pinjam.id_pinjam.toString()).setValue(pinjam).await()
+                    pinjamDao.update(pinjam.copy(syncronize = true))
+                }
             }
         }
     }
