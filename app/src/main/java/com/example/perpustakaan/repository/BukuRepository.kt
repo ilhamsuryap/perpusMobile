@@ -1,105 +1,74 @@
 package com.example.perpustakaan.Repository
 
-import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.kasircafeapp.data.network.NetworkHelper
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.Dao.DaoBuku
-import com.example.perpustakaan.database.PerpustakaanDatabase
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.util.UUID
+import java.io.ByteArrayOutputStream
 
-class BukuRepository(private val application: Application) {
+class BukuRepository(
+    // Pass application to NetworkHelper
+    private val bukuDao: DaoBuku,
+    private val firebaseDatabase: FirebaseDatabase,
+    private val networkHelper: NetworkHelper
 
-    private val bukuDao: DaoBuku = PerpustakaanDatabase.getDatabase(application).daobuku()
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
-    private val firebaseStorage = FirebaseStorage.getInstance()
-    private val bukuRef = firebaseDatabase.getReference("buku")
-    private val storageRef = firebaseStorage.reference.child("buku_images")
-    private val lastIdRef = firebaseDatabase.getReference("last_book_id") // Referensi untuk ID terakhir buku
+) {
 
-    // LiveData untuk semua buku
-    val allBuku: LiveData<List<Buku>> = bukuDao.getAllBuku()
+    // Mendapatkan semua data dari database lokal
+    fun getAllBuku(): LiveData<List<Buku>> =bukuDao.getAllBuku()
 
-
-    // LiveData untuk status upload
     private val _uploadStatus = MutableLiveData<Boolean>()
-    val uploadStatus: LiveData<Boolean> = _uploadStatus
 
-    // Fungsi untuk mendapatkan ID terakhir dari Firebase
+    private val bukuRef = firebaseDatabase.getReference("buku")
+
+
+    // Get last book ID from Firebase to avoid conflicts when syncing
     private suspend fun getLastBookId(): Int {
         return withContext(Dispatchers.IO) {
             try {
-                val snapshot = lastIdRef.get().await()
-                snapshot.getValue(Int::class.java) ?: 0 // Jika belum ada ID, mulai dari 0
+                val snapshot = firebaseDatabase.getReference("last_book_id").get().await()
+                snapshot.getValue(Int::class.java) ?: 0
             } catch (e: Exception) {
                 e.printStackTrace()
-                0 // Jika gagal, mulai dari 0
+                0
             }
         }
     }
 
-    // Fungsi untuk memperbarui ID terakhir di Firebase
     private suspend fun updateLastBookId(newId: Int) {
         withContext(Dispatchers.IO) {
-            lastIdRef.setValue(newId).await() // Update ID terakhir
+            firebaseDatabase.getReference("last_book_id").setValue(newId).await()
         }
     }
 
-    /**
-     * Mengunggah gambar ke Firebase Storage
-     */
-    private suspend fun uploadImageToFirebase(imageUri: Uri): String? {
-        return withContext(Dispatchers.IO) {
-            try {
-                val fileName = UUID.randomUUID().toString()
-                val fileRef = storageRef.child(fileName)
+    // Fungsi untuk mengubah gambar menjadi base64 string
 
-                val uploadTask = fileRef.putFile(imageUri).await()
-                val downloadUrl = uploadTask.storage.downloadUrl.await()
 
-                downloadUrl.toString()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-        }
-    }
-
-    /**
-     * Menambahkan buku ke Firebase Realtime Database dan Room
-     */
     suspend fun insert(buku: Buku, imageUri: Uri? = null) {
         withContext(Dispatchers.IO) {
             try {
-                // Ambil ID terakhir dan buat ID baru
                 val lastId = getLastBookId()
                 val newId = lastId + 1
 
-                // Unggah gambar jika ada
-                val imageUrl = imageUri?.let { uploadImageToFirebase(it) }
 
-                // Update buku dengan ID baru dan URL gambar
-                val bukuToSave = buku.copy(id = newId, gambarUrl = imageUrl ?: buku.gambarUrl)
+                val bukuToSave = buku.copy(id = newId)
 
-                // Simpan ke Room
                 bukuDao.insert(bukuToSave)
 
-                // Simpan ke Firebase
-                bukuRef.child(newId.toString()).setValue(bukuToSave)
-
-                // Update ID terakhir di Firebase
-                updateLastBookId(newId)
+                if (networkHelper.isNetworkConnected()) {
+                    // Save Buku to Firebase Realtime Database
+                    bukuRef.child(newId.toString()).setValue(bukuToSave)
+                    updateLastBookId(newId)
+                }
 
                 _uploadStatus.postValue(true)
             } catch (e: Exception) {
@@ -109,65 +78,79 @@ class BukuRepository(private val application: Application) {
         }
     }
 
-    // Metode CRUD lainnya...
-    /**
-     * Sinkronisasi data dari Firebase ke Room
-     */
-//    fun syncBukuFromFirebase() {
-//        bukuRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val bukuList = snapshot.children.mapNotNull { it.getValue(Buku::class.java) }
-//
-//                // Launch a coroutine to insert all books in a batch
-//                CoroutineScope(Dispatchers.IO).launch {
-//                    bukuList.forEach { buku ->
-//                        bukuDao.insert(buku) // Insert each book into Room
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // Handle error
-//            }
-//        })
-//    }
 
-    // Metode CRUD lainnya...
+    // Update Buku data in local database and Firebase
+    // Memperbarui data
     suspend fun update(buku: Buku) {
         withContext(Dispatchers.IO) {
-            // Update di Room
+            // Update data di Firebase jika ada jaringan
+            if (networkHelper.isNetworkConnected()) {
+                val firebaseRef = firebaseDatabase.getReference("buku").child(buku.id.toString())
+                firebaseRef.setValue(buku).await() // Firebase update
+            }
+            // Update data di Room Database
             bukuDao.update(buku)
-
-            // Update di Firebase
-            bukuRef.child(buku.id.toString()).setValue(buku)
         }
     }
 
+
+    // Menghapus data
     suspend fun delete(buku: Buku) {
         withContext(Dispatchers.IO) {
-            // Hapus dari Room
+            if (networkHelper.isNetworkConnected()) {
+                val firebaseRef = firebaseDatabase.getReference("buku").child(buku.id.toString())
+                firebaseRef.removeValue().await()
+            }
             bukuDao.delete(buku)
-
-            // Hapus dari Firebase
-            bukuRef.child(buku.id.toString()).removeValue()
         }
     }
 
-    // Pencarian buku
+    // Search Buku by title
     suspend fun searchBukuByJudul(query: String): List<Buku> {
         return withContext(Dispatchers.IO) {
             bukuDao.searchBukuByJudul(query)
         }
     }
 
-    // Menambahkan fungsi untuk mengambil semua buku
-    suspend fun getAllBuku(): List<Buku> {
+    // Get all Buku from local database synchronously
+    suspend fun getAllBook(): List<Buku> {
         return withContext(Dispatchers.IO) {
-            bukuDao.getAllBukuSync() // Memanggil fungsi dari DAO untuk mendapatkan semua buku secara sinkron
+            bukuDao.getAllBukuSync()
+        }
+    }
+
+    // Sync Buku data from Firebase to local database
+    suspend fun syncWithFirebase() {
+        if (networkHelper.isNetworkConnected()) {
+            withContext(Dispatchers.IO) {
+                val snapshot = bukuRef.get().await()
+                val firebaseBukuList = mutableListOf<Buku>()
+                snapshot.children.forEach {
+                    val buku = it.getValue(Buku::class.java)
+                    buku?.let { firebaseBukuList.add(it) }
+                }
+                syncLocalDatabase(firebaseBukuList)
+            }
+        }
+    }
+
+    // Sync local database with Firebase data
+    suspend fun syncLocalDatabase(bukuList: List<Buku>) {
+        withContext(Dispatchers.IO) {
+            bukuDao.insertAll(bukuList)
+        }
+    }
+
+    // Sync unsynced data from local database to Firebase
+    suspend fun syncUnsyncedData() {
+        if (networkHelper.isNetworkConnected()) {
+            withContext(Dispatchers.IO) {
+                val unsyncedBuku = bukuDao.getUnsyncedBuku()
+                unsyncedBuku.forEach { buku ->
+                    bukuRef.child(buku.id.toString()).setValue(buku).await()
+                    bukuDao.update(buku.copy(syncronize = true))
+                }
+            }
         }
     }
 }
-
-
-
-

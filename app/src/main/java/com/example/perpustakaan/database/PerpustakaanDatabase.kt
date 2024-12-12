@@ -11,7 +11,7 @@ import com.example.perpustakaan.Dao.DaoUser
 import com.example.perpustakaan.entity.Pinjam
 import com.example.perpustakaan.entity.User
 
-@Database(entities = [Buku::class, Pinjam::class, User::class], version = 2, exportSchema = false)
+@Database(entities = [Buku::class, Pinjam::class, User::class], version = 4, exportSchema = false)
 abstract class PerpustakaanDatabase : RoomDatabase() {
 
     abstract fun daobuku(): DaoBuku
@@ -32,7 +32,7 @@ abstract class PerpustakaanDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     PerpustakaanDatabase::class.java,
-                    "perpustakaan_db"
+                    "perpus_db"
                 )
                     .fallbackToDestructiveMigration() // Fallback for destructive migration if no migration script is provided
                     // Optionally, you can define a migration strategy here:

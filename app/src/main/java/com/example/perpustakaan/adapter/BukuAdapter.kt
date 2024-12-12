@@ -16,8 +16,9 @@ import com.example.perpustakaan.detailbuku.DetailActivity
 
 
 // BukuAdapter
-class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
-
+class BukuAdapter(
+    private val onClick: (Buku) -> Unit) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
+    private var selectedBuku: Buku? = null
     enum class ITEM_VIEW_TYPE { PRODUCT, ADS }
 
     override fun getItemViewType(position: Int): Int {
@@ -31,6 +32,10 @@ class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, Recyc
     fun setData(newList: List<Buku>) {
         submitList(newList)
     }
+    fun SelectedBuku(): Buku? {
+        return selectedBuku
+    }
+
 
     // ViewHolder untuk buku dengan stok tersedia
     class BukuViewHolder(itemView: View, private val onClick: (Buku) -> Unit) : RecyclerView.ViewHolder(itemView) {
@@ -62,6 +67,8 @@ class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, Recyc
                     putExtra("BUKU_DESKRIPSI", buku.deskripsi)  // Mengirimkan deskripsi buku
                     putExtra("BUKU_TAHUN_TERBIT", buku.tahunTerbit)  // Mengirimkan tahun terbit buku
                     putExtra("BUKU_STOK", buku.stok)  // Mengirimkan stok buku
+
+                    
 
                 }
                 itemView.context.startActivity(intent)  // Mulai activity DetailActivity
@@ -111,6 +118,7 @@ class BukuAdapter(private val onClick: (Buku) -> Unit) : ListAdapter<Buku, Recyc
         }
     }
 }
+
 
 class BukuDiffCallback : DiffUtil.ItemCallback<Buku>() {
     override fun areItemsTheSame(oldItem: Buku, newItem: Buku): Boolean {

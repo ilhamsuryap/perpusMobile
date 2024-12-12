@@ -2,6 +2,7 @@
 package com.example.perpustakaan.daftarbukuActivity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,13 +10,21 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class DaftarBukuActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDaftarBukuBinding
     private lateinit var bukuAdapter: BukuAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     private val bukuViewModel: BukuViewModel by viewModels()
 
@@ -23,8 +32,10 @@ class DaftarBukuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDaftarBukuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+//        loadFragment(FragmentTambahDataBuku())
 
         setupRecyclerView()
+        syncToFirebase()
 
         // Observe LiveData dari ViewModel
         bukuViewModel.allBuku.observe(this) { bukuList ->
@@ -35,12 +46,40 @@ class DaftarBukuActivity : AppCompatActivity() {
         binding.btnTambahBuku.setOnClickListener {
             loadFragment(FragmentTambahDataBuku())
         }
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+    }
+    private fun syncToFirebase() {
+        val firebaseRef = FirebaseDatabase.getInstance().getReference("buku")
+        firebaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val bukuList = mutableListOf<Buku>()
+
+                for (dataSnapshot in snapshot.children) {
+                    val buku = dataSnapshot.getValue(Buku::class.java)
+                    if (buku != null) {
+                        bukuList.add(buku)
+                    }
+                }
+
+                bukuAdapter.submitList(bukuList)
+                bukuViewModel.syncLocalDatabase(bukuList)
+                bukuViewModel.syncUnsyncedData()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@DaftarBukuActivity, "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("BUKU_ID", buku.id)  // Pastikan id_buku dikirimkan ke detail
+            intent.putExtra("BUKU_ID", buku.id)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
@@ -67,6 +106,10 @@ class DaftarBukuActivity : AppCompatActivity() {
             .replace(R.id.daftarbuku, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun refreshData() {
+        swipeRefreshLayout.isRefreshing = false
     }
 }
 

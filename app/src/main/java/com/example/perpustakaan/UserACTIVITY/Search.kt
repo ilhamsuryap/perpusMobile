@@ -1,4 +1,4 @@
-package com.example.perpustakaan
+package com.example.perpustakaan.UserACTIVITY
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +9,10 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivitySearchBinding
 import androidx.activity.viewModels
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import java.util.*
 
-class search : AppCompatActivity() {
+class Search : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var bukuAdapter: BukuAdapter
@@ -49,7 +48,7 @@ class search : AppCompatActivity() {
         }
 
         binding.listbuku.apply {
-            layoutManager = GridLayoutManager(this@search, 2).apply {
+            layoutManager = GridLayoutManager(this@Search, 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return if (bukuAdapter.currentList[position].stok == 0) 2 else 1

@@ -20,11 +20,13 @@ class PinjamAdapter(private val onItemClick: (Pinjam) -> Unit) : RecyclerView.Ad
         val tvTanggalPinjam: TextView = itemView.findViewById(R.id.tvTanggalPinjam)
         val tvTanggalKembali: TextView = itemView.findViewById(R.id.tvTanggalKembali)
 
+
         fun bind(pinjam: Pinjam) {
             tvNamaAnggota.text = pinjam.namaanggota
             tvJudulBukuPinjam.text = pinjam.judulbuku_pinjam
             tvTanggalPinjam.text = pinjam.tanggalpinjam
             tvTanggalKembali.text = pinjam.tanggalkembali
+
 
             // Tambahkan klik listener untuk membuka aktivitas EditDataPinjamActivity
             itemView.setOnClickListener {

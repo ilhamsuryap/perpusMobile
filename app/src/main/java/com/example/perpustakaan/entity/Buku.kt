@@ -33,5 +33,7 @@ data class Buku(
 
     // Firebase field for deskripsi
     @get:PropertyName("deskripsi")
-    val deskripsi: String = ""
+    val deskripsi: String = "",
+
+    val syncronize: Boolean = false
 )
