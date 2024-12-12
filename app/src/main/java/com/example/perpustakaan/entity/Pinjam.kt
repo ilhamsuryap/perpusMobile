@@ -24,4 +24,8 @@ data class Pinjam(
     @get:PropertyName("tanggalkembali")
     val tanggalkembali: String,
 
+    @get:PropertyName("tanggalkembali")
+    var status: String = "dipinjam"
+
+
 )
