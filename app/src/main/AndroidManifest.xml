@@ -61,16 +61,17 @@
                     android:exported="true" />
         <activity
             android:name=".user.Login"
-            android:exported="true"/>
-            <activity
-                android:name=".pinjamActivity.PinjamBukuActivity"
-                android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+            <activity
+                android:name=".pinjamActivity.PinjamBukuActivity"
+                android:exported="true"/>
+
         <activity
             android:name=".daftarbukuActivity.DaftarBukuActivity"
             android:exported="true" />
