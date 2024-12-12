@@ -26,6 +26,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var penulisBuku: TextView
     private lateinit var tahunBuku: TextView
     private lateinit var deskripsiBuku: TextView
+    private lateinit var stok: TextView
     private lateinit var imageBuku: ImageView // ImageView untuk gambar buku
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +48,7 @@ class DetailActivity : AppCompatActivity() {
         judulBuku = findViewById(R.id.tv_judul_buku)
         penulisBuku = findViewById(R.id.tv_penulis)
         tahunBuku = findViewById(R.id.tv_tahun_terbit)
+        stok = findViewById(R.id.tvStok)
         deskripsiBuku = findViewById(R.id.tv_deskripsi)
         imageBuku = findViewById(R.id.img_buku)
 
@@ -60,6 +62,7 @@ class DetailActivity : AppCompatActivity() {
                 putExtra("JUDUL", judulBuku.text.toString())  // Mengirimkan detail buku
                 putExtra("PENULIS", penulisBuku.text.toString())
                 putExtra("TAHUN_TERBIT", tahunBuku.text.toString())
+                putExtra("STOK", stok.text.toString())
                 putExtra("DESKRIPSI", deskripsiBuku.text.toString())
                 putExtra("GAMBAR_URL", imageBuku.tag?.toString())  // Mengirimkan URL gambar dari tag ImageView
             }
@@ -117,7 +120,7 @@ class DetailActivity : AppCompatActivity() {
                         penulisBuku.text = buku.penulis
                         tahunBuku.text = buku.tahunTerbit.toString()
                         deskripsiBuku.text = buku.deskripsi
-
+                        stok.text = buku.stok.toString()
                         // Menyimpan URL gambar di tag ImageView
                         imageBuku.tag = buku.gambarUrl
 

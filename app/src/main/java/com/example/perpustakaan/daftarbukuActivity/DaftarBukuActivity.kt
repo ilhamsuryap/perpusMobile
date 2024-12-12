@@ -2,6 +2,7 @@
 package com.example.perpustakaan.daftarbukuActivity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,8 +10,13 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivityDaftarBukuBinding
 import androidx.activity.viewModels
+import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class DaftarBukuActivity : AppCompatActivity() {
 
@@ -26,6 +32,8 @@ class DaftarBukuActivity : AppCompatActivity() {
 //        loadFragment(FragmentTambahDataBuku())
 
         setupRecyclerView()
+        syncToFirebase()
+
 
         // Observe LiveData dari ViewModel
         bukuViewModel.allBuku.observe(this) { bukuList ->
@@ -36,6 +44,30 @@ class DaftarBukuActivity : AppCompatActivity() {
         binding.btnTambahBuku.setOnClickListener {
             loadFragment(FragmentTambahDataBuku())
         }
+    }
+    private fun syncToFirebase() {
+        val firebaseRef = FirebaseDatabase.getInstance().getReference("buku")
+        firebaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val bukuList = mutableListOf<Buku>()
+
+                for (dataSnapshot in snapshot.children) {
+                    val buku = dataSnapshot.getValue(Buku::class.java)
+                    if (buku != null) {
+                        bukuList.add(buku)
+                    }
+                }
+
+                // Perbarui adapter dengan daftar buku
+                bukuAdapter.submitList(bukuList)
+                bukuViewModel.syncLocalDatabase(bukuList)
+                bukuViewModel.syncUnsyncedData()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@DaftarBukuActivity, "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupRecyclerView() {
