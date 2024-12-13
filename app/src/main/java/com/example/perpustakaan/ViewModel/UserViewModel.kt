@@ -35,10 +35,10 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Fungsi login
-    fun login(username: String, password: String, role: String) {
+    fun login(email: String, password: String, role: String) {
         viewModelScope.launch {
             try {
-                _user.value = userRepository.login(username, password, role)
+                _user.value = userRepository.login(email, password, role)
             } catch (e: Exception) {
                 // Tangani jika ada error saat login
                 _user.value = null

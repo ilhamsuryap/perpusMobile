@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
-            android:hint="Username"
+            android:hint="Email"
             android:id="@+id/InputusrrEdit"
              />
 
@@ -67,7 +67,7 @@
         android:id="@+id/usr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="Email"
         android:fontFamily="@font/poppinssemibold"
         android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
@@ -149,17 +149,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/icon_ke_admin"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
 
-        android:src="@drawable/baseline_account_circle_25"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
