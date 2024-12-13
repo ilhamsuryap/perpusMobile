@@ -11,8 +11,8 @@ class UserRepository(private val userDAO: DaoUser) {
         userDAO.insert(user)
     }
 
-    // Login user berdasarkan username, password, dan role
-    suspend fun login(username: String, password: String, role: String): User? {
-        return userDAO.login(username, password, role)
+    // Login user berdasarkan email, password, dan role
+    suspend fun login(email: String, password: String, role: String): User? {
+        return userDAO.login(email, password, role)
     }
 }

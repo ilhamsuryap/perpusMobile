@@ -52,6 +52,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-firestore:24.0.0")
     implementation("com.google.firebase:firebase-storage:20.0.0")
+    implementation("com.google.firebase:firebase-auth:23.1.0")
 
 
     implementation("androidx.fragment:fragment-ktx:1.8.5")  // Pastikan ini ada

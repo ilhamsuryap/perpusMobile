@@ -47,9 +47,9 @@
         <activity
             android:name=".UserACTIVITY.Search"
             android:exported="true" />
-        <activity
-            android:name=".user.LoginAdmin"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".user.LoginAdmin"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".UserACTIVITY.TentangKamiActivity"
             android:exported="true" />

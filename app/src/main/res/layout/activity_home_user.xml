@@ -43,14 +43,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/tentangkami"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="TODO"
-        android:src="@drawable/information"
+        android:id="@+id/menuUser"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:src="@drawable/menu"
         android:translationZ="10dp"
-        app:layout_constraintEnd_toStartOf="@id/guideKanan"
+
+        app:layout_constraintBottom_toTopOf="@+id/itex"
+        app:layout_constraintEnd_toStartOf="@+id/guideKanan"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
