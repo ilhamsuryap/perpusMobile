@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
+import com.example.perpustakaan.DetailBukuUser
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
 
 
-// BukuAdapter
 class BukuAdapter(
     private val onClick: (Buku) -> Unit) : ListAdapter<Buku, RecyclerView.ViewHolder>(BukuDiffCallback()) {
     private var selectedBuku: Buku? = null
@@ -60,18 +60,18 @@ class BukuAdapter(
             itemView.setOnClickListener {
                 // Mengirim Intent ke DetailActivity dengan ID Buku
                 val intent = Intent(itemView.context, DetailActivity::class.java).apply {
-                    putExtra("BUKU_ID", buku.id)  // Mengirimkan ID buku
-                    putExtra("BUKU_JUDUL", buku.judul)  // Mengirimkan judul buku
-                    putExtra("BUKU_PENULIS", buku.penulis)  // Mengirimkan penulis buku
-                    putExtra("BUKU_GAMBAR_URL", buku.gambarUrl)  // Mengirimkan URL gambar buku
-                    putExtra("BUKU_DESKRIPSI", buku.deskripsi)  // Mengirimkan deskripsi buku
-                    putExtra("BUKU_TAHUN_TERBIT", buku.tahunTerbit)  // Mengirimkan tahun terbit buku
-                    putExtra("BUKU_STOK", buku.stok)  // Mengirimkan stok buku
+                    putExtra("BUKU_ID", buku.id)
+                    putExtra("BUKU_JUDUL", buku.judul)
+                    putExtra("BUKU_PENULIS", buku.penulis)
+                    putExtra("BUKU_GAMBAR_URL", buku.gambarUrl)
+                    putExtra("BUKU_DESKRIPSI", buku.deskripsi)
+                    putExtra("BUKU_TAHUN_TERBIT", buku.tahunTerbit)
+                    putExtra("BUKU_STOK", buku.stok)
 
-                    
+
 
                 }
-                itemView.context.startActivity(intent)  // Mulai activity DetailActivity
+                itemView.context.startActivity(intent)
             }
         }
     }
@@ -80,7 +80,7 @@ class BukuAdapter(
     class BukuADSViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvJudulBuku: TextView = itemView.findViewById(R.id.tvJudulBukuAds)
         private val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulisAds)
-        private val ivSoldOut: ImageView = itemView.findViewById(R.id.tvStokSold) // Pastikan ini adalah ImageView
+        private val ivSoldOut: ImageView = itemView.findViewById(R.id.tvStokSold)
         private val imageView: ImageView = itemView.findViewById(R.id.imageViewBukuADS)
 
         fun bind(buku: Buku) {

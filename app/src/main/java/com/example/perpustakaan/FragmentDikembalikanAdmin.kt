@@ -13,7 +13,7 @@ private const val ARG_JUDUL_BUKU = "judul_buku"
 private const val ARG_TANGGAL_PINJAM = "tanggal_pinjam"
 private const val ARG_TANGGAL_KEMBALI = "tanggal_kembali"
 
-class FragmentDikembalikan : Fragment() {
+class FragmentDikembalikanAdmin : Fragment() {
 
     private var judulBuku: String? = null
     private var tanggalPinjam: String? = null
@@ -33,24 +33,21 @@ class FragmentDikembalikan : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_dikembalikan, container, false)
+        val view = inflater.inflate(R.layout.fragment_dikembalikan_admin, container, false)
 
+        // Validasi data
         val judul = judulBuku ?: "Judul tidak tersedia"
         val pinjam = tanggalPinjam ?: "Tanggal pinjam tidak tersedia"
         val kembali = tanggalKembali ?: "Tanggal kembali tidak tersedia"
 
+        // Menampilkan data di TextView
         view.findViewById<TextView>(R.id.tv_judul_buku)?.text = judul
         view.findViewById<TextView>(R.id.tv_tanggalpinjam)?.text = pinjam
         view.findViewById<TextView>(R.id.tv_tanggalkembali)?.text = kembali
 
-        view.findViewById<TextView>(R.id.btnKembalikan)?.setOnClickListener {
-            // Kirim data pinjam ke halaman com.example.perpustakaan.ViewModel.AdminPengembalian
+        // Tombol Kembalikan Buku ditekan
+        view.findViewById<TextView>(R.id.btnTerimaPengembalian)?.setOnClickListener {
             val intent = Intent(context, AdminPengembalian::class.java)
-            intent.putExtra("id_pinjam", "1")
-            intent.putExtra("namaanggota", "Nama Anggota")
-            intent.putExtra("judulbuku_pinjam", judulBuku)
-            intent.putExtra("tanggalpinjam", tanggalPinjam)
-            intent.putExtra("tanggalkembali", tanggalKembali)
             startActivity(intent)
         }
 
@@ -59,7 +56,7 @@ class FragmentDikembalikan : Fragment() {
 
     companion object {
         fun newInstance(judulBuku: String, tanggalPinjam: String, tanggalKembali: String) =
-            FragmentDikembalikan().apply {
+            FragmentDikembalikanAdmin().apply {
                 arguments = Bundle().apply {
                     putString(ARG_JUDUL_BUKU, judulBuku)
                     putString(ARG_TANGGAL_PINJAM, tanggalPinjam)

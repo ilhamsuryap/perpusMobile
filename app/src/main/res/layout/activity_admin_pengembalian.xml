@@ -6,7 +6,7 @@
     android:background="#3C969F"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminPengembalian">
+    tools:context=".ViewModel.AdminPengembalian">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,12 +19,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinssemibold"
-            android:text="Pinjam Buku"
+            android:text="Pengembalian Buku"
             android:textColor="@color/white"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_content"
@@ -36,25 +45,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="68dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPinjam"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/style_pinjam_buku"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchView"
-                />
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2"
+                tools:listitem="@layout/style_pinjam_buku" />
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"

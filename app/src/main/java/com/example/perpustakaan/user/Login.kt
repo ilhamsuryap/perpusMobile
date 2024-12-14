@@ -68,15 +68,23 @@ class Login : AppCompatActivity() {
     private fun checkUserRoleAndRedirect(userId: String) {
         database.child("users").child(userId).get().addOnSuccessListener { dataSnapshot ->
             val role = dataSnapshot.child("role").value.toString()
+
+            val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("USER_ROLE", role)  // Menyimpan role pengguna
+            editor.apply()
+
             when (role) {
                 "USER" -> {
                     startActivity(Intent(this, UserHomeActivity::class.java))
                     finish()
                 }
+
                 "ADMIN" -> {
                     startActivity(Intent(this, HomeActivity::class.java))
                     finish()
                 }
+
                 else -> {
                     Toast.makeText(this, "Role tidak dikenal", Toast.LENGTH_SHORT).show()
                 }
@@ -85,12 +93,4 @@ class Login : AppCompatActivity() {
             Toast.makeText(this, "Gagal mendapatkan data pengguna", Toast.LENGTH_SHORT).show()
         }
     }
-
-//    // Logout
-//    private fun logout() {
-//        auth.signOut()
-//        Toast.makeText(this, "Berhasil logout", Toast.LENGTH_SHORT).show()
-//        startActivity(Intent(this, Login::class.java))
-//        finish()
-//    }
 }
