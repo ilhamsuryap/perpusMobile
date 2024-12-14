@@ -28,7 +28,7 @@ class DetailBukuUser : AppCompatActivity() {
         setContentView(R.layout.activity_detail_buku_user)
 
         // Mengambil data dari Intent
-        id = intent.getIntExtra("BUKU_ID", -1) // Menggunakan Int untuk ID (default -1 untuk ID tidak valid)
+        id = intent.getIntExtra("BUKU_ID", -1)
 
         if (id == -1) {
             Toast.makeText(this, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
@@ -43,7 +43,6 @@ class DetailBukuUser : AppCompatActivity() {
         deskripsiBuku = findViewById(R.id.tv_deskripsi)
         imageBuku = findViewById(R.id.img_buku)
 
-        // Memuat detail buku
         loadBukuDetails()
 
     }
@@ -51,12 +50,10 @@ class DetailBukuUser : AppCompatActivity() {
     private fun loadBukuDetails() {
         id?.let {
             lifecycleScope.launch(Dispatchers.IO) {
-                // Log untuk memeriksa apakah ID buku yang benar sedang diproses
-                Log.d("DetailActivity", "Memulai query dengan ID: $it")
 
                 val buku = PerpustakaanDatabase.getDatabase(this@DetailBukuUser)
                     .daobuku()
-                    .getBukuById(it)  // Mengambil data buku berdasarkan ID
+                    .getBukuById(it)
 
                 if (buku != null) {
                     runOnUiThread {
@@ -74,8 +71,6 @@ class DetailBukuUser : AppCompatActivity() {
                             .into(imageBuku)  // Menampilkan gambar di ImageView
                     }
                 } else {
-                    Log.e("DetailActivity", "Buku tidak ditemukan dengan ID: $it")
-
                     runOnUiThread {
                         Toast.makeText(this@DetailBukuUser, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
                         finish()

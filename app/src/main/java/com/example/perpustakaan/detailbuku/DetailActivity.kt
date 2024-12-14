@@ -3,6 +3,7 @@ package com.example.perpustakaan.detailbuku
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,6 +43,15 @@ class DetailActivity : AppCompatActivity() {
             return
         }
 
+        // Memeriksa apakah pengguna adalah admin
+        val isAdmin = checkIfUserIsAdmin()
+
+        // Menyembunyikan tombol Edit dan Hapus jika bukan admin
+        if (!isAdmin) {
+            findViewById<Button>(R.id.btn_edit_buku).visibility = View.GONE
+            findViewById<Button>(R.id.btn_hapus_buku).visibility = View.GONE
+        }
+
         // Inisialisasi tampilan
         btnEdit = findViewById(R.id.btn_edit_buku)
         btnHapus = findViewById(R.id.btn_hapus_buku)
@@ -69,16 +79,13 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Listener tombol Hapus
         btnHapus.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 id?.let {
                     val daoBuku = PerpustakaanDatabase.getDatabase(this@DetailActivity).daobuku()
 
-                    // Mengambil URL gambar dari tag ImageView (mungkin disimpan dalam tag ImageView)
                     val gambarUrl = imageBuku.tag?.toString()
 
-                    // Menghapus buku dari database berdasarkan ID
                     daoBuku.deleteBukuById(it)
 
                     // Jika ada URL gambar, mencoba menghapus file gambar dari penyimpanan lokal
@@ -103,6 +110,13 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkIfUserIsAdmin(): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val role = sharedPreferences.getString("USER_ROLE", "USER") // Ambil role, default ke "USER"
+        return role == "ADMIN"  // Jika role adalah "ADMIN", maka pengguna adalah admin
+    }
+
+    // Memuat detail buku dari database
     private fun loadBukuDetails() {
         id?.let {
             lifecycleScope.launch(Dispatchers.IO) {
