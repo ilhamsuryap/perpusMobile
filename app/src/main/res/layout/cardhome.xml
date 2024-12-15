@@ -8,8 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="215dp"
         android:elevation="8dp"
         app:cardCornerRadius="8dp"
 
@@ -20,14 +20,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/border1"
             android:padding="15dp">
 
             <ImageView
                 android:id="@+id/imageViewbukuhome"
-                android:layout_width="83dp"
-                android:layout_height="100dp"
+                android:layout_width="100dp"
+                android:layout_height="140dp"
                 android:contentDescription="Image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background"
@@ -48,18 +48,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageViewbukuhome" />
-
-            <Button
-                android:id="@+id/btnLihat"
-                android:layout_width="106dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#3C969F"
-                android:text="Lihat"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
