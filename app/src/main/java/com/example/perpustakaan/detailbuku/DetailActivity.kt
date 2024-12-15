@@ -1,39 +1,35 @@
 package com.example.perpustakaan.detailbuku
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.example.perpustakaan.R
-import com.example.perpustakaan.daftarbukuActivity.EditDataBukuActivity
-import com.example.perpustakaan.database.PerpustakaanDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.File
+import com.example.perpustakaan.ViewModel.BukuViewModel
+import com.example.perpustakaan.databinding.DetailbukuBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var btnEdit: Button
-    private lateinit var btnHapus: Button
-    private var id: Int? = null // Mengubah id menjadi Int
-    private lateinit var judulBuku: TextView
-    private lateinit var penulisBuku: TextView
-    private lateinit var tahunBuku: TextView
-    private lateinit var deskripsiBuku: TextView
-    private lateinit var imageBuku: ImageView // ImageView untuk gambar buku
+    private lateinit var binding: DetailbukuBinding
+    private val bukuViewModel: BukuViewModel by viewModels()  // Menggunakan ViewModel untuk data buku
+    private var id: Int? = null // ID buku yang diterima dari intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.detailbuku)
+
+        // Inisialisasi View Binding
+        binding = DetailbukuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Mengambil data dari Intent
-        id = intent.getIntExtra("BUKU_ID", -1) // Menggunakan Int untuk ID (default -1 untuk ID tidak valid)
+        id = intent.getIntExtra("id", -1)
 
         if (id == -1) { // Memeriksa apakah ID valid
             Toast.makeText(this, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
@@ -41,102 +37,92 @@ class DetailActivity : AppCompatActivity() {
             return
         }
 
-        // Inisialisasi tampilan
-        btnEdit = findViewById(R.id.btn_edit_buku)
-        btnHapus = findViewById(R.id.btn_hapus_buku)
-        judulBuku = findViewById(R.id.tv_judul_buku)
-        penulisBuku = findViewById(R.id.tv_penulis)
-        tahunBuku = findViewById(R.id.tv_tahun_terbit)
-        deskripsiBuku = findViewById(R.id.tv_deskripsi)
-        imageBuku = findViewById(R.id.img_buku)
+        // Memeriksa apakah pengguna adalah admin
+        val isAdmin = checkIfUserIsAdmin()
 
-        // Memuat detail buku
+        // Menyembunyikan tombol Edit dan Hapus jika bukan admin
+        if (!isAdmin) {
+            binding.btnEditBuku.visibility = View.GONE
+            binding.btnHapusBuku.visibility = View.GONE
+        }
+
+        // Memuat detail buku menggunakan ViewModel
         loadBukuDetails()
 
-        // Listener tombol Edit
-        btnEdit.setOnClickListener {
-            val intent = Intent(this, EditDataBukuActivity::class.java).apply {
-                putExtra("BUKU_ID", id)  // Mengirimkan ID buku
-                putExtra("JUDUL", judulBuku.text.toString())  // Mengirimkan detail buku
-                putExtra("PENULIS", penulisBuku.text.toString())
-                putExtra("TAHUN_TERBIT", tahunBuku.text.toString())
-                putExtra("DESKRIPSI", deskripsiBuku.text.toString())
-                putExtra("GAMBAR_URL", imageBuku.tag?.toString())  // Mengirimkan URL gambar dari tag ImageView
-            }
-            startActivity(intent)
-        }
-
-        // Listener tombol Hapus
-        btnHapus.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                id?.let {
-                    val daoBuku = PerpustakaanDatabase.getDatabase(this@DetailActivity).daobuku()
-
-                    // Mengambil URL gambar dari tag ImageView (mungkin disimpan dalam tag ImageView)
-                    val gambarUrl = imageBuku.tag?.toString()
-
-                    // Menghapus buku dari database berdasarkan ID
-                    daoBuku.deleteBukuById(it)
-
-                    // Jika ada URL gambar, mencoba menghapus file gambar dari penyimpanan lokal
-                    gambarUrl?.let { url ->
-                        val file = File(url) // Membuat objek File berdasarkan path URL gambar
-                        if (file.exists()) {
-                            val deleted = file.delete()  // Mencoba menghapus file gambar dari cache
-                            if (deleted) {
-                                Log.d("DetailActivity", "Gambar berhasil dihapus: $url")
-                            } else {
-                                Log.e("DetailActivity", "Gagal menghapus gambar: $url")
-                            }
-                        }
+        binding.btnHapusBuku.setOnClickListener {
+            id?.let { id ->
+                val dialog = AlertDialog.Builder(this)
+                    .setTitle("Konfirmasi Hapus")
+                    .setMessage("Apakah Anda yakin ingin menghapus buku ini?")
+                    .setPositiveButton("Ya") { _, _ ->
+                        // Menghapus data dari Firebase dan Room
+                        deleteBukuFromFirebase(id.toString())
+                        bukuViewModel.deleteBuku(id)  // Menghapus dari Room Database
+                        Toast.makeText(this, "Buku berhasil dihapus", Toast.LENGTH_SHORT).show()
+                        finish() // Menutup activity setelah penghapusan
                     }
-
-                    runOnUiThread {
-                        Toast.makeText(this@DetailActivity, "Buku dan gambarnya dihapus", Toast.LENGTH_SHORT).show()
-                        finish()  // Menutup activity setelah penghapusan
-                    }
-                }
+                    .setNegativeButton("Tidak", null)
+                    .create()
+                dialog.show()
             }
         }
+    }
+
+    private fun checkIfUserIsAdmin(): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val role = sharedPreferences.getString("USER_ROLE", "USER")
+        return role == "ADMIN"
     }
 
     private fun loadBukuDetails() {
-        id?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                // Log untuk memeriksa apakah ID buku yang benar sedang diproses
-                Log.d("DetailActivity", "Memulai query dengan ID: $it")
-
-                val buku = PerpustakaanDatabase.getDatabase(this@DetailActivity)
-                    .daobuku()
-                    .getBukuById(it)  // Mengambil data buku berdasarkan ID
-
+        id?.let { id ->
+            // Mengambil detail buku dari ViewModel (Room Database)
+            bukuViewModel.getBukuById(id).observe(this) { buku ->
                 if (buku != null) {
-                    runOnUiThread {
-                        // Memperbarui elemen UI dengan detail buku dari database
-                        judulBuku.text = buku.judul
-                        penulisBuku.text = buku.penulis
-                        tahunBuku.text = buku.tahunTerbit.toString()
-                        deskripsiBuku.text = buku.deskripsi
+                    // Memperbarui UI dengan data buku yang diambil
+                    binding.tvJudulBuku.text = buku.judul
+                    binding.tvPenulis.text = buku.penulis
+                    binding.tvTahunTerbit.text = buku.tahunTerbit.toString()
+                    binding.tvDeskripsi.text = buku.deskripsi
+                    binding.tvStok.text = buku.stok.toString()
 
-                        // Menyimpan URL gambar di tag ImageView
-                        imageBuku.tag = buku.gambarUrl
-
-                        // Memuat gambar dari URL menggunakan Glide
-                        Glide.with(this@DetailActivity)
-                            .load(buku.gambarUrl)  // Menggunakan URL gambar yang diambil dari database
-                            .into(imageBuku)  // Menampilkan gambar di ImageView
-                    }
+                    // Menampilkan gambar menggunakan Glide
+                    Glide.with(this)
+                        .load(buku.gambarUrl)
+                        .into(binding.imgBuku)
                 } else {
-                    // Log jika buku tidak ditemukan
-                    Log.e("DetailActivity", "Buku tidak ditemukan dengan ID: $it")
-
-                    runOnUiThread {
-                        // Jika buku tidak ditemukan, tampilkan pesan
-                        Toast.makeText(this@DetailActivity, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
-                        finish()  // Menutup activity jika buku tidak ditemukan
-                    }
+                    // Jika buku tidak ditemukan, tampilkan pesan error
+                    Log.e("DetailActivity", "Buku dengan ID $id tidak ditemukan")
+                    Toast.makeText(this, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
+                    finish()  // Menutup activity jika buku tidak ditemukan
                 }
             }
         }
     }
+
+    private fun deleteBukuFromFirebase(id: String) {
+        val database = FirebaseDatabase.getInstance()
+        val bukuRef = database.getReference("buku")  // Referensi ke node buku di Firebase
+
+        bukuRef.orderByChild("id").equalTo(id.toDouble())  // Menyaring berdasarkan ID
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (bukuSnapshot in snapshot.children) {
+                        bukuSnapshot.ref.removeValue()  // Menghapus data buku yang sesuai
+                            .addOnSuccessListener {
+                                Log.d("DetailActivity", "Buku berhasil dihapus dari Firebase")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("DetailActivity", "Gagal menghapus buku dari Firebase: ${e.message}")
+                                Toast.makeText(this@DetailActivity, "Gagal menghapus buku dari Firebase", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("DetailActivity", "Error membaca data: ${error.message}")
+                }
+            })
+    }
+
 }

@@ -52,6 +52,10 @@ dependencies {
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation("com.google.firebase:firebase-firestore:24.0.0")
     implementation("com.google.firebase:firebase-storage:20.0.0")
+    implementation("com.google.firebase:firebase-auth:23.1.0")
+
+
+    implementation("androidx.fragment:fragment-ktx:1.8.5")  // Pastikan ini ada
 
     // AndroidX and other essential libraries
     implementation(libs.androidx.core.ktx)
@@ -66,6 +70,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.car.ui.lib)
+    implementation(libs.androidx.swiperefreshlayout)
 
     // Room dependencies (Use KSP for Room annotation processing)
     val room_version = "2.6.1"

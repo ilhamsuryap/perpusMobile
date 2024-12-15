@@ -37,13 +37,13 @@
 
     <ImageView
         android:id="@+id/logoLogin"
-        android:layout_width="250dp"
-        android:layout_height="232dp"
+        android:layout_width="290dp"
+        android:layout_height="262dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.601"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lgg" />
+        app:srcCompat="@drawable/iconuser" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Inputusr"
@@ -57,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
-            android:hint="Username"
+            android:hint="Email"
+            android:textColorHint="#3C969F"
             android:id="@+id/InputusrrEdit"
              />
 
@@ -67,7 +68,7 @@
         android:id="@+id/usr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:text="Email"
         android:fontFamily="@font/poppinssemibold"
         android:textColor="#3C969F"
         android:layout_marginLeft="20dp"
@@ -103,6 +104,7 @@
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
             android:hint="Password"
+            android:textColorHint="#3C969F"
             android:textSize="15sp"
             android:id="@+id/InputpsssEdit"
             />
@@ -149,16 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/icon_ke_admin"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/baseline_account_circle_25"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
 
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

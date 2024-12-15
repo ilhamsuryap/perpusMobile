@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
+    tools:context=".UserACTIVITY.HomeActivity"
     android:background="@color/white"
     android:backgroundTint="#D4E9EB">
 
@@ -43,18 +43,7 @@
         app:layout_constraintStart_toEndOf="@id/guideKiri"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/tentangkami"
-        android:layout_width="39dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:contentDescription="TODO"
-        android:translationZ="10dp"
-        app:layout_constraintEnd_toStartOf="@id/guideKanan"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImage"
@@ -191,5 +180,17 @@
         app:layout_constraintStart_toEndOf="@+id/guideCenter"
         app:layout_constraintTop_toBottomOf="@id/icon_openbook"
         android:translationZ="10dp"/>
+
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:src="@drawable/menu"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardImage"
+        app:layout_constraintEnd_toStartOf="@+id/guideKanan"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
-package com.example.perpustakaan
+package com.example.perpustakaan.UserACTIVITY
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -9,11 +10,10 @@ import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.databinding.ActivitySearchBinding
 import androidx.activity.viewModels
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import java.util.*
 
-class search : AppCompatActivity() {
+class Search : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var bukuAdapter: BukuAdapter
@@ -30,26 +30,24 @@ class search : AppCompatActivity() {
             insets
         }
 
-        // Initialize RecyclerView
         setupRecyclerView()
-
-        // Observe LiveData from ViewModel to update book list
+        bukuViewModel.syncBuku()
         bukuViewModel.allBuku.observe(this) { bukuList ->
             bukuAdapter.setData(bukuList)
         }
 
-        // Set up SearchView
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
         setupSearchView()
     }
 
-    // Initialize RecyclerView and set up adapter
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
-            // Define action when a book is clicked (if necessary)
         }
-
         binding.listbuku.apply {
-            layoutManager = GridLayoutManager(this@search, 2).apply {
+            layoutManager = GridLayoutManager(this@Search, 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return if (bukuAdapter.currentList[position].stok == 0) 2 else 1
@@ -60,7 +58,7 @@ class search : AppCompatActivity() {
         }
     }
 
-    // Set up SearchView for filtering books
+    // Set up SearchView untuk memfilter buku
     private fun setupSearchView() {
         binding.search.setOnQueryTextListener(object : OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
@@ -81,5 +79,12 @@ class search : AppCompatActivity() {
                 return true
             }
         })
+    }
+    private fun refreshData() {
+        bukuViewModel.syncBuku {
+            // Menyembunyikan indikator refresh setelah data diperbarui
+            binding.swipeRefreshLayout.isRefreshing = false
+            Toast.makeText(this, "Data diperbarui", Toast.LENGTH_SHORT).show()
+        }
     }
 }

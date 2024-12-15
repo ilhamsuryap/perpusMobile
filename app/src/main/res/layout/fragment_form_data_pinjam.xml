@@ -14,8 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#3C969F"
-            >
+            android:background="#3C969F">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +60,7 @@
                         android:id="@+id/etNamaAnggota"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp"  />
+                        android:padding="12dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -76,22 +75,15 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
                     app:layout_constraintTop_toBottomOf="@+id/tvNamaAnggota" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tvJudulBuku"
+                <Spinner
+                    android:id="@+id/spinnerJudulBuku"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="Judul Buku"
+                    android:background="@drawable/border2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etJudulBuku"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"  />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -103,7 +95,7 @@
                     android:text="Tanggal Pinjam"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="@+id/guideline5"
-                    app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku" />
+                    app:layout_constraintTop_toBottomOf="@+id/spinnerJudulBuku" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tvTanggalPinjam"
@@ -183,8 +175,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
                     app:layout_constraintTop_toBottomOf="@+id/tvTanggalKembali" />
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

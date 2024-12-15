@@ -38,7 +38,7 @@
         android:fontFamily="@font/poppinsblack"
         android:text="Tentang Kami"
         android:layout_marginTop="50dp"
-        android:textColor="@color/black"
+        android:textColor="#3C969F"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideCenter"
@@ -102,8 +102,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alzamna Lentera D"
+                        android:text="Alzamna Lentera D."
                         android:textSize="17sp"
+                        android:textColor="#3C969F"
                         android:textStyle="bold"
                         android:layout_marginTop="8dp"
                         android:gravity="center" />
@@ -112,13 +113,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="233307093"
+                        android:textColor="#3C969F"
                         android:textSize="16sp"
                         android:layout_marginTop="4dp"
                         android:gravity="center" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Anggota 2 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -146,6 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ilham Surya Putra"
+                        android:textColor="#3C969F"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:layout_marginTop="8dp"
@@ -155,6 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="233307103"
+                        android:textColor="#3C969F"
                         android:textSize="16sp"
                         android:layout_marginTop="4dp"
                         android:gravity="center" />
@@ -189,6 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rivia Marsadah"
+                        android:textColor="#3C969F"
                         android:textSize="17sp"
                         android:textStyle="bold"
                         android:layout_marginTop="8dp"
@@ -198,6 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="233307114"
+                        android:textColor="#3C969F"
                         android:textSize="16sp"
                         android:layout_marginTop="4dp"
                         android:gravity="center" />
@@ -233,6 +238,7 @@
                         android:layout_height="wrap_content"
                         android:text="Yola Septia"
                         android:textSize="17sp"
+                        android:textColor="#3C969F"
                         android:textStyle="bold"
                         android:layout_marginTop="8dp"
                         android:gravity="center" />
@@ -242,6 +248,7 @@
                         android:layout_height="wrap_content"
                         android:text="233307119"
                         android:textSize="16sp"
+                        android:textColor="#3C969F"
                         android:layout_marginTop="4dp"
                         android:gravity="center" />
                 </LinearLayout>

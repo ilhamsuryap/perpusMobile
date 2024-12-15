@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.perpustakaan.EditDataPinjamActivity
+
+import com.example.perpustakaan.FragmentDikembalikan
 import com.example.perpustakaan.R
 import com.example.perpustakaan.entity.Pinjam
 
@@ -20,16 +21,18 @@ class PinjamAdapter(private val onItemClick: (Pinjam) -> Unit) : RecyclerView.Ad
         val tvTanggalPinjam: TextView = itemView.findViewById(R.id.tvTanggalPinjam)
         val tvTanggalKembali: TextView = itemView.findViewById(R.id.tvTanggalKembali)
 
+
         fun bind(pinjam: Pinjam) {
             tvNamaAnggota.text = pinjam.namaanggota
             tvJudulBukuPinjam.text = pinjam.judulbuku_pinjam
             tvTanggalPinjam.text = pinjam.tanggalpinjam
             tvTanggalKembali.text = pinjam.tanggalkembali
 
+
             // Tambahkan klik listener untuk membuka aktivitas EditDataPinjamActivity
             itemView.setOnClickListener {
                 val context = itemView.context
-                val intent = Intent(context, EditDataPinjamActivity::class.java)
+                val intent = Intent(context, FragmentDikembalikan::class.java)
                 intent.putExtra("id_pinjam", pinjam.id_pinjam)
                 intent.putExtra("namaanggota", pinjam.namaanggota)
                 intent.putExtra("judulbuku_pinjam", pinjam.judulbuku_pinjam)
