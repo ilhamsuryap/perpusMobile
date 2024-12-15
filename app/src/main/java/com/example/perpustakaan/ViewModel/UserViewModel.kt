@@ -15,7 +15,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val userRepository: UserRepository
 
     init {
-        // Inisialisasi DAO dan Repository
         val userDao = PerpustakaanDatabase.getDatabase(application).userDAO()
         userRepository = UserRepository(userDao)
     }

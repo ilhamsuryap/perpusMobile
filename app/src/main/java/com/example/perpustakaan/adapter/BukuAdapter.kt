@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
-import com.example.perpustakaan.DetailBukuUser
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
 

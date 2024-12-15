@@ -1,6 +1,8 @@
 package com.example.perpustakaan.pinjamActivity
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +27,7 @@ class PinjamBukuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinjamBukuBinding
     private lateinit var pinjamAdapter: PinjamAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
-
+    private lateinit var btnPinjam: Button
     private val pinjamViewModel: PeminjamanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,16 +43,21 @@ class PinjamBukuActivity : AppCompatActivity() {
             pinjamAdapter.setData(pinjamList) // Update daftar pinjaman di adapter saat data berubah
         }
 
-        // Set click listener for the button
         binding.btnPinjam.setOnClickListener {
             loadFragment(FragmentFormDataPinjam())
         }
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
-            // Refresh data di sini
             refreshData()
         }
+
+        val isUser = checkIfUserIsUser()
+
+        if (!isUser) {
+            findViewById<Button>(R.id.btnPinjam).visibility = View.GONE
+        }
+        btnPinjam = findViewById(R.id.btnPinjam)
     }
 
     private fun syncToFirebase() {
@@ -67,7 +73,6 @@ class PinjamBukuActivity : AppCompatActivity() {
                     }
                 }
 
-                // Perbarui adapter dengan daftar buku
                 pinjamAdapter.setData(pinjamList)
                 pinjamViewModel.syncLocalDatabase(pinjamList)
                 pinjamViewModel.syncUnsyncedData()
@@ -79,12 +84,18 @@ class PinjamBukuActivity : AppCompatActivity() {
         })
     }
 
+    private fun checkIfUserIsUser(): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val role = sharedPreferences.getString("USER_ROLE", "USER")
+        return role == "ADMIN"
+    }
+
     private fun setupRecyclerView() {
         pinjamAdapter = PinjamAdapter { pinjam ->
             navigateToFragmentDikembalikan(pinjam)
         }
         binding.rvPinjam.apply {
-            layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2) // Grid dengan 2 kolom
+            layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2)
             adapter = pinjamAdapter
         }
     }
@@ -100,14 +111,12 @@ class PinjamBukuActivity : AppCompatActivity() {
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(binding.root.id, fragment) // Menggunakan root sebagai container untuk fragment
-        transaction.addToBackStack(null) // Optional, menambahkan ke back stack jika diperlukan
+        transaction.replace(binding.root.id, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
     }
 
     private fun refreshData() {
-        // Refresh data di sini
-        // ...
         swipeRefreshLayout.isRefreshing = false
     }
 }

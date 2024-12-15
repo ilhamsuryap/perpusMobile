@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.perpustakaan.FragmentDikembalikanAdmin
+import com.example.perpustakaan.FragmentDikembalikan
 import com.example.perpustakaan.R
 import com.example.perpustakaan.adapter.PinjamAdapter
 import com.example.perpustakaan.databinding.ActivityAdminPengembalianBinding
@@ -67,7 +67,7 @@ class AdminPengembalian : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         pinjamAdapter = PinjamAdapter { pinjam ->
-            navigateToFragmentDikembalikanAdmin(pinjam)
+            navigateToFragmentDikembalikan(pinjam)
         }
         binding.rvPinjam.apply {
             layoutManager = GridLayoutManager(this@AdminPengembalian, 2)
@@ -75,8 +75,8 @@ class AdminPengembalian : AppCompatActivity() {
         }
     }
 
-    private fun navigateToFragmentDikembalikanAdmin(pinjam: Pinjam) {
-        val fragment = FragmentDikembalikanAdmin.newInstance(
+    private fun navigateToFragmentDikembalikan(pinjam: Pinjam) {
+        val fragment = FragmentDikembalikan.newInstance(
             pinjam.judulbuku_pinjam,
             pinjam.tanggalpinjam,
             pinjam.tanggalkembali

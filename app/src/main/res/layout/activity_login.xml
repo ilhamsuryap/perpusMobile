@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
             android:hint="Email"
+            android:textColorHint="#3C969F"
             android:id="@+id/InputusrrEdit"
              />
 
@@ -103,6 +104,7 @@
             android:layout_height="wrap_content"
             android:textColor="#3C969F"
             android:hint="Password"
+            android:textColorHint="#3C969F"
             android:textSize="15sp"
             android:id="@+id/InputpsssEdit"
             />

@@ -73,7 +73,7 @@ class DaftarBukuUser : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
-            val intent = Intent(this, DetailBukuUser::class.java)
+            val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("BUKU_ID", buku.id)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)

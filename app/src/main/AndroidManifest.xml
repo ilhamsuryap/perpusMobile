@@ -19,9 +19,6 @@
             android:name=".DaftarBukuUser"
             android:exported="false" />
         <activity
-            android:name=".DetailBukuUser"
-            android:exported="false" />
-        <activity
             android:name=".ViewModel.AdminPengembalian"
             android:exported="true" />
         <activity

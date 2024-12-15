@@ -22,37 +22,33 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var btnEdit: Button
     private lateinit var btnHapus: Button
-    private var id: Int? = null // Mengubah id menjadi Int
+    private var id: Int? = null
     private lateinit var judulBuku: TextView
     private lateinit var penulisBuku: TextView
     private lateinit var tahunBuku: TextView
     private lateinit var deskripsiBuku: TextView
     private lateinit var stok: TextView
-    private lateinit var imageBuku: ImageView // ImageView untuk gambar buku
+    private lateinit var imageBuku: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detailbuku)
 
-        // Mengambil data dari Intent
-        id = intent.getIntExtra("BUKU_ID", -1) // Menggunakan Int untuk ID (default -1 untuk ID tidak valid)
+        id = intent.getIntExtra("BUKU_ID", -1)
 
-        if (id == -1) { // Memeriksa apakah ID valid
+        if (id == -1) {
             Toast.makeText(this, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
-            finish() // Menutup activity jika buku tidak ditemukan
+            finish()
             return
         }
 
-        // Memeriksa apakah pengguna adalah admin
         val isAdmin = checkIfUserIsAdmin()
 
-        // Menyembunyikan tombol Edit dan Hapus jika bukan admin
         if (!isAdmin) {
             findViewById<Button>(R.id.btn_edit_buku).visibility = View.GONE
             findViewById<Button>(R.id.btn_hapus_buku).visibility = View.GONE
         }
 
-        // Inisialisasi tampilan
         btnEdit = findViewById(R.id.btn_edit_buku)
         btnHapus = findViewById(R.id.btn_hapus_buku)
         judulBuku = findViewById(R.id.tv_judul_buku)
@@ -62,19 +58,17 @@ class DetailActivity : AppCompatActivity() {
         deskripsiBuku = findViewById(R.id.tv_deskripsi)
         imageBuku = findViewById(R.id.img_buku)
 
-        // Memuat detail buku
         loadBukuDetails()
 
-        // Listener tombol Edit
         btnEdit.setOnClickListener {
             val intent = Intent(this, EditDataBukuActivity::class.java).apply {
-                putExtra("BUKU_ID", id)  // Mengirimkan ID buku
-                putExtra("JUDUL", judulBuku.text.toString())  // Mengirimkan detail buku
+                putExtra("BUKU_ID", id)
+                putExtra("JUDUL", judulBuku.text.toString())
                 putExtra("PENULIS", penulisBuku.text.toString())
                 putExtra("TAHUN_TERBIT", tahunBuku.text.toString())
                 putExtra("STOK", stok.text.toString())
                 putExtra("DESKRIPSI", deskripsiBuku.text.toString())
-                putExtra("GAMBAR_URL", imageBuku.tag?.toString())  // Mengirimkan URL gambar dari tag ImageView
+                putExtra("GAMBAR_URL", imageBuku.tag?.toString())
             }
             startActivity(intent)
         }
@@ -88,11 +82,10 @@ class DetailActivity : AppCompatActivity() {
 
                     daoBuku.deleteBukuById(it)
 
-                    // Jika ada URL gambar, mencoba menghapus file gambar dari penyimpanan lokal
                     gambarUrl?.let { url ->
-                        val file = File(url) // Membuat objek File berdasarkan path URL gambar
+                        val file = File(url)
                         if (file.exists()) {
-                            val deleted = file.delete()  // Mencoba menghapus file gambar dari cache
+                            val deleted = file.delete()
                             if (deleted) {
                                 Log.d("DetailActivity", "Gambar berhasil dihapus: $url")
                             } else {
@@ -103,7 +96,7 @@ class DetailActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         Toast.makeText(this@DetailActivity, "Buku dan gambarnya dihapus", Toast.LENGTH_SHORT).show()
-                        finish()  // Menutup activity setelah penghapusan
+                        finish()
                     }
                 }
             }
@@ -112,24 +105,20 @@ class DetailActivity : AppCompatActivity() {
 
     private fun checkIfUserIsAdmin(): Boolean {
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val role = sharedPreferences.getString("USER_ROLE", "USER") // Ambil role, default ke "USER"
-        return role == "ADMIN"  // Jika role adalah "ADMIN", maka pengguna adalah admin
+        val role = sharedPreferences.getString("USER_ROLE", "USER")
+        return role == "ADMIN"
     }
 
-    // Memuat detail buku dari database
     private fun loadBukuDetails() {
         id?.let {
             lifecycleScope.launch(Dispatchers.IO) {
-                // Log untuk memeriksa apakah ID buku yang benar sedang diproses
-                Log.d("DetailActivity", "Memulai query dengan ID: $it")
-
                 val buku = PerpustakaanDatabase.getDatabase(this@DetailActivity)
                     .daobuku()
-                    .getBukuById(it)  // Mengambil data buku berdasarkan ID
+                    .getBukuById(it)
 
                 if (buku != null) {
                     runOnUiThread {
-                        // Memperbarui elemen UI dengan detail buku dari database
+                        // Update UI jika buku ditemukan
                         judulBuku.text = buku.judul
                         penulisBuku.text = buku.penulis
                         tahunBuku.text = buku.tahunTerbit.toString()
@@ -137,19 +126,14 @@ class DetailActivity : AppCompatActivity() {
                         stok.text = buku.stok.toString()
                         imageBuku.tag = buku.gambarUrl
 
-                        // Memuat gambar dari URL menggunakan Glide
                         Glide.with(this@DetailActivity)
-                            .load(buku.gambarUrl)  // Menggunakan URL gambar yang diambil dari database
-                            .into(imageBuku)  // Menampilkan gambar di ImageView
+                            .load(buku.gambarUrl)
+                            .into(imageBuku)
                     }
                 } else {
-                    // Log jika buku tidak ditemukan
-                    Log.e("DetailActivity", "Buku tidak ditemukan dengan ID: $it")
-
                     runOnUiThread {
-                        // Jika buku tidak ditemukan, tampilkan pesan
                         Toast.makeText(this@DetailActivity, "Buku tidak ditemukan", Toast.LENGTH_SHORT).show()
-                        finish()  // Menutup activity jika buku tidak ditemukan
+                        finish()
                     }
                 }
             }
