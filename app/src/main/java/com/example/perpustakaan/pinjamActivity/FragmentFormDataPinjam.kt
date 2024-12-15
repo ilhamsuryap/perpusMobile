@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.ViewModel.PeminjamanViewModel
 import com.example.perpustakaan.databinding.FragmentFormDataPinjamBinding
@@ -27,6 +28,9 @@ class FragmentFormDataPinjam : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var pinjamViewModel: PeminjamanViewModel
+    private lateinit var bukuViewModel: BukuViewModel
+
+    private var selectedBukuId: String = ""  // Untuk menyimpan id buku yang dipilih
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,11 +45,50 @@ class FragmentFormDataPinjam : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pinjamViewModel = ViewModelProvider(this).get(PeminjamanViewModel::class.java)
+        bukuViewModel = ViewModelProvider(this).get(BukuViewModel::class.java)
 
+        setupDropdownBuku()
         setupDatePickers()
         setupSaveButton()
-        syncToFirebase()
     }
+
+    private fun setupDropdownBuku() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("buku")
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val bukuMap = mutableMapOf<String, String>() // Map untuk menyimpan ID dan judul
+                for (bukuSnapshot in snapshot.children) {
+                    val id = bukuSnapshot.key ?: continue
+                    val judul = bukuSnapshot.child("judul").getValue(String::class.java) ?: continue
+                    bukuMap[id] = judul
+                }
+
+                val bukuAdapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    bukuMap.values.toList()
+                )
+                bukuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.spinnerJudulBuku.adapter = bukuAdapter
+
+                // Listener untuk mendapatkan id buku yang dipilih
+                binding.spinnerJudulBuku.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                        selectedBukuId = bukuMap.keys.toList()[position]
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        selectedBukuId = ""
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Gagal mengambil data buku", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
     private fun setupDatePickers() {
         binding.etTglPinjam.setOnClickListener {
@@ -64,19 +107,17 @@ class FragmentFormDataPinjam : Fragment() {
     private fun setupSaveButton() {
         binding.btnSimpan.setOnClickListener {
             val namaAnggota = binding.etNamaAnggota.text.toString().trim()
-            val judulBuku = binding.etJudulBuku.text.toString().trim()
             val tanggalPinjam = binding.etTglPinjam.text.toString()
             val tanggalKembali = binding.etTglKembali.text.toString()
 
-            if (validateInput(namaAnggota, judulBuku, tanggalPinjam, tanggalKembali)) {
-                savePinjamData(namaAnggota, judulBuku, tanggalPinjam, tanggalKembali)
+            if (validateInput(namaAnggota, tanggalPinjam, tanggalKembali)) {
+                savePinjamData(namaAnggota, selectedBukuId, tanggalPinjam, tanggalKembali)
             }
         }
     }
 
     private fun validateInput(
         namaAnggota: String,
-        judulBuku: String,
         tanggalPinjam: String,
         tanggalKembali: String
     ): Boolean {
@@ -85,8 +126,8 @@ class FragmentFormDataPinjam : Fragment() {
                 Toast.makeText(requireContext(), "Nama Anggota harus diisi", Toast.LENGTH_SHORT).show()
                 false
             }
-            judulBuku.isEmpty() -> {
-                Toast.makeText(requireContext(), "Judul Buku harus diisi", Toast.LENGTH_SHORT).show()
+            selectedBukuId.isEmpty() -> {
+                Toast.makeText(requireContext(), "Judul Buku harus dipilih", Toast.LENGTH_SHORT).show()
                 false
             }
             tanggalPinjam.isEmpty() -> {
@@ -103,46 +144,54 @@ class FragmentFormDataPinjam : Fragment() {
 
     private fun savePinjamData(
         namaAnggota: String,
-        judulBuku: String,
+        bukuId: String,
         tanggalPinjam: String,
         tanggalKembali: String
     ) {
-        try {
-            val pinjam = Pinjam(
-                namaanggota = namaAnggota,
-                judulbuku_pinjam = judulBuku,
-                tanggalpinjam = tanggalPinjam,
-                tanggalkembali = tanggalKembali
-            )
-
-            pinjamViewModel.insert(pinjam)
-            Toast.makeText(requireContext(), "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
-
-            startActivity(Intent(requireContext(), PinjamBukuActivity::class.java))
-            requireActivity().finish() // Optional: close current fragment/activity
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(requireContext(), "Terjadi kesalahan saat menyimpan data", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun syncToFirebase() {
-        val firebaseRef = FirebaseDatabase.getInstance().getReference("pinjam")
-        firebaseRef.addValueEventListener(object : ValueEventListener {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("buku/$bukuId")
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val pinjamList = snapshot.children
-                    .mapNotNull { it.getValue(Pinjam::class.java) }
-                    .toMutableList()
+                val stok = snapshot.child("stok").getValue(Int::class.java) ?: return
+                val judulBuku = snapshot.child("judul").getValue(String::class.java) ?: return
 
-                pinjamViewModel.syncLocalDatabase(pinjamList)
-                pinjamViewModel.syncUnsyncedData()
+                if (stok > 0) {
+                    // Kurangi stok buku sebanyak 1
+                    databaseReference.child("stok").setValue(stok - 1).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // Simpan data pinjam ke Firebase atau Room Database
+                            val pinjam = Pinjam(
+                                id_pinjam = 0, // ID akan dibuat secara otomatis oleh Firebase atau Room
+                                namaanggota = namaAnggota,
+                                judulbuku_pinjam = judulBuku, // Gunakan judul buku, bukan ID
+                                tanggalpinjam = tanggalPinjam,
+                                tanggalkembali = tanggalKembali
+                            )
+                            pinjamViewModel.insert(pinjam) // Simpan ke Room Database
+
+                            Toast.makeText(requireContext(), "Data pinjam berhasil disimpan", Toast.LENGTH_SHORT).show()
+
+                            // Reset form
+                            binding.etNamaAnggota.text?.clear()
+                            binding.etTglPinjam.text?.clear()
+                            binding.etTglKembali.text?.clear()
+                            binding.spinnerJudulBuku.setSelection(0)
+                        } else {
+                            Toast.makeText(requireContext(), "Gagal mengupdate stok buku", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Stok buku habis", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gagal mengambil data stok buku", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+
+
 
     private fun showDatePicker(onDateSelected: (String) -> Unit) {
         val calendar = Calendar.getInstance()

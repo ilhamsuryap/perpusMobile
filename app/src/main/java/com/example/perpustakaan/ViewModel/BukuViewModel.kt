@@ -2,7 +2,6 @@ package com.example.perpustakaan.ViewModel
 
 import android.app.Application
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,108 +17,116 @@ import kotlinx.coroutines.withContext
 
 class BukuViewModel(application: Application) : AndroidViewModel(application) {
 
-
     private val bukuRepository: BukuRepository
-    // LiveData untuk semua buku
-    val allBuku: LiveData<List<Buku>>
 
-    // LiveData untuk hasil pencarian
-    private val _searchResults = MutableLiveData<List<Buku>>()
-    val searchResults: LiveData<List<Buku>> get() = _searchResults
-
-    // LiveData untuk status upload
+    val allBuku: LiveData<List<Buku>> // LiveData untuk semua buku
     private val _uploadStatus = MutableLiveData<Boolean>()
     val uploadStatus: LiveData<Boolean> get() = _uploadStatus
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     init {
-        // Inisialisasi Repository, Database, Network Helper
         val database = PerpustakaanDatabase.getDatabase(application)
-        val networkHelper = NetworkHelper(application)
         bukuRepository = BukuRepository(
             bukuDao = database.daobuku(),
             firebaseDatabase = FirebaseDatabase.getInstance(),
-            networkHelper = networkHelper
+            networkHelper = NetworkHelper(application)
         )
         allBuku = bukuRepository.getAllBuku()
+    }
+
+    fun insertBooks(books: List<Buku>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.insertBooks(books)
+        }
+    }
+    fun clearAllBooks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.clearAllBooks()
+        }
+    }
+
+    // Fungsi untuk memperbarui stok buku di Room
+    fun updateRoom(buku: Buku) {
+        viewModelScope.launch {
+            bukuRepository.updateRoom(buku) // Memanggil fungsi di repository untuk mengupdate data buku
+        }
     }
 
     // Fungsi untuk menambahkan buku
     fun insert(buku: Buku, imageUri: Uri? = null) = viewModelScope.launch {
         try {
             bukuRepository.insert(buku, imageUri)
-            _uploadStatus.postValue(true) // Jika berhasil
+            _uploadStatus.postValue(true) // Status berhasil
         } catch (e: Exception) {
-            _uploadStatus.postValue(false) // Jika gagal
+            _uploadStatus.postValue(false) // Status gagal
+        }
+    }
+    // Di BukuViewModel
+    fun updateBuku(buku: Buku) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.updateBuku(buku)  // Update data di Firebase dan Room
         }
     }
 
-    // Fungsi untuk memperbarui buku
-    fun update(buku: Buku) = viewModelScope.launch {
-        try {
-            bukuRepository.update(buku)
-            _uploadStatus.postValue(true)
-        } catch (e: Exception) {
-            _uploadStatus.postValue(false)
+
+
+
+
+// Sinkronisasi data dengan Firebase
+
+    // Fungsi untuk sinkronisasi buku dengan Firebase
+    fun syncBuku(onComplete: (() -> Unit)? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.syncBukuFromFirebaseToRoom()
+            withContext(Dispatchers.Main) {
+                onComplete?.invoke() // Callback dijalankan di thread utama
+            }
+        }
+    }
+
+    fun insertOrUpdate(buku: Buku, imageUri: Uri? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.upsertBuku(buku)
         }
     }
 
     // Fungsi untuk menghapus buku
-    fun delete(buku: Buku) = viewModelScope.launch {
-        try {
-            bukuRepository.delete(buku)
-            _uploadStatus.postValue(true)
-        } catch (e: Exception) {
-            _uploadStatus.postValue(false)
+    fun deleteBuku(bukuId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.deleteBuku(bukuId)
         }
     }
 
-    // Fungsi untuk mencari buku berdasarkan judul
-    fun cariBuku(query: String) {
-        viewModelScope.launch {
-            if (query.isNotEmpty()) {
-                // Jika query tidak kosong, cari buku berdasarkan judul
-                val results = bukuRepository.searchBukuByJudul(query)
-                _searchResults.postValue(results)
-            } else {
-                // Jika query kosong, tampilkan semua buku
-                _searchResults.postValue(bukuRepository.getAllBook())
-            }
+    // Fungsi untuk menghapus buku berdasarkan ID
+    fun delete(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.deleteBuku(id)  // Memanggil fungsi deleteBuku di Repository
         }
     }
 
 
 
-    // Sinkronisasi data dengan Firebase
-    fun syncBuku() = viewModelScope.launch(Dispatchers.IO) {
-        try {
-            bukuRepository.syncWithFirebase()
-        } catch (e: Exception) {
-            e.printStackTrace()
+    fun getBukuByJudul(judul: String): LiveData<Buku?> {
+        return bukuRepository.getBukuByJudul(judul)
+    }
+
+    // Fungsi untuk memperbarui stok buku
+    fun incrementStock(idBuku: Int) {
+        // Menggunakan Coroutine untuk operasi database
+        viewModelScope.launch(Dispatchers.IO) {
+            bukuRepository.updateStok(idBuku)
         }
     }
 
-    // Sinkronisasi data lokal (misalnya jika ada data yang belum disinkronkan)
-    fun syncLocalDatabase(bukuList: List<Buku>) = viewModelScope.launch(Dispatchers.IO) {
-        try {
-            bukuRepository.syncLocalDatabase(bukuList)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    fun getBukuById(id: Int): LiveData<Buku?> {
+        return bukuRepository.getBukuById(id)
     }
-
-    // Sinkronisasi data yang belum disinkronkan
-    fun syncUnsyncedData() {
-        viewModelScope.launch {
-            try {
-                bukuRepository.syncUnsyncedData()
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(getApplication(), "Data offline berhasil disinkronkan!", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(getApplication(), "Gagal menyinkronkan data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    fun getAllBook(): LiveData<List<Buku>> {
+        return bukuRepository.getAllBuku() // Memanggil fungsi di repository untuk mendapatkan data buku
     }
 }
+
+
+
+
+

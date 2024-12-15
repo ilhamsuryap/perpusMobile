@@ -24,15 +24,5 @@ data class Pinjam(
     @get:PropertyName("tanggalkembali")
     val tanggalkembali: String = "",
 
-    val syncronize: Boolean = false
-) {
-    // Konstruktor tambahan untuk Firebase
-    constructor() : this(
-        id_pinjam = 0,
-        namaanggota = "",
-        judulbuku_pinjam = "",
-        tanggalpinjam = "",
-        tanggalkembali = "",
-        syncronize = false
-    )
-}
+//    val syncronize: Boolean = false
+)

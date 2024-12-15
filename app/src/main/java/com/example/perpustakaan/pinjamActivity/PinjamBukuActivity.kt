@@ -1,8 +1,6 @@
 package com.example.perpustakaan.pinjamActivity
 
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +25,7 @@ class PinjamBukuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPinjamBukuBinding
     private lateinit var pinjamAdapter: PinjamAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var btnPinjam: Button
+
     private val pinjamViewModel: PeminjamanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,52 +34,30 @@ class PinjamBukuActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupRecyclerView()
-        syncToFirebase()
 
-        // Observing data changes
-        pinjamViewModel.allPinjam.observe(this) { pinjamList ->
-            pinjamAdapter.setData(pinjamList) // Update daftar pinjaman di adapter saat data berubah
+        // Sinkronisasi data saat aplikasi dimulai
+        pinjamViewModel.syncPinjam() {
+            Toast.makeText(this, "Data berhasil disinkronisasi", Toast.LENGTH_SHORT).show()
         }
 
+        // Observasi data dari Room
+        pinjamViewModel.allPinjam.observe(this) { pinjamList ->
+            updateRecyclerView(pinjamList)
+        }
+
+//        // Panggil syncPinjam() saat activity dimulai untuk sinkronisasi data dengan Firebase
+//        pinjamViewModel.syncPinjam()
+
+        // Set click listener for the button
         binding.btnPinjam.setOnClickListener {
             loadFragment(FragmentFormDataPinjam())
         }
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
+            // Sinkronisasi data dengan Firebase ketika swipe refresh
             refreshData()
         }
-
-    }
-
-    private fun syncToFirebase() {
-        val firebaseRef = FirebaseDatabase.getInstance().getReference("pinjam")
-        firebaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val pinjamList = mutableListOf<Pinjam>()
-
-                for (dataSnapshot in snapshot.children) {
-                    val pinjam = dataSnapshot.getValue(Pinjam::class.java)
-                    if (pinjam != null) {
-                        pinjamList.add(pinjam)
-                    }
-                }
-
-                pinjamAdapter.setData(pinjamList)
-                pinjamViewModel.syncLocalDatabase(pinjamList)
-                pinjamViewModel.syncUnsyncedData()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@PinjamBukuActivity, "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun checkIfUserIsUser(): Boolean {
-        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val role = sharedPreferences.getString("USER_ROLE", "USER")
-        return role == "ADMIN"
     }
 
     private fun setupRecyclerView() {
@@ -89,28 +65,37 @@ class PinjamBukuActivity : AppCompatActivity() {
             navigateToFragmentDikembalikan(pinjam)
         }
         binding.rvPinjam.apply {
-            layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2)
+            layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2) // Grid dengan 2 kolom
             adapter = pinjamAdapter
         }
     }
 
     private fun navigateToFragmentDikembalikan(pinjam: Pinjam) {
-        val fragment = FragmentDikembalikan.newInstance(
-            pinjam.judulbuku_pinjam,
-            pinjam.tanggalpinjam,
-            pinjam.tanggalkembali
-        )
+        val fragment = FragmentDikembalikan()
+        fragment.arguments = Bundle().apply {
+            putInt("id", pinjam.id_pinjam)
+            putString("judul_buku", pinjam.judulbuku_pinjam)
+            putString("tanggal_pinjam", pinjam.tanggalpinjam)
+            putString("tanggal_kembali", pinjam.tanggalkembali)
+        }
         loadFragment(fragment)
     }
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(binding.root.id, fragment)
-        transaction.addToBackStack(null)
+        transaction.replace(binding.root.id, fragment) // Menggunakan root sebagai container untuk fragment
+        transaction.addToBackStack(null) // Optional, menambahkan ke back stack jika diperlukan
         transaction.commit()
     }
 
     private fun refreshData() {
-        swipeRefreshLayout.isRefreshing = false
+        pinjamViewModel.syncPinjam() {
+            // Menyembunyikan indikator refresh setelah data diperbarui
+            swipeRefreshLayout.isRefreshing = false
+            Toast.makeText(this, "Data diperbarui", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun updateRecyclerView(pinjamList: List<Pinjam>) {
+        pinjamAdapter.setData(pinjamList)
     }
 }

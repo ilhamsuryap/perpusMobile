@@ -12,10 +12,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.perpustakaan.DaftarBukuUser
+
 import com.example.perpustakaan.adapter.AdapterHome
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
@@ -49,6 +47,7 @@ class UserHomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_user)
 
+        // Initialize views
         manageLibrary = findViewById(R.id.manage_library)
         listBook = findViewById(R.id.icon_openbook)
         borrowBook = findViewById(R.id.icon_borrowbook)
@@ -56,6 +55,7 @@ class UserHomeActivity : AppCompatActivity() {
         searchView.isFocusable = false
         searchView.isFocusableInTouchMode = false
 
+        // Initialize menuButton view
         menuButton = findViewById(R.id.menuUser)
 
         // Inisialisasi sharedPreferences dan auth
@@ -67,9 +67,10 @@ class UserHomeActivity : AppCompatActivity() {
         database = PerpustakaanDatabase.getDatabase(this)
 
         setupRecyclerView()
-        observeBooks()
+        observeBooks()  // Mengamati data buku dari ViewModel
         setupSearchView()
 
+        // Atur klik listener untuk tombol menu
         menuButton.setOnClickListener {
             showPopupMenu(it)
         }
@@ -85,7 +86,7 @@ class UserHomeActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.icon_openbook).setOnClickListener {
-            startActivity(Intent(this@UserHomeActivity, DaftarBukuUser::class.java))
+            startActivity(Intent(this@UserHomeActivity, DaftarBukuActivity::class.java))
         }
     }
 
@@ -120,7 +121,6 @@ class UserHomeActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         adapter = AdapterHome(this, bookLimit6, database) { buku ->
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("BUKU_ID", buku.id)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
@@ -129,10 +129,8 @@ class UserHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val layoutManager = LinearLayoutManager(this@UserHomeActivity, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
-
     }
 
     private fun observeBooks() {

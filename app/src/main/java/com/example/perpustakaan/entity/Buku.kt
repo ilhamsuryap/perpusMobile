@@ -6,7 +6,7 @@ import com.google.firebase.database.PropertyName
 
 @Entity(tableName = "buku_table")
 data class Buku(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @get:PropertyName("id")
     @set:PropertyName("id")
     var id: Int = 0,
@@ -29,11 +29,11 @@ data class Buku(
 
     // Firebase field for stok
     @get:PropertyName("stok")
-    val stok: Int = 0,
+    var stok: Int = 0,
 
     // Firebase field for deskripsi
     @get:PropertyName("deskripsi")
     val deskripsi: String = "",
 
-    val syncronize: Boolean = false
+//    val syncronize: Boolean = false
 )

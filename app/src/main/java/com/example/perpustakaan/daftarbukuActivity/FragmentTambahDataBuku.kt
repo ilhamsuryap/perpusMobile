@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.ViewModel.BukuViewModel
-import com.example.perpustakaan.adapter.BukuAdapter
 import com.example.perpustakaan.databinding.FragmentTambahdatabukuBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,10 +25,9 @@ class FragmentTambahDataBuku : Fragment() {
 
     private lateinit var binding: FragmentTambahdatabukuBinding
     private val bukuViewModel: BukuViewModel by viewModels()
-    private var imageUri: Uri? = null // Menyimpan URI gambar yang dipilih
-//    private lateinit var bukuAdapter: BukuAdapter // Adapter untuk RecyclerView
+    private var imageUri: Uri? = null
 
-    private lateinit var selectImageLauncher: ActivityResultLauncher<Intent> // Launcher untuk hasil pemilihan gambar
+    private lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,78 +35,47 @@ class FragmentTambahDataBuku : Fragment() {
     ): View {
         binding = FragmentTambahdatabukuBinding.inflate(inflater, container, false)
 
-        // Launcher untuk memilih gambar
         selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) { // Jika pemilihan gambar berhasil
+            if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
-                imageUri = data?.data // Menyimpan URI gambar yang dipilih
-
-                if (imageUri != null && isValidImage(imageUri!!)) { // Validasi gambar yang dipilih
-                    binding.ivBuku.setImageURI(imageUri) // Menampilkan gambar yang dipilih pada ImageView
-                } else {
-                    Toast.makeText(requireContext(), "Pilih gambar yang valid", Toast.LENGTH_SHORT).show() // Pesan jika gambar tidak valid
-                }
-            }
-        }
-
-        // Tombol pilih gambar
-        binding.btnSelectImage.setOnClickListener {
-            openGallery() // Memanggil fungsi untuk membuka galeri gambar
-        }
-
-        // Tombol simpan buku
-        binding.btnSimpanBuku.setOnClickListener {
-            simpanBuku() // Memanggil fungsi untuk menyimpan data buku
-        }
-
-        syncToFirebase()
-        bukuViewModel.syncBuku()
-
-        // Observer untuk status upload buku
-        bukuViewModel.uploadStatus.observe(viewLifecycleOwner) { isSuccess ->
-            if (isSuccess) { // Jika buku berhasil disimpan
-                Toast.makeText(requireContext(), "Buku berhasil disimpan", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Gagal menyimpan buku", Toast.LENGTH_SHORT).show() // Jika terjadi kesalahan
-            }
-        }
-
-        return binding.root // Mengembalikan root view
-    }
-
-    private fun syncToFirebase() {
-        val firebaseRef = FirebaseDatabase.getInstance().getReference("buku")
-        firebaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val bukuList = mutableListOf<Buku>()
-
-                for (dataSnapshot in snapshot.children) {
-                    val buku = dataSnapshot.getValue(Buku::class.java)
-                    if (buku != null) {
-                        bukuList.add(buku)
+                imageUri = data?.data
+                imageUri?.let {
+                    if (isValidImage(it)) {
+                        binding.ivBuku.setImageURI(it)
+                    } else {
+                        Toast.makeText(requireContext(), "Pilih gambar yang valid", Toast.LENGTH_SHORT).show()
                     }
                 }
-
-                // Perbarui adapter dengan daftar buku
-
-                bukuViewModel.syncLocalDatabase(bukuList)
-                bukuViewModel.syncUnsyncedData()
             }
+        }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
-            }
-        })
+        binding.btnSelectImage.setOnClickListener {
+            openGallery()
+        }
+
+        binding.btnSimpanBuku.setOnClickListener {
+            simpanBuku()
+        }
+
+        bukuViewModel.uploadStatus.observe(viewLifecycleOwner) { isSuccess ->
+            Toast.makeText(requireContext(), if (isSuccess) "Buku berhasil disimpan" else "Gagal menyimpan buku", Toast.LENGTH_SHORT).show()
+        }
+
+        return binding.root
     }
 
-    // Fungsi untuk menyimpan buku ke dalam database
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        selectImageLauncher.launch(intent)
+    }
+
     private fun simpanBuku() {
         val judul = binding.etJudulBuku.text.toString().trim()
         val penulis = binding.etPenulis.text.toString().trim()
         val tahunTerbit = binding.etTahunTerbit.text.toString().trim()
         val stok = binding.etStok.text.toString().trim()
         val deskripsi = binding.etDeskripsi.text.toString().trim()
-        val imageUrl = imageUri?.toString() // Mengambil URI gambar yang dipilih
+        val imageUrl = imageUri?.toString()
 
         if (judul.isEmpty()) {
             binding.etJudulBuku.error = "Judul tidak boleh kosong"
@@ -134,7 +101,8 @@ class FragmentTambahDataBuku : Fragment() {
             binding.etDeskripsi.error = "Deskripsi tidak boleh kosong"
             return
         }
-        if (imageUri == null) {
+
+        if (imageUrl == null) {
             Toast.makeText(requireContext(), "Pilih gambar buku", Toast.LENGTH_SHORT).show()
             return
         }
@@ -152,16 +120,9 @@ class FragmentTambahDataBuku : Fragment() {
         bukuViewModel.insert(buku, imageUri) // Jika imageUri null, proses tetap berlanjut
     }
 
-    // Fungsi untuk membuka galeri gambar
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        selectImageLauncher.launch(intent) // Meluncurkan intent untuk memilih gambar
-    }
 
-    // Fungsi untuk memvalidasi apakah gambar yang dipilih valid
     private fun isValidImage(uri: Uri): Boolean {
-        val contentResolver = requireContext().contentResolver
-        val mimeType = contentResolver.getType(uri)
-        return mimeType == "image/jpeg" || mimeType == "image/png" || mimeType == "image/jpg"
+        // Implementasikan logika untuk memverifikasi bahwa gambar valid
+        return true
     }
 }
