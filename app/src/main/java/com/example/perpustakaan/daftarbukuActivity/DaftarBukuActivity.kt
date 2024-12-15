@@ -14,10 +14,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.detailbuku.DetailActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class DaftarBukuActivity : AppCompatActivity() {
 
@@ -25,21 +21,18 @@ class DaftarBukuActivity : AppCompatActivity() {
     private lateinit var bukuAdapter: BukuAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-
     private val bukuViewModel: BukuViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDaftarBukuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        loadFragment(FragmentTambahDataBuku())
 
         setupRecyclerView()
-        syncToFirebase()
 
-        // Observe LiveData dari ViewModel
+        // Observasi data dari Room
         bukuViewModel.allBuku.observe(this) { bukuList ->
-            bukuAdapter.submitList(bukuList)
+            updateRecyclerView(bukuList)
         }
 
         // Tombol untuk menambah buku baru
@@ -47,53 +40,27 @@ class DaftarBukuActivity : AppCompatActivity() {
             loadFragment(FragmentTambahDataBuku())
         }
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        // Setup SwipeRefreshLayout
+        swipeRefreshLayout = binding.swipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             refreshData()
         }
     }
-    private fun syncToFirebase() {
-        val firebaseRef = FirebaseDatabase.getInstance().getReference("buku")
-        firebaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val bukuList = mutableListOf<Buku>()
-
-                for (dataSnapshot in snapshot.children) {
-                    val buku = dataSnapshot.getValue(Buku::class.java)
-                    if (buku != null) {
-                        bukuList.add(buku)
-                    }
-                }
-
-                bukuAdapter.submitList(bukuList)
-                bukuViewModel.syncLocalDatabase(bukuList)
-                bukuViewModel.syncUnsyncedData()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@DaftarBukuActivity, "Gagal mengambil data dari Firebase", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
+            // Aksi saat item di RecyclerView diklik, buka detail buku
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("BUKU_ID", buku.id)
-            intent.putExtra("BUKU_JUDUL", buku.judul)
-            intent.putExtra("BUKU_PENULIS", buku.penulis)
-            intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
-            intent.putExtra("BUKU_DESKRIPSI", buku.deskripsi)
-            intent.putExtra("BUKU_STOK", buku.stok)
-            intent.putExtra("BUKU_IMAGE_URL", buku.gambarUrl)
+            intent.putExtra("id", buku.id) // Menyertakan id buku di intent
             startActivity(intent)
         }
+
         binding.rvBuku.apply {
             layoutManager = GridLayoutManager(this@DaftarBukuActivity, 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         val item = bukuAdapter.currentList.getOrNull(position)
-                        return if (item?.stok == 0) 2 else 1
+                        return if (item?.stok == 0) 2 else 1 // Jika stok 0, gunakan 2 kolom
                     }
                 }
             }
@@ -109,6 +76,14 @@ class DaftarBukuActivity : AppCompatActivity() {
     }
 
     private fun refreshData() {
-        swipeRefreshLayout.isRefreshing = false
+        bukuViewModel.syncBuku {
+            // Menyembunyikan indikator refresh setelah data diperbarui
+            swipeRefreshLayout.isRefreshing = false
+            Toast.makeText(this, "Data diperbarui", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateRecyclerView(bukuList: List<Buku>) {
+        bukuAdapter.submitList(bukuList)
     }
 }

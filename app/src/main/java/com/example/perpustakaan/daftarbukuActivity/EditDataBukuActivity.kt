@@ -99,7 +99,7 @@ class EditDataBukuActivity : AppCompatActivity() {
         }
     }
 
-//    private fun updateDataBuku() {
+    //    private fun updateDataBuku() {
 //        val selectedBuku = bukuAdapter.SelectedBuku()
 //        if (selectedBuku != null) {
 //            AlertDialog.Builder(this).apply {
@@ -115,9 +115,7 @@ class EditDataBukuActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Pilih buku yang ingin dihapus", Toast.LENGTH_SHORT).show()
 //        }
 //    }
-private fun editBuku() {
-    val selectedBuku = bukuAdapter.SelectedBuku() // Mendapatkan buku yang dipilih
-    if (selectedBuku != null) {
+    private fun editBuku() {
         val judulBuku = binding.etJudulBuku.text.toString()
         val penulisBuku = binding.etPenulis.text.toString()
         val tahunTerbit = binding.etTahunTerbit.text.toString()
@@ -127,11 +125,12 @@ private fun editBuku() {
         if (judulBuku.isNotEmpty() && penulisBuku.isNotEmpty() && tahunTerbit.isNotEmpty() &&
             deskripsiBuku.isNotEmpty() && stokBuku.isNotEmpty()
         ) {
-            val imageUrl = imageUri ?: selectedBuku.gambarUrl
+            // Mendapatkan URI gambar yang diperbarui
+            val imageUrl = imageUri ?: "" // Gunakan URL gambar baru atau kosongkan jika tidak ada
 
             // Membuat objek Buku baru dengan data yang diperbarui
             val updatedBuku = Buku(
-                id = selectedBuku.id,
+                id = bukuId ?: -1,  // Gunakan bukuId yang diterima dari intent
                 judul = judulBuku,
                 penulis = penulisBuku,
                 tahunTerbit = tahunTerbit.toInt(),
@@ -140,32 +139,19 @@ private fun editBuku() {
                 gambarUrl = imageUrl
             )
 
-            // Memanggil fungsi update di ViewModel
-            bukuViewModel.update(updatedBuku)
+            // Memanggil fungsi update di ViewModel untuk memperbarui data di Firebase dan Room
+            bukuViewModel.updateBuku(updatedBuku)
 
             // Menampilkan pesan berhasil
             Toast.makeText(this, "Data berhasil diperbarui", Toast.LENGTH_SHORT).show()
 
-            // Membersihkan input
-            clearInputs()
+            // Menutup Activity setelah update
+            finish()
 
         } else {
             Toast.makeText(this, "Lengkapi semua data", Toast.LENGTH_SHORT).show()
         }
-    } else {
-        Toast.makeText(this, "Pilih buku yang ingin diedit", Toast.LENGTH_SHORT).show()
     }
-}
-    private fun clearInputs(){
-        binding.etJudulBuku.text.clear()
-        binding.etPenulis.text.clear()
-        binding.etTahunTerbit.text.clear()
-        binding.etDeskripsi.text.clear()
-        binding.etStokBuku.text.clear()
-        binding.ivBuku.setImageResource(android.R.color.transparent)
-    }
-
-
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 1001

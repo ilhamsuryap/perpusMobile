@@ -1,6 +1,6 @@
 package com.example.perpustakaan.UserACTIVITY
 
-import com.example.perpustakaan.ViewModel.AdminPengembalian
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
+import com.example.perpustakaan.pinjamActivity.PinjamBukuActivity
 import com.example.perpustakaan.user.Login
 import com.google.firebase.auth.FirebaseAuth
 
@@ -47,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Listener untuk icon borrowbook
         findViewById<ImageView>(R.id.icon_borrowbook).setOnClickListener {
-            startActivity(Intent(this, AdminPengembalian::class.java))
+            startActivity(Intent(this, PinjamBukuActivity::class.java))
         }
 
         findViewById<ImageView>(R.id.icon_listbook).setOnClickListener {

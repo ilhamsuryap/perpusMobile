@@ -13,10 +13,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.perpustakaan.DaftarBukuUser
+
 import com.example.perpustakaan.adapter.AdapterHome
 import com.example.perpustakaan.Dao.Buku
-import com.example.perpustakaan.DetailBukuUser
 import com.example.perpustakaan.R
 import com.example.perpustakaan.ViewModel.BukuViewModel
 import com.example.perpustakaan.daftarbukuActivity.DaftarBukuActivity
@@ -87,7 +86,7 @@ class UserHomeActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.icon_openbook).setOnClickListener {
-            startActivity(Intent(this@UserHomeActivity, DaftarBukuUser::class.java))
+            startActivity(Intent(this@UserHomeActivity, DaftarBukuActivity::class.java))
         }
     }
 
@@ -121,7 +120,7 @@ class UserHomeActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = AdapterHome(this, bookLimit6, database) { buku ->
-            val intent = Intent(this, DetailBukuUser::class.java)
+            val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("BUKU_JUDUL", buku.judul)
             intent.putExtra("BUKU_PENULIS", buku.penulis)
             intent.putExtra("BUKU_TAHUN", buku.tahunTerbit)
