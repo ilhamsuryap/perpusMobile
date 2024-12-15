@@ -13,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.perpustakaan.DaftarBukuUser
 
 import com.example.perpustakaan.adapter.AdapterHome
 import com.example.perpustakaan.Dao.Buku
@@ -29,7 +30,9 @@ class UserHomeActivity : AppCompatActivity() {
 
     private lateinit var manageLibrary: TextView
     private lateinit var listBook: ImageView
+    private lateinit var icon_openbook : ImageView
     private lateinit var borrowBook: ImageView
+    private lateinit var itex :Search
     private lateinit var searchView: TextView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterHome
@@ -80,13 +83,13 @@ class UserHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        listBook.setOnClickListener{
+        searchView.setOnClickListener{
             val intent = Intent(this@UserHomeActivity, Search::class.java)
             startActivity(intent)
         }
 
-        findViewById<ImageView>(R.id.icon_openbook).setOnClickListener {
-            startActivity(Intent(this@UserHomeActivity, DaftarBukuActivity::class.java))
+        listBook.setOnClickListener {
+            startActivity(Intent(this@UserHomeActivity, Search::class.java))
         }
     }
 

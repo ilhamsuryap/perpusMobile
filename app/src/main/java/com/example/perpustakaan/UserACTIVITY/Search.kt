@@ -1,6 +1,7 @@
 package com.example.perpustakaan.UserACTIVITY
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,9 +31,13 @@ class Search : AppCompatActivity() {
         }
 
         setupRecyclerView()
-
+        bukuViewModel.syncBuku()
         bukuViewModel.allBuku.observe(this) { bukuList ->
             bukuAdapter.setData(bukuList)
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
         }
 
         setupSearchView()
@@ -74,5 +79,12 @@ class Search : AppCompatActivity() {
                 return true
             }
         })
+    }
+    private fun refreshData() {
+        bukuViewModel.syncBuku {
+            // Menyembunyikan indikator refresh setelah data diperbarui
+            binding.swipeRefreshLayout.isRefreshing = false
+            Toast.makeText(this, "Data diperbarui", Toast.LENGTH_SHORT).show()
+        }
     }
 }
