@@ -1,6 +1,7 @@
 package com.example.perpustakaan.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.perpustakaan.Dao.Buku
 import com.example.perpustakaan.R
 import com.example.perpustakaan.database.PerpustakaanDatabase
+import com.example.perpustakaan.detailbuku.DetailActivity
 
 class AdapterHome(
     private val context: Context,
@@ -42,7 +44,6 @@ class AdapterHome(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ViewType.AD.ordinal -> {
-                // Tidak ada penanganan spesifik untuk iklan dalam kasus ini
             }
             ViewType.BOOK.ordinal -> {
                 val bookPosition = position - (position / 4)
@@ -50,10 +51,17 @@ class AdapterHome(
                 (holder as HomeViewHolder).apply {
                     bookTitle.text = book.judul
                     Glide.with(context)
-                        .load(book.gambarUrl) // URL gambar
-                        .into(bookImage) // ImageView target
-                    butoon.setOnClickListener {
-                        onItemClickListener(book)
+                        .load(book.gambarUrl)
+                        .into(bookImage)
+                    button.setOnClickListener {
+                        val intent = Intent(context, DetailActivity::class.java).apply {
+                            putExtra("BUKU_JUDUL", book.judul)
+                            putExtra("BUKU_PENULIS", book.penulis)
+                            putExtra("BUKU_TAHUN", book.tahunTerbit)
+                            putExtra("BUKU_DESKRIPSI", book.deskripsi)
+                            putExtra("BUKU_GAMBAR", book.gambarUrl)
+                        }
+                        context.startActivity(intent)
                     }
                 }
             }
@@ -67,7 +75,7 @@ class AdapterHome(
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookTitle: TextView = itemView.findViewById(R.id.text1)
         val bookImage: ImageView = itemView.findViewById(R.id.imageViewbukuhome)
-        val butoon: Button = itemView.findViewById(R.id.button)
+        val button: Button = itemView.findViewById(R.id.btnLihat)
     }
 
     inner class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
