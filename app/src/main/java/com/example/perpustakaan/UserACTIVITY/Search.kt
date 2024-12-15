@@ -29,24 +29,18 @@ class Search : AppCompatActivity() {
             insets
         }
 
-        // Initialize RecyclerView
         setupRecyclerView()
 
-        // Observe LiveData from ViewModel to update book list
         bukuViewModel.allBuku.observe(this) { bukuList ->
             bukuAdapter.setData(bukuList)
         }
 
-        // Set up SearchView
         setupSearchView()
     }
 
-    // Initialize RecyclerView and set up adapter
     private fun setupRecyclerView() {
         bukuAdapter = BukuAdapter { buku ->
-            // Define action when a book is clicked (if necessary)
         }
-
         binding.listbuku.apply {
             layoutManager = GridLayoutManager(this@Search, 2).apply {
                 spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -59,7 +53,7 @@ class Search : AppCompatActivity() {
         }
     }
 
-    // Set up SearchView for filtering books
+    // Set up SearchView untuk memfilter buku
     private fun setupSearchView() {
         binding.search.setOnQueryTextListener(object : OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {

@@ -32,7 +32,6 @@ class DaftarBukuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDaftarBukuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        loadFragment(FragmentTambahDataBuku())
 
         setupRecyclerView()
         syncToFirebase()

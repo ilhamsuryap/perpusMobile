@@ -71,11 +71,11 @@
             android:scaleType="centerCrop"
             android:src="@drawable/perpus" />
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@color/black"-->
-<!--            android:alpha="0.45"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:alpha="0.45"/>
 
         <TextView
             android:id="@+id/header_text"
@@ -108,7 +108,7 @@
             android:layout_height="50dp"
             android:hint="  Search"
             android:textSize="18sp"/>
-        
+
     </androidx.cardview.widget.CardView>
 
 
@@ -217,7 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="41dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/cardhome" />
 
     </androidx.cardview.widget.CardView>

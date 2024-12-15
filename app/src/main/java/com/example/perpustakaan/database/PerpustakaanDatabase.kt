@@ -22,11 +22,6 @@ abstract class PerpustakaanDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: PerpustakaanDatabase? = null
 
-        /**
-         * Provides a singleton instance of the PerpustakaanDatabase.
-         * @param context The application context.
-         * @return The instance of the PerpustakaanDatabase.
-         */
         fun getDatabase(context: Context): PerpustakaanDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -34,9 +29,7 @@ abstract class PerpustakaanDatabase : RoomDatabase() {
                     PerpustakaanDatabase::class.java,
                     "perpus_db"
                 )
-                    .fallbackToDestructiveMigration() // Fallback for destructive migration if no migration script is provided
-                    // Optionally, you can define a migration strategy here:
-                    // .addMigrations(MIGRATION_1_2) // Example migration
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
