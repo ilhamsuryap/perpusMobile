@@ -52,12 +52,6 @@ class PinjamBukuActivity : AppCompatActivity() {
             refreshData()
         }
 
-        val isUser = checkIfUserIsUser()
-
-        if (!isUser) {
-            findViewById<Button>(R.id.btnPinjam).visibility = View.GONE
-        }
-        btnPinjam = findViewById(R.id.btnPinjam)
     }
 
     private fun syncToFirebase() {
