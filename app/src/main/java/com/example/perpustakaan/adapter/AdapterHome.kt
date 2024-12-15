@@ -52,17 +52,19 @@ class AdapterHome(
                     bookTitle.text = book.judul
                     Glide.with(context)
                         .load(book.gambarUrl)
+                        .placeholder(R.drawable.menara5negara) // Ganti dengan resource ID gambar placeholder
                         .into(bookImage)
-                    button.setOnClickListener {
-                        val intent = Intent(context, DetailActivity::class.java).apply {
-                            putExtra("BUKU_JUDUL", book.judul)
-                            putExtra("BUKU_PENULIS", book.penulis)
-                            putExtra("BUKU_TAHUN", book.tahunTerbit)
-                            putExtra("BUKU_DESKRIPSI", book.deskripsi)
-                            putExtra("BUKU_GAMBAR", book.gambarUrl)
-                        }
-                        context.startActivity(intent)
-                    }
+
+//                    button.setOnClickListener {
+//                        val intent = Intent(context, DetailActivity::class.java).apply {
+//                            putExtra("BUKU_JUDUL", book.judul)
+//                            putExtra("BUKU_PENULIS", book.penulis)
+//                            putExtra("BUKU_TAHUN", book.tahunTerbit)
+//                            putExtra("BUKU_DESKRIPSI", book.deskripsi)
+//                            putExtra("BUKU_GAMBAR", book.gambarUrl)
+//                        }
+//                        context.startActivity(intent)
+//                    }
                 }
             }
         }
@@ -75,7 +77,7 @@ class AdapterHome(
     inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val bookTitle: TextView = itemView.findViewById(R.id.text1)
         val bookImage: ImageView = itemView.findViewById(R.id.imageViewbukuhome)
-        val button: Button = itemView.findViewById(R.id.btnLihat)
+
     }
 
     inner class AdViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
