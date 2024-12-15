@@ -1,10 +1,12 @@
 package com.example.perpustakaan
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,6 +28,8 @@ class FragmentDikembalikan : Fragment() {
     private val firebaseDatabase = FirebaseDatabase.getInstance()
     private val networkHelper by lazy { NetworkHelper(requireContext()) }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +46,16 @@ class FragmentDikembalikan : Fragment() {
         val tanggalKembali = requireArguments().getString("tanggal_kembali")
         val idPinjam = requireArguments().getInt("id_pinjam") // ID pinjaman
         val idBuku = requireArguments().getInt("id_buku") // ID buku
+
+
+        // Memeriksa apakah pengguna adalah admin
+        val isUser = checkIfUserIsUser()
+
+        // Menyembunyikan tombol Edit dan Hapus jika bukan admin
+        if (!isUser) {
+            binding.btnKembalikan.visibility = View.GONE
+
+        }
 
         // Menampilkan data di TextView melalui binding
         binding.tvJudulBuku.text = judulBuku
@@ -62,6 +76,13 @@ class FragmentDikembalikan : Fragment() {
                 }
             }
         }
+    }
+
+
+    private fun checkIfUserIsUser(): Boolean {
+        val sharedPreferences = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val role = sharedPreferences.getString("USER_ROLE", "ADMIN")
+        return role == "USER"
     }
 
     private fun updateStokDanHapusPinjam(idBuku: Int, idPinjam: Int) {

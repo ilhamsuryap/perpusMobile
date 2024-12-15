@@ -19,7 +19,8 @@
         <activity
             android:name=".UserACTIVITY.UserHomeActivity"
             android:exported="true" />
-
+<activity android:name=".DaftarBukuUser"
+    android:exported="true"/>
 
         <activity
             android:name=".daftarbukuActivity.EditDataBukuActivity"

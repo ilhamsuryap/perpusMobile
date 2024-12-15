@@ -1,6 +1,8 @@
 package com.example.perpustakaan.pinjamActivity
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -58,6 +60,15 @@ class PinjamBukuActivity : AppCompatActivity() {
             // Sinkronisasi data dengan Firebase ketika swipe refresh
             refreshData()
         }
+
+        // Memeriksa apakah pengguna adalah admin
+        val isUser = checkIfUserIsUser()
+
+        // Menyembunyikan tombol Edit dan Hapus jika bukan admin
+        if (!isUser) {
+            binding.btnPinjam.visibility = View.GONE
+
+        }
     }
 
     private fun setupRecyclerView() {
@@ -68,6 +79,12 @@ class PinjamBukuActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@PinjamBukuActivity, 2) // Grid dengan 2 kolom
             adapter = pinjamAdapter
         }
+    }
+
+    private fun checkIfUserIsUser(): Boolean {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val role = sharedPreferences.getString("USER_ROLE", "ADMIN")
+        return role == "USER"
     }
 
     private fun navigateToFragmentDikembalikan(pinjam: Pinjam) {
